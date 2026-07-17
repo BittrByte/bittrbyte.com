@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>SKYWALL Devices — BittrByte Store</title>
+  <meta name="description" content="SKYWALL devices coming soon. Register your interest to be first in line." />
+  <meta name="theme-color" content="#f5f5f7" />
+  <link rel="icon" type="image/png" sizes="48x48" href="../images/favicon-48.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../css/site.css?v=devices-hero-1" />
+  <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.5.0/model-viewer.min.js"></script>
+</head>
+<body>
+
+  <header class="nav" id="nav">
+    <div class="nav__inner">
+      <a class="nav__brand" href="../index.html" aria-label="BittrByte home"><img src="../images/Black_Logo.svg" alt="BittrByte" /></a>
+      <ul class="nav__items">
+        <li class="nav__item has-dropdown">
+          <button class="nav__link" type="button">Store<svg class="nav__chevron" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 5l3 3 3-3"/></svg></button>
+          <div class="nav__dropdown"><span class="nav__dropdown-label">Store</span><a href="devices.html">SKYWALL Devices</a><a href="os.html">SKYWALL OS</a></div>
+        </li>
+        <li class="nav__item has-dropdown">
+          <button class="nav__link" type="button"><span class="sw-link">SKYWALL</span><svg class="nav__chevron" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 5l3 3 3-3"/></svg></button>
+          <div class="nav__dropdown"><span class="nav__dropdown-label">SKYWALL</span><a href="../skywall/individuals.html">For individuals</a><a href="../skywall/parents.html">For parents</a><a href="../skywall/ecosystem.html">Ecosystem</a></div>
+        </li>
+        <li class="nav__item"><a class="nav__link" href="../partner.html">Partner</a></li>
+        <li class="nav__item"><a class="nav__link" href="../developers.html">Developers</a></li>
+        <li class="nav__item"><a class="nav__link" href="../archive.html">Archive</a></li>
+        <li class="nav__item"><a class="nav__link" href="../about.html">About</a></li>
+        <li class="nav__item"><a class="nav__link" href="../support.html">Support</a></li>
+      </ul>
+      <div class="nav__actions">
+        <a class="nav__basket" href="../basket.html" aria-label="Basket" style="position:relative;"><svg viewBox="0 0 24 24"><path d="M7 4h-2l-1 2h2l3.6 7.59-1.35 2.45A1.99 1.99 0 0 0 9 19h10v-2H9.42a.25.25 0 0 1-.22-.37L9.1 15h7.45a2 2 0 0 0 1.92-1.45L21.05 7H7.21l-.94-2H7zm-1 16a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm10 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4z"/></svg><span class="nav__basket-count" id="basketCount">0</span></a>
+        <button class="nav__toggle" id="navToggle" aria-label="Toggle menu" aria-expanded="false"><span></span></button>
+      </div>
+    </div>
+    <nav class="nav__mobile-panel" aria-label="Mobile navigation">
+      <div class="mobile-nav__group"><div class="mobile-nav__label">Store</div><a href="devices.html">SKYWALL Devices</a><a href="os.html">SKYWALL OS</a></div>
+      <div class="mobile-nav__group"><div class="mobile-nav__label">SKYWALL</div><a href="../skywall/individuals.html">For individuals</a><a href="../skywall/parents.html">For parents</a><a href="../skywall/ecosystem.html">Ecosystem</a></div>
+      <div class="mobile-nav__group"><a href="../partner.html">Partner</a><a href="../developers.html">Developers</a><a href="../archive.html">Archive</a><a href="../about.html">About</a><a href="../support.html">Support</a><a href="../basket.html">Basket</a></div>
+    </nav>
+  </header>
+
+  <main>
+    <section class="page-hero page-hero--devices">
+      <div class="geo-bg subtle" aria-hidden="true"><span class="g1"></span><span class="g2"></span><span class="veil"></span></div>
+      <div class="container">
+        <span class="coming-soon-badge reveal">Coming soon</span>
+        <h1 class="h-display reveal">SKYWALL Devices</h1>
+        <p class="lead reveal">Hardware running SKYWALL OS — built for people who want limits that actually hold.</p>
+      </div>
+    </section>
+
+    <section class="section" style="background:var(--bg-2);border-top:1px solid var(--line-soft);">
+      <div class="container">
+        <div class="split-section">
+          <div class="split-section__copy reveal">
+            <span class="eyebrow">Waitlist</span>
+            <h2 class="h-sub">Be first to get a SKYWALL device.</h2>
+            <p>Register your interest and we'll notify you when devices are available.</p>
+          </div>
+          <form class="form reveal" data-delay="1" data-ajax id="waitlistForm" action="https://formspree.io/f/xyznbewe" method="POST" data-success="You're on the waitlist — thank you.">
+            <div class="form-row">
+              <div class="field"><label for="name">Full name</label><input id="name" name="name" type="text" required placeholder="Jane Doe" /></div>
+              <div class="field"><label for="email">Email</label><input id="email" name="email" type="email" required placeholder="jane@example.com" /></div>
+            </div>
+            <input type="hidden" name="_subject" value="SKYWALL Device Waitlist — BittrByte" />
+            <input type="hidden" name="form_type" value="device_waitlist" />
+            <button class="btn btn--primary btn--block btn--lg" type="submit">Register interest</button>
+            <p class="form__status" role="status" aria-live="polite"></p>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer__bottom" style="border:none;padding:0;">
+        <p>&copy; 2026 BittrByte Ltd.</p>
+        <a href="../index.html" style="font-size:13px;color:var(--muted);">Back to home</a>
+      </div>
+    </div>
+  </footer>
+  <script src="../js/site.js"></script>
+</body>
+</html>

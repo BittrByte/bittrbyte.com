@@ -1,0 +1,316 @@
+/* Map View - Skywall OS Simulator */
+
+#map-view {
+    background: var(--black);
+    z-index: 1200;
+}
+
+.map-header {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 50px 15px 15px;
+    background: linear-gradient(180deg, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.7) 70%, transparent 100%);
+    z-index: 10;
+}
+
+.map-search {
+    flex: 1;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border: none;
+    border-radius: 25px;
+    padding: 12px 20px;
+    color: var(--white);
+    font-size: 15px;
+    outline: none;
+}
+
+.map-search::placeholder {
+    color: var(--grey-mid);
+}
+
+#map-container {
+    width: 100%;
+    height: 100%;
+}
+
+/* Leaflet overrides for dark theme */
+#map-container .leaflet-control-attribution {
+    background: rgba(0, 0, 0, 0.7);
+    color: var(--grey-light);
+    font-size: 10px;
+}
+
+#map-container .leaflet-control-zoom a {
+    background: rgba(0, 0, 0, 0.8);
+    color: var(--white);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+#map-container .leaflet-control-zoom a:hover {
+    background: rgba(0, 0, 0, 0.9);
+}
+
+/* Search Results */
+.map-search-results {
+    position: absolute;
+    top: 120px;
+    left: 15px;
+    right: 15px;
+    background: rgba(26, 26, 26, 0.95);
+    backdrop-filter: blur(10px);
+    border-radius: 15px;
+    max-height: 300px;
+    overflow-y: auto;
+    z-index: 20;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+    transition: opacity 0.2s, transform 0.2s, visibility 0.2s;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+}
+
+.map-search-results.active {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.map-search-results::-webkit-scrollbar {
+    width: 4px;
+}
+
+.map-search-results::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.map-search-results::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 2px;
+}
+
+.search-result-item {
+    padding: 15px 20px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.search-result-item:last-child {
+    border-bottom: none;
+}
+
+.search-result-item:hover {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.search-result-item:active {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.search-result-name {
+    font-size: 15px;
+    color: var(--white);
+    margin-bottom: 4px;
+}
+
+.search-result-address {
+    font-size: 12px;
+    color: var(--grey-mid);
+}
+
+/* Professional Pin Markers with SVG */
+.map-marker-red-pro,
+.map-marker-black-pro {
+    background: transparent !important;
+    border: none !important;
+}
+
+.pin-marker-container {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.pin-marker-container svg {
+    display: block;
+    filter: drop-shadow(0 3px 6px rgba(0, 0, 0, 0.3));
+}
+
+.pin-label {
+    position: absolute;
+    top: 52px;
+    white-space: nowrap;
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 600;
+    pointer-events: none;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    z-index: 1000;
+}
+
+/* Legacy marker styles (kept for backward compatibility) */
+.map-marker-red {
+    background: var(--red-accent);
+    width: 24px;
+    height: 24px;
+    border-radius: 50% 50% 50% 0;
+    transform: rotate(-45deg);
+    border: 2px solid var(--white);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+}
+
+.map-marker-black {
+    background: #000;
+    width: 24px;
+    height: 24px;
+    border-radius: 50% 50% 50% 0;
+    transform: rotate(-45deg);
+    border: 2px solid var(--white);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+}
+
+.map-marker-blue {
+    background: #4A90E2;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    border: 3px solid var(--white);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% {
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4), 0 0 0 0 rgba(74, 144, 226, 0.7);
+    }
+    50% {
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4), 0 0 0 10px rgba(74, 144, 226, 0);
+    }
+}
+
+/* Pin popup */
+.leaflet-popup-content-wrapper {
+    background: rgba(26, 26, 26, 0.95);
+    backdrop-filter: blur(10px);
+    color: var(--white);
+    border-radius: 12px;
+    padding: 12px;
+}
+
+.leaflet-popup-tip {
+    background: rgba(26, 26, 26, 0.95);
+}
+
+.pin-popup-title {
+    font-size: 16px;
+    font-weight: 400;
+    margin-bottom: 8px;
+}
+
+.pin-popup-apps {
+    font-size: 12px;
+    color: var(--grey-mid);
+    margin-bottom: 12px;
+}
+
+.pin-popup-actions {
+    display: flex;
+    gap: 8px;
+}
+
+.pin-popup-btn {
+    flex: 1;
+    padding: 8px;
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--white);
+    border-radius: 8px;
+    font-size: 13px;
+    text-align: center;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.pin-popup-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.pin-popup-btn.delete {
+    background: rgba(229, 57, 53, 0.3);
+}
+
+.pin-popup-btn.delete:hover {
+    background: rgba(229, 57, 53, 0.5);
+}
+
+/* User Avatar Marker */
+.map-marker-avatar {
+    background: transparent !important;
+    border: none !important;
+}
+
+.user-avatar-marker {
+    position: relative;
+    width: 44px;
+    height: 44px;
+}
+
+.avatar-circle {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 40px;
+    height: 40px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 50%;
+    border: 3px solid white;
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+}
+
+.avatar-pulse {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 40px;
+    height: 40px;
+    background: rgba(102, 126, 234, 0.5);
+    border-radius: 50%;
+    animation: avatarPulse 2s infinite;
+    z-index: 1;
+}
+
+@keyframes avatarPulse {
+    0% {
+        transform: translateX(-50%) scale(1);
+        opacity: 0.7;
+    }
+    50% {
+        transform: translateX(-50%) scale(2);
+        opacity: 0;
+    }
+    100% {
+        transform: translateX(-50%) scale(1);
+        opacity: 0;
+    }
+}
+
+.avatar-circle svg {
+    display: block;
+}
+
+

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Support — BittrByte</title>
+  <meta name="description" content="Contact BittrByte support." />
+  <meta name="theme-color" content="#f5f5f7" />
+  <link rel="icon" type="image/png" sizes="48x48" href="images/favicon-48.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/site.css?v=support-1" />
+</head>
+<body>
+
+  <header class="nav" id="nav">
+    <div class="nav__inner">
+      <a class="nav__brand" href="index.html" aria-label="BittrByte home"><img src="images/Black_Logo.svg" alt="BittrByte" /></a>
+      <ul class="nav__items">
+        <li class="nav__item has-dropdown">
+          <button class="nav__link" type="button">Store<svg class="nav__chevron" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 5l3 3 3-3"/></svg></button>
+          <div class="nav__dropdown"><span class="nav__dropdown-label">Store</span><a href="store/devices.html">SKYWALL Devices</a><a href="store/os.html">SKYWALL OS</a></div>
+        </li>
+        <li class="nav__item has-dropdown">
+          <button class="nav__link" type="button"><span class="sw-link">SKYWALL</span><svg class="nav__chevron" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 5l3 3 3-3"/></svg></button>
+          <div class="nav__dropdown"><span class="nav__dropdown-label">SKYWALL</span><a href="skywall/individuals.html">For individuals</a><a href="skywall/parents.html">For parents</a><a href="skywall/ecosystem.html">Ecosystem</a></div>
+        </li>
+        <li class="nav__item"><a class="nav__link" href="partner.html">Partner</a></li>
+        <li class="nav__item"><a class="nav__link" href="developers.html">Developers</a></li>
+        <li class="nav__item"><a class="nav__link" href="archive.html">Archive</a></li>
+        <li class="nav__item"><a class="nav__link" href="about.html">About</a></li>
+        <li class="nav__item"><a class="nav__link" href="support.html">Support</a></li>
+      </ul>
+      <div class="nav__actions">
+        <a class="nav__basket" href="basket.html" aria-label="Basket" style="position:relative;"><svg viewBox="0 0 24 24"><path d="M7 4h-2l-1 2h2l3.6 7.59-1.35 2.45A1.99 1.99 0 0 0 9 19h10v-2H9.42a.25.25 0 0 1-.22-.37L9.1 15h7.45a2 2 0 0 0 1.92-1.45L21.05 7H7.21l-.94-2H7zm-1 16a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm10 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4z"/></svg><span class="nav__basket-count" id="basketCount">0</span></a>
+        <button class="nav__toggle" id="navToggle" aria-label="Toggle menu" aria-expanded="false"><span></span></button>
+      </div>
+    </div>
+    <nav class="nav__mobile-panel" aria-label="Mobile navigation">
+      <div class="mobile-nav__group"><div class="mobile-nav__label">Store</div><a href="store/devices.html">SKYWALL Devices</a><a href="store/os.html">SKYWALL OS</a></div>
+      <div class="mobile-nav__group"><div class="mobile-nav__label">SKYWALL</div><a href="skywall/individuals.html">For individuals</a><a href="skywall/parents.html">For parents</a><a href="skywall/ecosystem.html">Ecosystem</a></div>
+      <div class="mobile-nav__group"><a href="partner.html">Partner</a><a href="developers.html">Developers</a><a href="archive.html">Archive</a><a href="about.html">About</a><a href="support.html">Support</a><a href="basket.html">Basket</a></div>
+    </nav>
+  </header>
+
+  <main>
+    <section class="section support-page">
+      <div class="container">
+        <div class="support-page__intro reveal">
+          <span class="eyebrow">Support</span>
+          <h1 class="h-section">Get in touch.</h1>
+          <p class="lead">Questions about SKYWALL, partnerships, media inquiries, or the site. Reach us directly and we'll get back to you.</p>
+        </div>
+
+        <div class="support-page__grid">
+          <div class="support-card reveal">
+            <span class="support-card__label">Email</span>
+            <a class="support-card__value" href="mailto:admin@bittrbyte.com">admin@bittrbyte.com</a>
+            <p class="support-card__note">We typically respond within a few working days.</p>
+          </div>
+          <div class="support-card reveal" data-delay="1">
+            <span class="support-card__label">Phone</span>
+            <a class="support-card__value" href="tel:+441916030179">0191 603 0179</a>
+            <p class="support-card__note">UK business hours.</p>
+          </div>
+        </div>
+
+        <div class="support-page__links reveal" data-delay="2">
+          <span class="eyebrow">Elsewhere</span>
+          <h2 class="h-sub">You may also want</h2>
+          <ul class="support-links">
+            <li><a href="partner.html">Partner &amp; licensing enquiries →</a></li>
+            <li><a href="developers.html">Apply to SKYWALL Labs →</a></li>
+            <li><a href="about.html">About BittrByte →</a></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer"><div class="container"><div class="footer__bottom" style="border:none;padding:0;"><p>&copy; 2026 BittrByte Ltd.</p><a href="index.html" style="font-size:13px;color:var(--muted);">Back to home</a></div></div></footer>
+  <script src="js/site.js"></script>
+</body>
+</html>

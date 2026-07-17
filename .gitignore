@@ -1,0 +1,6 @@
+.DS_Store
+*.bak
+*.bak2
+*.warm.bak
+.pre-swap.bak
+_tools/
