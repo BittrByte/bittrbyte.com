@@ -11,8 +11,9 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="css/site.css?v=footer-logo-1" />
-  <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.5.0/model-viewer.min.js"></script>
+  <link rel="stylesheet" href="css/site.css?v=product-home-7" />
+  <link rel="preload" as="image" href="images/hero-phone-mobile.png?v=7" />
+  <link rel="preload" as="image" href="images/os-card.png" />
 </head>
 <body>
 
@@ -58,16 +59,20 @@
       </div>
     </div>
     <nav class="nav__mobile-panel" aria-label="Mobile navigation">
-      <div class="mobile-nav__group">
-        <div class="mobile-nav__label">Store</div>
-        <a href="store/devices.html">SKYWALL Devices</a>
-        <a href="store/os.html">SKYWALL OS</a>
+      <div class="mobile-nav__group mobile-nav__group--accordion">
+        <button type="button" class="mobile-nav__trigger" aria-expanded="false">Store<svg class="mobile-nav__chevron" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M3 5l3 3 3-3"/></svg></button>
+        <div class="mobile-nav__submenu">
+          <a href="store/devices.html">SKYWALL Devices</a>
+          <a href="store/os.html">SKYWALL OS</a>
+        </div>
       </div>
-      <div class="mobile-nav__group">
-        <div class="mobile-nav__label">SKYWALL</div>
-        <a href="skywall/individuals.html">For individuals</a>
-        <a href="skywall/parents.html">For parents</a>
-        <a href="skywall/ecosystem.html">Ecosystem</a>
+      <div class="mobile-nav__group mobile-nav__group--accordion">
+        <button type="button" class="mobile-nav__trigger" aria-expanded="false"><span class="sw-link">SKYWALL</span><svg class="mobile-nav__chevron" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M3 5l3 3 3-3"/></svg></button>
+        <div class="mobile-nav__submenu">
+          <a href="skywall/individuals.html">For individuals</a>
+          <a href="skywall/parents.html">For parents</a>
+          <a href="skywall/ecosystem.html">Ecosystem</a>
+        </div>
       </div>
       <div class="mobile-nav__group">
         <a href="partner.html">Partner</a>
@@ -75,95 +80,39 @@
         <a href="archive.html">Archive</a>
         <a href="about.html">About</a>
         <a href="support.html">Support</a>
-        <a href="basket.html">Basket</a>
       </div>
     </nav>
   </header>
 
   <main>
-    <section class="hero hero--split">
+    <section class="product-card product-card--devices" id="devices">
       <div class="geo-bg" aria-hidden="true"><span class="g1"></span><span class="g2"></span><span class="g3"></span><span class="veil"></span></div>
       <div class="container">
-        <div class="hero__content reveal">
-          <span class="hero__eyebrow"><span class="dot"></span> Devices &amp; OS</span>
-          <h1 class="h-display">Digital safety,<br />built into the device.</h1>
-          <p class="hero__lead">
-            <strong><span class="sw">SKYWALL™</span></strong> is an operating system that enforces the limits people set for themselves — on devices we build, and soon, for everyone.
-          </p>
-          <div class="hero__actions">
-            <a class="btn btn--primary btn--lg" href="store/devices.html">Join the waitlist</a>
-            <a class="btn btn--ghost btn--lg" href="#demos">Watch demos</a>
+        <div class="product-card__copy reveal">
+          <h2 class="h-display">SKYWALL Devices</h2>
+          <p class="product-card__lead">Be the first to get a SKYWALL device.</p>
+          <div class="product-card__actions">
+            <a class="btn btn--primary btn--lg" href="store/devices.html#waitlist">Join the waitlist</a>
           </div>
         </div>
-        <div class="hero__model-wrap reveal" data-delay="1">
-          <div class="hero__model-tilt">
-            <model-viewer
-              id="heroPhone"
-              src="models/pixel-6a-skywall.glb"
-              alt="SKYWALL OS on Google Pixel 6a"
-              orientation="0deg 90deg 0deg"
-              camera-orbit="-18deg 85deg 0.8m"
-              min-camera-orbit="-28deg 78deg auto"
-              max-camera-orbit="-8deg 92deg auto"
-              field-of-view="24deg"
-              interaction-prompt="none"
-              interpolation-decay="0"
-              environment-image="legacy"
-              tone-mapping="neutral"
-              render-scale="2"
-              shadow-intensity="0"
-              exposure="1"
-              disable-zoom
-              disable-pan
-              disable-tap
-              touch-action="none"
-              style="pointer-events:none;">
-            </model-viewer>
-          </div>
+        <div class="product-card__visual product-card__visual--phone reveal" data-delay="1">
+          <img src="images/hero-phone-mobile.png?v=7" alt="SKYWALL device — Pixel running SKYWALL OS" width="447" height="920" loading="eager" decoding="async" />
         </div>
       </div>
     </section>
 
-    <section class="card-rail-section section">
+    <section class="product-card product-card--os" id="os">
+      <div class="product-card__bg" aria-hidden="true">
+        <img src="images/os-card.png" alt="" width="1024" height="576" loading="lazy" decoding="async" />
+      </div>
       <div class="container">
-        <div class="section-head reveal">
-          <span class="eyebrow">Explore</span>
-          <h2 class="h-section">What's coming from BittrByte.</h2>
-        </div>
-        <div class="card-rail" role="region" aria-label="What's coming from BittrByte">
-          <article class="promo-card reveal">
-            <div class="promo-card__visual">
-              <img src="images/devices-card.png" alt="SKYWALL device — silver finish with logo" />
-            </div>
-            <div class="promo-card__body">
-              <div class="promo-card__tag">Store</div>
-              <h3>SKYWALL Devices</h3>
-              <p>Hardware running SKYWALL OS. Coming soon.</p>
-              <a class="promo-card__link" href="store/devices.html">Register interest →</a>
-            </div>
-          </article>
-          <article class="promo-card reveal" data-delay="1">
-            <div class="promo-card__visual">
-              <img src="images/os-card.png" alt="SKYWALL OS floating interface panels" />
-            </div>
-            <div class="promo-card__body">
-              <div class="promo-card__tag">Store</div>
-              <h3>SKYWALL OS</h3>
-              <p>Downloadable operating system. In development.</p>
-              <a class="promo-card__link" href="store/os.html">Learn more →</a>
-            </div>
-          </article>
-          <article class="promo-card reveal" data-delay="2">
-            <div class="promo-card__visual">
-              <img src="images/labs-card.png" alt="SKYWALL Labs" />
-            </div>
-            <div class="promo-card__body">
-              <div class="promo-card__tag">Developers</div>
-              <h3>SKYWALL Labs</h3>
-              <p>Help test and refine the OS before public release.</p>
-              <a class="promo-card__link" href="developers.html">Apply to join →</a>
-            </div>
-          </article>
+        <div class="product-card__copy reveal">
+          <h2 class="h-display">SKYWALL OS</h2>
+          <p class="product-card__lead">The operating system that enforces the limits you set.</p>
+          <div class="product-card__actions">
+            <a class="btn btn--primary btn--lg" href="store/os.html">Be the first to download</a>
+            <a class="btn btn--white btn--lg" href="developers.html">Be a part of development</a>
+          </div>
         </div>
       </div>
     </section>
@@ -266,6 +215,6 @@
     </div>
   </footer>
 
-  <script src="js/site.js?v=card-rail-1"></script>
+  <script src="js/site.js?v=product-home-1"></script>
 </body>
 </html>

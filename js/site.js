@@ -29,19 +29,60 @@
     var toggle = document.getElementById('navToggle');
     var nav = document.getElementById('nav');
     if (!toggle || !nav) return;
+    var panel = nav.querySelector('.nav__mobile-panel');
 
-    toggle.addEventListener('click', function () {
-      var open = nav.classList.toggle('menu-open');
+    function setMenuOpen(open) {
+      nav.classList.toggle('menu-open', open);
       toggle.classList.toggle('open', open);
       toggle.setAttribute('aria-expanded', String(open));
+      document.body.classList.toggle('nav-locked', open);
+      if (!open && panel) {
+        panel.querySelectorAll('.mobile-nav__group--accordion.is-open').forEach(function (g) {
+          g.classList.remove('is-open');
+          var btn = g.querySelector('.mobile-nav__trigger');
+          if (btn) btn.setAttribute('aria-expanded', 'false');
+        });
+      }
+    }
+
+    toggle.addEventListener('click', function (e) {
+      e.preventDefault();
+      e.stopPropagation();
+      setMenuOpen(!nav.classList.contains('menu-open'));
     });
 
-    nav.querySelectorAll('.nav__mobile-panel a').forEach(function (a) {
-      a.addEventListener('click', function () {
-        nav.classList.remove('menu-open');
-        toggle.classList.remove('open');
-        toggle.setAttribute('aria-expanded', 'false');
+    if (panel) {
+      panel.querySelectorAll('.mobile-nav__trigger').forEach(function (btn) {
+        btn.addEventListener('click', function (e) {
+          e.preventDefault();
+          e.stopPropagation();
+          var group = btn.closest('.mobile-nav__group--accordion');
+          if (!group) return;
+          var willOpen = !group.classList.contains('is-open');
+          /* Close other accordions so only one section is open */
+          panel.querySelectorAll('.mobile-nav__group--accordion.is-open').forEach(function (g) {
+            if (g !== group) {
+              g.classList.remove('is-open');
+              var other = g.querySelector('.mobile-nav__trigger');
+              if (other) other.setAttribute('aria-expanded', 'false');
+            }
+          });
+          group.classList.toggle('is-open', willOpen);
+          btn.setAttribute('aria-expanded', String(willOpen));
+        });
       });
+
+      panel.querySelectorAll('a').forEach(function (a) {
+        a.addEventListener('click', function () {
+          setMenuOpen(false);
+        });
+      });
+    }
+
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && nav.classList.contains('menu-open')) {
+        setMenuOpen(false);
+      }
     });
   })();
 
@@ -89,14 +130,28 @@
     window.addEventListener('resize', scaleFrames);
   })();
 
-  /* ---------- Hero model: soft camera follow (lighting shifts with view) ---------- */
+  /* ---------- Hero model: load 3D on desktop only; soft camera follow ---------- */
   (function () {
     var wrap = document.querySelector('.hero__model-wrap');
     var mv = document.getElementById('heroPhone');
     if (!wrap || !mv) return;
 
+    var desktopMq = window.matchMedia('(min-width: 1021px)');
+    function loadDesktopModel() {
+      var src = mv.getAttribute('data-src');
+      if (!src) return;
+      if (desktopMq.matches) {
+        if (mv.getAttribute('src') !== src) mv.setAttribute('src', src);
+      } else if (mv.hasAttribute('src')) {
+        mv.removeAttribute('src');
+      }
+    }
+    loadDesktopModel();
+    if (desktopMq.addEventListener) desktopMq.addEventListener('change', loadDesktopModel);
+    else if (desktopMq.addListener) desktopMq.addListener(loadDesktopModel);
+
     var prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (prefersReduced) return;
+    if (prefersReduced || !desktopMq.matches) return;
 
     // Base framing from HTML — keep these in sync with index.html
     var baseAz = -18;
@@ -312,4 +367,45 @@
     updateBadge();
     renderCart();
   })();
+
+  /* ---------- Hero enforcement quote (homepage only) ---------- */
+  (function () {
+    var quoteEl = document.getElementById('heroQuote');
+    var hero = document.getElementById('hero');
+    if (!quoteEl || !hero) return;
+
+    var quotes = [
+      'Hey SKYWALL, block explicit screen content and only let me change this at the library.',
+      'Hey SKYWALL, block social media after 11pm and only let me change this at home.',
+      'Hey SKYWALL, block distracting apps at work and only let me change this at my local cafe.'
+    ];
+
+    quoteEl.textContent = quotes[Math.floor(Math.random() * quotes.length)];
+
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    var ticking = false;
+    function updateQuoteFade() {
+      ticking = false;
+      var heroTop = hero.offsetTop;
+      var fadeDistance = Math.max(180, hero.offsetHeight * 0.35);
+      var progress = Math.min(1, Math.max(0, (window.scrollY - heroTop) / fadeDistance));
+      var opacity = 1 - progress;
+      var shift = progress * 18;
+      quoteEl.style.opacity = String(opacity);
+      quoteEl.style.transform = 'translateY(' + (-shift) + 'px)';
+      quoteEl.style.pointerEvents = opacity < 0.05 ? 'none' : '';
+    }
+
+    function onScroll() {
+      if (!ticking) {
+        ticking = true;
+        requestAnimationFrame(updateQuoteFade);
+      }
+    }
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    updateQuoteFade();
+  })();
+
 })();
