@@ -629,11 +629,16 @@ body.nav-locked { overflow: hidden; touch-action: none; }
 .os-collage__static { display: none; }
 
 /* ========== ECOSYSTEM MODES ========== */
-.mode-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
-.mode-card { text-align: center; }
-.mode-card h3 { font-size: 18px; margin: 16px 0 8px; }
+.mode-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--line-soft); border: 1px solid var(--line-soft); border-radius: var(--radius); overflow: hidden; }
+.mode-card { text-align: center; background: var(--surface); padding: 40px 28px; }
+.mode-card__num {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 36px; height: 36px; border-radius: 50%;
+  border: 1px solid var(--accent-line); font-size: 12px; font-weight: 600;
+  letter-spacing: 0.04em; color: var(--accent);
+}
+.mode-card h3 { font-size: 18px; margin: 18px 0 8px; }
 .mode-card p { font-size: 14px; color: var(--muted); max-width: 28ch; margin: 0 auto; }
-.mode-card .video-frame { margin: 0 auto; width: 100%; }
 
 /* ========== PARTNER / VALUE LIST ========== */
 .value-list { list-style: none; }
