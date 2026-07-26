@@ -14,9 +14,17 @@ Private Next.js portal under `/labs/*` with Supabase Auth, Postgres, and private
 
 ## Netlify
 
-1. Set env vars: `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`, `SUPABASE_SERVICE_ROLE_KEY`, `LABS_SESSION_SECRET`, `NEXT_PUBLIC_SITE_URL=https://bittrbyte.com`
-2. Build uses `@netlify/plugin-nextjs` via `netlify.toml`.
-3. Redeploy after env is set.
+**Required before deploy will succeed.** In Site settings → Environment variables, add all of these for Production (and usually also for Deploy Previews):
+
+| Variable | Value |
+|---|---|
+| `NEXT_PUBLIC_SUPABASE_URL` | your Supabase project URL |
+| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | publishable / anon key |
+| `SUPABASE_SERVICE_ROLE_KEY` | secret / service_role key |
+| `LABS_SESSION_SECRET` | same long random string as local `.env.local` |
+| `NEXT_PUBLIC_SITE_URL` | `https://bittrbyte.com` |
+
+Then trigger a new deploy. Without `SUPABASE_SERVICE_ROLE_KEY`, the build used to crash; Labs routes are now forced dynamic, but runtime login/admin still need these vars.
 
 ## Create a YC reviewer
 
