@@ -1,15 +1,33 @@
 "use client";
 
-import { useActionState } from "react";
+import { useActionState, useState } from "react";
+import { sha256 } from "js-sha256";
+import { createClient } from "@/lib/supabase/client";
 import {
   addEvidenceAction,
   createUserAction,
-  publishReleaseAction,
   updateAccessAction,
   type AdminState,
 } from "./actions";
 
 const initial: AdminState = {};
+
+async function hashFileSha256(
+  file: File,
+  onProgress?: (pct: number) => void
+): Promise<string> {
+  const hasher = sha256.create();
+  const chunkSize = 8 * 1024 * 1024;
+  let offset = 0;
+  while (offset < file.size) {
+    const chunk = file.slice(offset, offset + chunkSize);
+    const buf = new Uint8Array(await chunk.arrayBuffer());
+    hasher.update(buf);
+    offset += buf.length;
+    onProgress?.(Math.min(99, Math.round((offset / file.size) * 100)));
+  }
+  return hasher.hex();
+}
 
 export function CreateUserForm() {
   const [state, action, pending] = useActionState(createUserAction, initial);
@@ -109,9 +127,102 @@ export function AccessControls({
 }
 
 export function PublishReleaseForm() {
-  const [state, action, pending] = useActionState(publishReleaseAction, initial);
+  const [error, setError] = useState<string | null>(null);
+  const [ok, setOk] = useState<string | null>(null);
+  const [pending, setPending] = useState(false);
+  const [status, setStatus] = useState("");
+
+  async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    setError(null);
+    setOk(null);
+    setPending(true);
+    setStatus("Preparing upload…");
+
+    const form = e.currentTarget;
+    const fd = new FormData(form);
+    const version = String(fd.get("version") || "").trim();
+    const device = String(fd.get("device") || "Pixel 6a").trim();
+    const summary = String(fd.get("summary") || "").trim();
+    const notes = String(fd.get("notes") || "").trim();
+    const knownIssues = String(fd.get("knownIssues") || "").trim();
+    const installNotes = String(fd.get("installNotes") || "").trim();
+    const isLatest = fd.get("isLatest") === "on";
+    const file = fd.get("zip") as File | null;
+
+    try {
+      if (!version) throw new Error("Version is required.");
+      if (!file || file.size === 0) throw new Error("ZIP file is required.");
+
+      // Large packages (1GB+) must go straight to Supabase, not through Netlify.
+      setStatus("Requesting secure upload slot…");
+      const slotRes = await fetch("/api/labs/release-upload-url", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ version, filename: file.name }),
+      });
+      const slot = await slotRes.json();
+      if (!slotRes.ok || !slot.token || !slot.path) {
+        throw new Error(slot.error || "Could not start upload.");
+      }
+
+      setStatus("Hashing file (can take a few minutes for 1GB+)…");
+      const digest = await hashFileSha256(file, (pct) => {
+        setStatus(`Hashing file… ${pct}%`);
+      });
+
+      setStatus(`Uploading ${(file.size / (1024 * 1024)).toFixed(0)} MB to private storage…`);
+      const supabase = createClient();
+      const { error: uploadError } = await supabase.storage
+        .from("labs-releases")
+        .uploadToSignedUrl(slot.path, slot.token, file, {
+          contentType: file.type || "application/zip",
+          upsert: false,
+        });
+      if (uploadError) {
+        throw new Error(uploadError.message);
+      }
+
+      setStatus("Saving release record…");
+      const finRes = await fetch("/api/labs/release-finalize", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          version,
+          device,
+          summary,
+          notes,
+          knownIssues,
+          installNotes,
+          isLatest,
+          storagePath: slot.path,
+          filename: slot.filename || file.name,
+          sizeBytes: file.size,
+          sha256: digest,
+        }),
+      });
+      const fin = await finRes.json();
+      if (!finRes.ok) {
+        throw new Error(fin.error || "Could not finalize release.");
+      }
+
+      setOk(`Published ${version}.`);
+      setStatus("");
+      form.reset();
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Upload failed.");
+      setStatus("");
+    } finally {
+      setPending(false);
+    }
+  }
+
   return (
-    <form className="labs-form" action={action}>
+    <form className="labs-form" onSubmit={onSubmit}>
+      <p className="labs-muted">
+        Large Labs packages (1GB+) upload directly to private storage. Keep this
+        tab open until it finishes.
+      </p>
       <div className="labs-field">
         <label htmlFor="version">Version</label>
         <input id="version" name="version" required placeholder="0.1.0-labs" />
@@ -143,10 +254,11 @@ export function PublishReleaseForm() {
       <label>
         <input type="checkbox" name="isLatest" defaultChecked /> Mark as latest
       </label>
-      {state.error ? <p className="labs-error">{state.error}</p> : null}
-      {state.ok ? <p className="labs-ok">{state.ok}</p> : null}
+      {status ? <p className="labs-muted">{status}</p> : null}
+      {error ? <p className="labs-error">{error}</p> : null}
+      {ok ? <p className="labs-ok">{ok}</p> : null}
       <button className="btn btn--primary" disabled={pending}>
-        {pending ? "Uploading…" : "Publish release"}
+        {pending ? "Working…" : "Publish release"}
       </button>
     </form>
   );

@@ -36,6 +36,22 @@ They sign in with **username + password** (not email).
 
 Admin → Publish release ZIP → upload package → mark latest. Members download via short-lived signed URLs only.
 
+Large packages (1GB+) upload **directly to Supabase**, not through Netlify. Keep the tab open.
+
+If upload fails with a size error, raise the Storage file size limit in Supabase:
+
+1. Dashboard → **Project Settings** → **Storage** (or Storage → Configuration)
+2. Set max file size to at least **2 GB**
+3. Also run in SQL Editor if needed:
+
+```sql
+update storage.buckets
+set file_size_limit = 2147483648
+where id = 'labs-releases';
+```
+
+For SKYWALL OS v0.1, package the whole `releases/skywall-os-0.1-bluejay/` folder (OTA zip + boot/dtbo/vendor_boot + FLASH.md), not only the Lineage zip.
+
 ## Security notes
 
 - Never commit `.env.local`.
