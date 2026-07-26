@@ -929,6 +929,20 @@ body.nav-locked { overflow: hidden; touch-action: none; }
 .social svg { width: 15px; height: 15px; fill: #000; opacity: 0.75; }
 
 .dev-hero { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center; min-height: 70vh; }
+.dev-hero--labs {
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: clamp(28px, 3.5vw, 48px);
+  align-items: start;
+  min-height: 0;
+  padding-block: clamp(8px, 2vw, 20px);
+}
+.dev-hero--labs .form {
+  width: 100%;
+  max-width: 520px;
+  justify-self: end;
+}
+.dev-hero--labs textarea { min-height: 96px; }
+.dev-hero--labs .field { margin-bottom: 14px; }
 .dev-hero__copy { max-width: 540px; }
 .dev-hero__copy .eyebrow { margin-bottom: 20px; }
 .dev-hero__copy .h-display { margin-bottom: 24px; }
@@ -957,6 +971,77 @@ body.nav-locked { overflow: hidden; touch-action: none; }
   max-width: 52ch;
 }
 .dev-hero__photo img { border-radius: var(--radius); width: 100%; aspect-ratio: 3/4; object-fit: cover; box-shadow: 0 24px 60px rgba(0,0,0,0.12); }
+
+/*
+  Labs photo: same idea as the home phone fade — CSS mask dissolves the image
+  into the geo background behind it (no hard color veil fighting the jagged texture).
+*/
+.labs-hero {
+  position: relative;
+  overflow: hidden;
+}
+.labs-hero .geo-bg { z-index: 0; }
+.labs-hero .container { position: relative; z-index: 2; }
+.labs-hero__media {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: min(58%, 760px);
+  z-index: 1;
+  pointer-events: none;
+  overflow: hidden;
+  -webkit-mask-image:
+    linear-gradient(to left, #000 0%, #000 42%, rgba(0,0,0,0.55) 68%, transparent 100%),
+    linear-gradient(to bottom, transparent 0%, #000 14%, #000 82%, transparent 100%);
+  mask-image:
+    linear-gradient(to left, #000 0%, #000 42%, rgba(0,0,0,0.55) 68%, transparent 100%),
+    linear-gradient(to bottom, transparent 0%, #000 14%, #000 82%, transparent 100%);
+  -webkit-mask-composite: source-in;
+  mask-composite: intersect;
+}
+.labs-hero__media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 56% 30%;
+  display: block;
+  opacity: 0.55;
+  filter: saturate(0.9);
+}
+
+/* Parents: copy + demo video in first viewport */
+.parents-hero {
+  position: relative;
+  overflow: hidden;
+  padding: clamp(36px, 5vw, 56px) 0 clamp(40px, 6vw, 64px);
+  border-bottom: 1px solid var(--line-soft);
+}
+.parents-hero .container { position: relative; z-index: 1; }
+.parents-hero__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
+  gap: clamp(28px, 4vw, 56px);
+  align-items: center;
+}
+.parents-hero__copy { text-align: left; max-width: 34rem; }
+.parents-hero__copy .eyebrow { margin-bottom: 16px; }
+.parents-hero__copy .h-display { margin-bottom: 14px; }
+.parents-hero__copy .lead {
+  margin: 0;
+  max-width: 40ch;
+  font-size: clamp(16px, 1.45vw, 19px);
+}
+.parents-hero__demo-head { margin-bottom: 14px; }
+.parents-hero__demo-head .eyebrow { margin-bottom: 8px; }
+.parents-hero__demo-head .h-section {
+  font-size: clamp(22px, 2.2vw, 28px);
+  margin: 0;
+}
+.parents-hero__demo .video-card { margin: 0; }
+.parents-hero__demo .video-card__meta { padding: 14px 16px 16px; }
+.parents-hero__demo .video-card__meta h3 { font-size: 16px; margin-bottom: 4px; }
+.parents-hero__demo .video-card__meta p { font-size: 13.5px; margin: 0; }
 
 /* ========== REVEAL ========== */
 .reveal { opacity: 0; transform: translateY(20px); transition: opacity 0.6s var(--ease), transform 0.6s var(--ease); }
@@ -1062,8 +1147,41 @@ body.nav-locked { overflow: hidden; touch-action: none; }
 
   /* Labs / partner heroes */
   .dev-hero { min-height: auto; gap: 32px; padding-block: 8px; }
+  .dev-hero--labs {
+    grid-template-columns: 1fr;
+    gap: 24px;
+    padding-block: 8px;
+  }
+  .dev-hero--labs .form {
+    max-width: none;
+    justify-self: stretch;
+  }
   .dev-hero__copy { max-width: 100%; }
   .dev-hero__lede, .dev-hero__body, .dev-hero__note { max-width: none; }
+  .labs-hero__media {
+    width: 100%;
+    opacity: 0.85;
+    -webkit-mask-image:
+      linear-gradient(to bottom, transparent 0%, #000 18%, #000 55%, transparent 100%),
+      linear-gradient(to left, #000 0%, #000 50%, transparent 100%);
+    mask-image:
+      linear-gradient(to bottom, transparent 0%, #000 18%, #000 55%, transparent 100%),
+      linear-gradient(to left, #000 0%, #000 50%, transparent 100%);
+  }
+  .labs-hero__media img {
+    opacity: 0.38;
+    object-position: 60% 28%;
+  }
+
+  /* Parents hero: stack copy then video */
+  .parents-hero { padding: clamp(32px, 6vw, 48px) 0 clamp(36px, 7vw, 56px); }
+  .parents-hero__grid {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+  .parents-hero__copy { max-width: none; text-align: center; }
+  .parents-hero__copy .lead { margin-inline: auto; max-width: 42ch; }
+  .parents-hero__demo-head { text-align: center; }
 
   /* Page heroes */
   .page-hero { padding: clamp(40px, 7vw, 64px) 0 clamp(28px, 4vw, 40px); }
