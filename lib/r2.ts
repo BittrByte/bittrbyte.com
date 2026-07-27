@@ -1,7 +1,11 @@
 import {
+  AbortMultipartUploadCommand,
+  CompleteMultipartUploadCommand,
+  CreateMultipartUploadCommand,
   GetObjectCommand,
   PutObjectCommand,
   S3Client,
+  UploadPartCommand,
 } from "@aws-sdk/client-s3";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 
@@ -34,6 +38,10 @@ export function createR2Client() {
       accessKeyId,
       secretAccessKey,
     },
+    // AWS SDK v3 defaults inject empty CRC32 checksums into presigned URLs.
+    // That breaks browser / R2 uploads with opaque 500 InternalError responses.
+    requestChecksumCalculation: "WHEN_REQUIRED",
+    responseChecksumValidation: "WHEN_REQUIRED",
   });
 }
 
@@ -47,12 +55,92 @@ export async function createR2UploadUrl(input: {
   const command = new PutObjectCommand({
     Bucket: bucket,
     Key: input.key,
-    ContentType: input.contentType || "application/zip",
+    ContentType: input.contentType || "application/octet-stream",
   });
   const uploadUrl = await getSignedUrl(client, command, {
     expiresIn: input.expiresInSeconds ?? 60 * 60,
   });
   return { bucket, key: input.key, uploadUrl };
+}
+
+export async function createR2MultipartUpload(input: {
+  key: string;
+  contentType?: string;
+}) {
+  const { bucket } = getR2Config();
+  const client = createR2Client();
+  const out = await client.send(
+    new CreateMultipartUploadCommand({
+      Bucket: bucket,
+      Key: input.key,
+      ContentType: input.contentType || "application/octet-stream",
+    })
+  );
+  if (!out.UploadId) {
+    throw new Error("R2 did not return a multipart upload id.");
+  }
+  return { bucket, key: input.key, uploadId: out.UploadId };
+}
+
+export async function createR2UploadPartUrl(input: {
+  key: string;
+  uploadId: string;
+  partNumber: number;
+  expiresInSeconds?: number;
+}) {
+  const { bucket } = getR2Config();
+  const client = createR2Client();
+  const command = new UploadPartCommand({
+    Bucket: bucket,
+    Key: input.key,
+    UploadId: input.uploadId,
+    PartNumber: input.partNumber,
+  });
+  const uploadUrl = await getSignedUrl(client, command, {
+    expiresIn: input.expiresInSeconds ?? 60 * 60,
+  });
+  return { bucket, key: input.key, uploadUrl };
+}
+
+export async function completeR2MultipartUpload(input: {
+  key: string;
+  uploadId: string;
+  parts: { partNumber: number; etag: string }[];
+}) {
+  const { bucket } = getR2Config();
+  const client = createR2Client();
+  await client.send(
+    new CompleteMultipartUploadCommand({
+      Bucket: bucket,
+      Key: input.key,
+      UploadId: input.uploadId,
+      MultipartUpload: {
+        Parts: input.parts
+          .slice()
+          .sort((a, b) => a.partNumber - b.partNumber)
+          .map((p) => ({
+            PartNumber: p.partNumber,
+            ETag: p.etag,
+          })),
+      },
+    })
+  );
+  return { bucket, key: input.key };
+}
+
+export async function abortR2MultipartUpload(input: {
+  key: string;
+  uploadId: string;
+}) {
+  const { bucket } = getR2Config();
+  const client = createR2Client();
+  await client.send(
+    new AbortMultipartUploadCommand({
+      Bucket: bucket,
+      Key: input.key,
+      UploadId: input.uploadId,
+    })
+  );
 }
 
 export async function createR2DownloadUrl(input: {

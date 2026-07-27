@@ -28,7 +28,39 @@ async function hashFileSha256(
   return hasher.hex();
 }
 
-function uploadFileToR2(
+function putBlobToR2(
+  uploadUrl: string,
+  blob: Blob,
+  contentType?: string
+): Promise<{ etag: string | null }> {
+  return new Promise((resolve, reject) => {
+    const xhr = new XMLHttpRequest();
+    xhr.open("PUT", uploadUrl);
+    if (contentType) {
+      xhr.setRequestHeader("Content-Type", contentType);
+    }
+    xhr.onload = () => {
+      if (xhr.status >= 200 && xhr.status < 300) {
+        resolve({ etag: xhr.getResponseHeader("ETag") });
+        return;
+      }
+      reject(
+        new Error(
+          `Upload failed (${xhr.status}). ${xhr.responseText?.slice(0, 220) || ""}`
+        )
+      );
+    };
+    xhr.onerror = () =>
+      reject(
+        new Error(
+          "Network error during R2 upload. Open the browser console — this is almost always R2 CORS. In the bucket CORS policy, AllowedHeaders must be [\"content-type\"] (not \"*\"). See scripts/r2-cors.json."
+        )
+      );
+    xhr.send(blob);
+  });
+}
+
+async function uploadFileToR2Single(
   uploadUrl: string,
   file: File,
   contentType: string,
@@ -37,7 +69,7 @@ function uploadFileToR2(
   return new Promise((resolve, reject) => {
     const xhr = new XMLHttpRequest();
     xhr.open("PUT", uploadUrl);
-    xhr.setRequestHeader("Content-Type", contentType || "application/zip");
+    xhr.setRequestHeader("Content-Type", contentType);
     xhr.upload.onprogress = (event) => {
       if (!event.lengthComputable) return;
       onProgress?.(Math.min(99, Math.round((event.loaded / event.total) * 100)));
@@ -50,18 +82,85 @@ function uploadFileToR2(
       }
       reject(
         new Error(
-          `Upload failed (${xhr.status}). ${xhr.responseText?.slice(0, 180) || ""}`
+          `Upload failed (${xhr.status}). ${xhr.responseText?.slice(0, 220) || ""}`
         )
       );
     };
     xhr.onerror = () =>
       reject(
         new Error(
-          "Network error during R2 upload. Usually the R2 bucket is missing CORS for bittrbyte.com — add a CORS policy allowing PUT from https://www.bittrbyte.com (see LABS.md)."
+          "Network error during R2 upload. Check R2 CORS (AllowedHeaders must be content-type, not *)."
         )
       );
     xhr.send(file);
   });
+}
+
+async function uploadFileToR2Multipart(
+  file: File,
+  slot: { path: string; uploadId: string; partSize: number },
+  onProgress?: (pct: number) => void
+): Promise<void> {
+  const partSize = slot.partSize || 64 * 1024 * 1024;
+  const totalParts = Math.ceil(file.size / partSize);
+  const parts: { partNumber: number; etag: string }[] = [];
+
+  try {
+    for (let partNumber = 1; partNumber <= totalParts; partNumber++) {
+      const start = (partNumber - 1) * partSize;
+      const end = Math.min(start + partSize, file.size);
+      const blob = file.slice(start, end);
+
+      const partRes = await fetch("/api/labs/release-upload-part-url", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          path: slot.path,
+          uploadId: slot.uploadId,
+          partNumber,
+        }),
+      });
+      const partSlot = await partRes.json();
+      if (!partRes.ok || !partSlot.uploadUrl) {
+        throw new Error(partSlot.error || `Could not start part ${partNumber}.`);
+      }
+
+      const { etag } = await putBlobToR2(partSlot.uploadUrl, blob);
+      if (!etag) {
+        throw new Error(
+          `Part ${partNumber} uploaded but R2 did not return ETag. Add ExposeHeaders: ["ETag"] to bucket CORS.`
+        );
+      }
+      parts.push({ partNumber, etag });
+      onProgress?.(Math.min(99, Math.round((end / file.size) * 100)));
+    }
+
+    const doneRes = await fetch("/api/labs/release-upload-complete", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        path: slot.path,
+        uploadId: slot.uploadId,
+        parts,
+      }),
+    });
+    const done = await doneRes.json();
+    if (!doneRes.ok) {
+      throw new Error(done.error || "Could not finish multipart upload.");
+    }
+    onProgress?.(100);
+  } catch (err) {
+    await fetch("/api/labs/release-upload-complete", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        path: slot.path,
+        uploadId: slot.uploadId,
+        abort: true,
+      }),
+    }).catch(() => undefined);
+    throw err;
+  }
 }
 
 export function CreateUserForm() {
@@ -189,8 +288,8 @@ export function PublishReleaseForm() {
       if (!version) throw new Error("Version is required.");
       if (!file || file.size === 0) throw new Error("ZIP file is required.");
 
-      // Large packages go straight to Cloudflare R2 (not through Netlify body limits).
-      const contentType = file.type || "application/zip";
+      // Lock MIME so the signed URL and browser PUT always match.
+      const contentType = "application/octet-stream";
       setStatus("Requesting secure R2 upload slot…");
       const slotRes = await fetch("/api/labs/release-upload-url", {
         method: "POST",
@@ -199,11 +298,18 @@ export function PublishReleaseForm() {
           version,
           filename: file.name,
           contentType,
+          sizeBytes: file.size,
         }),
       });
       const slot = await slotRes.json();
-      if (!slotRes.ok || !slot.uploadUrl || !slot.path) {
+      if (!slotRes.ok || !slot.path) {
         throw new Error(slot.error || "Could not start upload.");
+      }
+      if (slot.mode === "single" && !slot.uploadUrl) {
+        throw new Error(slot.error || "Could not start upload.");
+      }
+      if (slot.mode === "multipart" && !slot.uploadId) {
+        throw new Error(slot.error || "Could not start multipart upload.");
       }
 
       setStatus("Hashing file (can take a few minutes for 1GB+)…");
@@ -214,9 +320,21 @@ export function PublishReleaseForm() {
       setStatus(
         `Uploading ${(file.size / (1024 * 1024)).toFixed(0)} MB to Cloudflare R2…`
       );
-      await uploadFileToR2(slot.uploadUrl, file, contentType, (pct) => {
-        setStatus(`Uploading to R2… ${pct}%`);
-      });
+      if (slot.mode === "multipart") {
+        await uploadFileToR2Multipart(
+          file,
+          {
+            path: slot.path,
+            uploadId: slot.uploadId,
+            partSize: slot.partSize,
+          },
+          (pct) => setStatus(`Uploading to R2… ${pct}%`)
+        );
+      } else {
+        await uploadFileToR2Single(slot.uploadUrl, file, contentType, (pct) => {
+          setStatus(`Uploading to R2… ${pct}%`);
+        });
+      }
 
       setStatus("Saving release record…");
       const finRes = await fetch("/api/labs/release-finalize", {

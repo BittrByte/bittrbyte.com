@@ -48,6 +48,10 @@ Without this, Admin upload fails right after hashing with “Network error”.
 3. Paste the JSON from [`scripts/r2-cors.json`](scripts/r2-cors.json) (allows PUT/GET from `www.bittrbyte.com` and localhost)
 4. Save
 
+**Do not use** `"AllowedHeaders": ["*"]` — R2 often rejects that wildcard and browser uploads fail with a fake “Network error”. Use `"content-type"` only.
+
+Keep `ExposeHeaders: ["ETag"]` — large ZIPs upload in parts and the browser must read each part’s ETag.
+
 Object Read & Write tokens cannot set CORS via API — use the dashboard.
 
 ## Create a YC reviewer
