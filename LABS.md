@@ -39,6 +39,17 @@ Then trigger a new deploy.
 
 Large packages (1GB+) upload **directly to R2** via short-lived signed PUT URLs. Keep the Admin tab open until hashing + upload finish.
 
+### Required: R2 bucket CORS (browser uploads)
+
+Without this, Admin upload fails right after hashing with “Network error”.
+
+1. Cloudflare → **R2** → bucket `skywall-labs-releases`
+2. **Settings** → **CORS Policy** → Add / Edit
+3. Paste the JSON from [`scripts/r2-cors.json`](scripts/r2-cors.json) (allows PUT/GET from `www.bittrbyte.com` and localhost)
+4. Save
+
+Object Read & Write tokens cannot set CORS via API — use the dashboard.
+
 ## Create a YC reviewer
 
 Admin → Create user → Reviewer → username + temp password + expiry (e.g. 3 months).

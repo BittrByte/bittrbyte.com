@@ -54,7 +54,12 @@ function uploadFileToR2(
         )
       );
     };
-    xhr.onerror = () => reject(new Error("Network error during R2 upload."));
+    xhr.onerror = () =>
+      reject(
+        new Error(
+          "Network error during R2 upload. Usually the R2 bucket is missing CORS for bittrbyte.com — add a CORS policy allowing PUT from https://www.bittrbyte.com (see LABS.md)."
+        )
+      );
     xhr.send(file);
   });
 }
