@@ -54,6 +54,8 @@ Keep `ExposeHeaders: ["ETag"]` — large ZIPs upload in parts and the browser mu
 
 Object Read & Write tokens cannot set CORS via API — use the dashboard.
 
+If the browser says “Network error” but CORS looks correct: R2 often omits CORS headers on failed PUTs, so Chrome hides the real 400/403/500. Admin publish now calls `/api/labs/r2-health` first to verify Netlify’s R2 keys can sign and upload.
+
 ## Create a YC reviewer
 
 Admin → Create user → Reviewer → username + temp password + expiry (e.g. 3 months).

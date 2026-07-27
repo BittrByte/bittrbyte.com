@@ -6,8 +6,9 @@ import { createR2MultipartUpload, createR2UploadUrl } from "@/lib/r2";
 export const runtime = "nodejs";
 
 /** Single PUT is fine for small files; big OS ZIPs use multipart. */
-const MULTIPART_THRESHOLD_BYTES = 32 * 1024 * 1024;
-const PART_SIZE_BYTES = 64 * 1024 * 1024;
+const MULTIPART_THRESHOLD_BYTES = 8 * 1024 * 1024;
+/** Keep parts modest — large single XHR PUTs often die as fake “network” errors. */
+const PART_SIZE_BYTES = 8 * 1024 * 1024;
 
 export async function POST(request: Request) {
   const admin = await requireAdminProfile();

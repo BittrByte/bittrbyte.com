@@ -28,36 +28,66 @@ async function hashFileSha256(
   return hasher.hex();
 }
 
-function putBlobToR2(
+async function sleep(ms: number) {
+  await new Promise((r) => setTimeout(r, ms));
+}
+
+async function putBlobToR2(
   uploadUrl: string,
   blob: Blob,
   contentType?: string
 ): Promise<{ etag: string | null }> {
-  return new Promise((resolve, reject) => {
-    const xhr = new XMLHttpRequest();
-    xhr.open("PUT", uploadUrl);
-    if (contentType) {
-      xhr.setRequestHeader("Content-Type", contentType);
-    }
-    xhr.onload = () => {
-      if (xhr.status >= 200 && xhr.status < 300) {
-        resolve({ etag: xhr.getResponseHeader("ETag") });
-        return;
+  // Prefer fetch: same CORS rules, clearer failures than XHR status 0.
+  const headers: Record<string, string> = {};
+  if (contentType) headers["Content-Type"] = contentType;
+
+  let lastErr: Error | null = null;
+  for (let attempt = 1; attempt <= 5; attempt++) {
+    try {
+      const res = await fetch(uploadUrl, {
+        method: "PUT",
+        headers,
+        body: blob,
+        mode: "cors",
+        credentials: "omit",
+        cache: "no-store",
+      });
+      if (res.ok) {
+        return { etag: res.headers.get("ETag") || res.headers.get("etag") };
       }
-      reject(
-        new Error(
-          `Upload failed (${xhr.status}). ${xhr.responseText?.slice(0, 220) || ""}`
-        )
-      );
-    };
-    xhr.onerror = () =>
-      reject(
-        new Error(
-          "Network error during R2 upload. Open the browser console — this is almost always R2 CORS. In the bucket CORS policy, AllowedHeaders must be [\"content-type\"] (not \"*\"). See scripts/r2-cors.json."
-        )
-      );
-    xhr.send(blob);
-  });
+      const body = (await res.text()).slice(0, 220);
+      throw new Error(`Upload failed (${res.status}). ${body}`);
+    } catch (err) {
+      lastErr =
+        err instanceof Error
+          ? err
+          : new Error("Upload failed with an unknown error.");
+      // R2 often omits CORS headers on 4xx/5xx, so browsers report TypeError
+      // "Failed to fetch" instead of the real XML error.
+      if (attempt < 5) {
+        await sleep(500 * attempt * attempt);
+        continue;
+      }
+    }
+  }
+
+  let healthHint = "";
+  try {
+    const healthRes = await fetch("/api/labs/r2-health");
+    const health = await healthRes.json();
+    if (!health.ok) {
+      healthHint = ` Server R2 check failed (putStatus=${health.putStatus ?? "?"}, hasChecksum=${health.hasChecksum}, error=${health.error || health.putBody || "unknown"}).`;
+    } else {
+      healthHint =
+        " Server R2 credentials look fine — this was likely a dropped connection on a large chunk. Retry the publish.";
+    }
+  } catch {
+    healthHint = "";
+  }
+
+  throw new Error(
+    `${lastErr?.message || "Network error during R2 upload."}${healthHint}`
+  );
 }
 
 async function uploadFileToR2Single(
@@ -66,10 +96,12 @@ async function uploadFileToR2Single(
   contentType: string,
   onProgress?: (pct: number) => void
 ): Promise<void> {
+  // Still use XHR here for coarse progress on small single-PUT files.
   return new Promise((resolve, reject) => {
     const xhr = new XMLHttpRequest();
     xhr.open("PUT", uploadUrl);
     xhr.setRequestHeader("Content-Type", contentType);
+    xhr.timeout = 30 * 60 * 1000;
     xhr.upload.onprogress = (event) => {
       if (!event.lengthComputable) return;
       onProgress?.(Math.min(99, Math.round((event.loaded / event.total) * 100)));
@@ -86,12 +118,16 @@ async function uploadFileToR2Single(
         )
       );
     };
-    xhr.onerror = () =>
-      reject(
-        new Error(
-          "Network error during R2 upload. Check R2 CORS (AllowedHeaders must be content-type, not *)."
-        )
-      );
+    xhr.onerror = () => {
+      void putBlobToR2(uploadUrl, file, contentType)
+        .then(() => {
+          onProgress?.(100);
+          resolve();
+        })
+        .catch(reject);
+    };
+    xhr.ontimeout = () =>
+      reject(new Error("Upload timed out. Check your connection and retry."));
     xhr.send(file);
   });
 }
@@ -125,14 +161,17 @@ async function uploadFileToR2Multipart(
         throw new Error(partSlot.error || `Could not start part ${partNumber}.`);
       }
 
+      onProgress?.(
+        Math.min(99, Math.round(((partNumber - 1) / totalParts) * 100))
+      );
       const { etag } = await putBlobToR2(partSlot.uploadUrl, blob);
       if (!etag) {
         throw new Error(
-          `Part ${partNumber} uploaded but R2 did not return ETag. Add ExposeHeaders: ["ETag"] to bucket CORS.`
+          `Part ${partNumber}/${totalParts} uploaded but R2 did not return ETag. Add ExposeHeaders: ["ETag"] to bucket CORS.`
         );
       }
       parts.push({ partNumber, etag });
-      onProgress?.(Math.min(99, Math.round((end / file.size) * 100)));
+      onProgress?.(Math.min(99, Math.round((partNumber / totalParts) * 100)));
     }
 
     const doneRes = await fetch("/api/labs/release-upload-complete", {
@@ -290,6 +329,17 @@ export function PublishReleaseForm() {
 
       // Lock MIME so the signed URL and browser PUT always match.
       const contentType = "application/octet-stream";
+
+      setStatus("Checking Cloudflare R2 from the server…");
+      const healthRes = await fetch("/api/labs/r2-health");
+      const health = await healthRes.json();
+      if (!healthRes.ok || !health.ok) {
+        throw new Error(
+          health.error ||
+            `R2 is not ready on the server (putStatus=${health.putStatus ?? "?"}, hasChecksum=${health.hasChecksum}). Check Netlify R2 env vars and redeploy.`
+        );
+      }
+
       setStatus("Requesting secure R2 upload slot…");
       const slotRes = await fetch("/api/labs/release-upload-url", {
         method: "POST",
@@ -312,11 +362,7 @@ export function PublishReleaseForm() {
         throw new Error(slot.error || "Could not start multipart upload.");
       }
 
-      setStatus("Hashing file (can take a few minutes for 1GB+)…");
-      const digest = await hashFileSha256(file, (pct) => {
-        setStatus(`Hashing file… ${pct}%`);
-      });
-
+      // Upload before hashing so a broken R2 path fails fast (not after 10+ min).
       setStatus(
         `Uploading ${(file.size / (1024 * 1024)).toFixed(0)} MB to Cloudflare R2…`
       );
@@ -335,6 +381,11 @@ export function PublishReleaseForm() {
           setStatus(`Uploading to R2… ${pct}%`);
         });
       }
+
+      setStatus("Hashing file (can take a few minutes for 1GB+)…");
+      const digest = await hashFileSha256(file, (pct) => {
+        setStatus(`Hashing file… ${pct}%`);
+      });
 
       setStatus("Saving release record…");
       const finRes = await fetch("/api/labs/release-finalize", {
