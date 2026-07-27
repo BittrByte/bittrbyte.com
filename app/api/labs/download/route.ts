@@ -3,7 +3,10 @@ import {
   requireActiveProfile,
   writeAudit,
 } from "@/lib/labs/access";
+import { createR2DownloadUrl } from "@/lib/r2";
 import { createServiceClient } from "@/lib/supabase/server";
+
+export const runtime = "nodejs";
 
 export async function POST(request: Request) {
   const profile = await requireActiveProfile();
@@ -37,24 +40,35 @@ export async function POST(request: Request) {
     );
   }
 
-  const { data: signed, error } = await service.storage
-    .from("labs-releases")
-    .createSignedUrl(release.storage_path, 90);
+  try {
+    const { downloadUrl } = await createR2DownloadUrl({
+      key: release.storage_path,
+      filename: release.filename,
+      expiresInSeconds: 90,
+    });
 
-  if (error || !signed?.signedUrl) {
+    await writeAudit({
+      actorId: profile.id,
+      eventType: "download",
+      targetType: "release",
+      targetId: release.id,
+      metadata: {
+        version: release.version,
+        filename: release.filename,
+        backend: "r2",
+      },
+    });
+
+    return NextResponse.json({ url: downloadUrl });
+  } catch (err) {
     return NextResponse.json(
-      { error: "Could not create download link." },
+      {
+        error:
+          err instanceof Error
+            ? err.message
+            : "Could not create download link.",
+      },
       { status: 500 }
     );
   }
-
-  await writeAudit({
-    actorId: profile.id,
-    eventType: "download",
-    targetType: "release",
-    targetId: release.id,
-    metadata: { version: release.version, filename: release.filename },
-  });
-
-  return NextResponse.json({ url: signed.signedUrl });
 }

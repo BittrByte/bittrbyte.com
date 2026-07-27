@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { randomBytes } from "crypto";
 import { requireAdminProfile } from "@/lib/labs/access";
-import { createServiceClient } from "@/lib/supabase/server";
+import { createR2UploadUrl } from "@/lib/r2";
 
 export const runtime = "nodejs";
 
@@ -14,6 +14,7 @@ export async function POST(request: Request) {
   const body = await request.json().catch(() => ({}));
   const version = String(body.version || "").trim();
   const filename = String(body.filename || "").trim();
+  const contentType = String(body.contentType || "application/zip").trim();
 
   if (!version || !filename) {
     return NextResponse.json(
@@ -24,31 +25,28 @@ export async function POST(request: Request) {
 
   const safeName = filename.replace(/[^a-zA-Z0-9._-]/g, "_");
   const storagePath = `releases/${version}-${randomBytes(4).toString("hex")}-${safeName}`;
-  const service = createServiceClient();
 
-  // Best-effort raise bucket cap (project-level Storage limit may still apply).
-  await service.storage
-    .updateBucket("labs-releases", {
-      public: false,
-      fileSizeLimit: "2147483648",
-    })
-    .catch(() => undefined);
+  try {
+    const { uploadUrl, key } = await createR2UploadUrl({
+      key: storagePath,
+      contentType: contentType || "application/zip",
+      expiresInSeconds: 60 * 60,
+    });
 
-  const { data, error } = await service.storage
-    .from("labs-releases")
-    .createSignedUploadUrl(storagePath);
-
-  if (error || !data) {
+    return NextResponse.json({
+      path: key,
+      uploadUrl,
+      filename: safeName,
+      contentType: contentType || "application/zip",
+      backend: "r2",
+    });
+  } catch (err) {
     return NextResponse.json(
-      { error: error?.message || "Could not create upload URL." },
+      {
+        error:
+          err instanceof Error ? err.message : "Could not create upload URL.",
+      },
       { status: 500 }
     );
   }
-
-  return NextResponse.json({
-    path: data.path,
-    token: data.token,
-    signedUrl: data.signedUrl,
-    filename: safeName,
-  });
 }

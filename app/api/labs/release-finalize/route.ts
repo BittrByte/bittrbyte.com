@@ -74,7 +74,13 @@ export async function POST(request: Request) {
     eventType: "release_publish",
     targetType: "release",
     targetId: release.id,
-    metadata: { version, sha256, size_bytes: sizeBytes },
+    metadata: {
+      version,
+      sha256,
+      size_bytes: sizeBytes,
+      backend: "r2",
+      storage_path: storagePath,
+    },
   });
 
   revalidatePath("/labs/admin");

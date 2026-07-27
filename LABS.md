@@ -1,30 +1,43 @@
 # SKYWALL Labs portal
 
-Private Next.js portal under `/labs/*` with Supabase Auth, Postgres, and private Storage.
+Private Next.js portal under `/labs/*` with Supabase Auth + Postgres, and Cloudflare R2 for large private OS ZIP packages.
 
 ## Local setup
 
-1. Copy `.env.example` to `.env.local` and fill in Supabase URL, publishable key, and secret key.
-2. **Required once:** open [Supabase SQL Editor](https://supabase.com/dashboard/project/psufiiovxogfsogfgfmw/sql/new), paste the full contents of [`supabase/migrations/001_labs.sql`](supabase/migrations/001_labs.sql), and run it. Until this runs, login/admin will fail because the tables do not exist yet.
+1. Copy `.env.example` to `.env.local` and fill in Supabase + R2 values.
+2. **Required once:** open [Supabase SQL Editor](https://supabase.com/dashboard/project/psufiiovxogfsogfgfmw/sql/new), paste the full contents of [`supabase/migrations/001_labs.sql`](supabase/migrations/001_labs.sql), and run it.
 3. `npm install`
-4. `npm run labs:ensure-storage` (private ZIP bucket; safe to re-run)
-5. `npm run dev`
-6. Open `/labs/bootstrap` and create the first admin (bootstrap secret = `LABS_SESSION_SECRET` from `.env.local`).
-7. Sign in at `/labs/login`.
+4. `npm run dev`
+5. Open `/labs/bootstrap` and create the first admin (bootstrap secret = `LABS_SESSION_SECRET` from `.env.local`) — only if no admin exists yet.
+6. Sign in at `/labs/login`.
 
-## Netlify
-
-**Required before deploy will succeed.** In Site settings → Environment variables, add all of these for Production (and usually also for Deploy Previews):
+## Netlify env vars
 
 | Variable | Value |
 |---|---|
-| `NEXT_PUBLIC_SUPABASE_URL` | your Supabase project URL |
+| `NEXT_PUBLIC_SUPABASE_URL` | Supabase project URL |
 | `NEXT_PUBLIC_SUPABASE_ANON_KEY` | publishable / anon key |
 | `SUPABASE_SERVICE_ROLE_KEY` | secret / service_role key |
 | `LABS_SESSION_SECRET` | same long random string as local `.env.local` |
 | `NEXT_PUBLIC_SITE_URL` | `https://bittrbyte.com` |
+| `R2_ACCOUNT_ID` | Cloudflare account ID |
+| `R2_ACCESS_KEY_ID` | R2 Account API token access key |
+| `R2_SECRET_ACCESS_KEY` | R2 Account API token secret |
+| `R2_BUCKET` | `skywall-labs-releases` |
+| `R2_ENDPOINT` | `https://<ACCOUNT_ID>.r2.cloudflarestorage.com` |
 
-Then trigger a new deploy. Without `SUPABASE_SERVICE_ROLE_KEY`, the build used to crash; Labs routes are now forced dynamic, but runtime login/admin still need these vars.
+Mark R2 secret + Supabase service role as **Secret** in Netlify (Builds + Functions scopes).
+
+Then trigger a new deploy.
+
+## Cloudflare R2 setup
+
+1. Create a Cloudflare account and enable R2.
+2. Create a **private** bucket named `skywall-labs-releases`.
+3. R2 → Manage R2 API Tokens → **Account API Tokens** → Create token with **Object Read & Write** on that bucket.
+4. Copy Account ID, Access Key ID, and Secret Access Key into `.env.local` and Netlify.
+
+Large packages (1GB+) upload **directly to R2** via short-lived signed PUT URLs. Keep the Admin tab open until hashing + upload finish.
 
 ## Create a YC reviewer
 
@@ -34,27 +47,13 @@ They sign in with **username + password** (not email).
 
 ## Publish first ZIP
 
-Admin → Publish release ZIP → upload package → mark latest. Members download via short-lived signed URLs only.
-
-Large packages (1GB+) upload **directly to Supabase**, not through Netlify. Keep the tab open.
-
-If upload fails with a size error, raise the Storage file size limit in Supabase:
-
-1. Dashboard → **Project Settings** → **Storage** (or Storage → Configuration)
-2. Set max file size to at least **2 GB**
-3. Also run in SQL Editor if needed:
-
-```sql
-update storage.buckets
-set file_size_limit = 2147483648
-where id = 'labs-releases';
-```
-
-For SKYWALL OS v0.1, package the whole `releases/skywall-os-0.1-bluejay/` folder (OTA zip + boot/dtbo/vendor_boot + FLASH.md), not only the Lineage zip.
+1. Package the whole `releases/skywall-os-0.1-bluejay/` folder (OTA zip + boot/dtbo/vendor_boot + FLASH.md + README + SHA256SUMS), not only the Lineage zip.
+2. Admin → Publish release ZIP → fill notes → choose the package → mark latest.
+3. Members download via short-lived R2 signed URLs only (~90 seconds). Login/expiry/`can_download` are checked first; downloads are audited.
 
 ## Security notes
 
 - Never commit `.env.local`.
 - Rotate keys that were pasted in chat.
-- Revoke expired GitHub PATs.
+- Keep the R2 bucket private (not public).
 - Downloads are audited and expire in ~90 seconds.

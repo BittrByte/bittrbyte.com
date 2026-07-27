@@ -2,7 +2,6 @@
 
 import { useActionState, useState } from "react";
 import { sha256 } from "js-sha256";
-import { createClient } from "@/lib/supabase/client";
 import {
   addEvidenceAction,
   createUserAction,
@@ -27,6 +26,37 @@ async function hashFileSha256(
     onProgress?.(Math.min(99, Math.round((offset / file.size) * 100)));
   }
   return hasher.hex();
+}
+
+function uploadFileToR2(
+  uploadUrl: string,
+  file: File,
+  contentType: string,
+  onProgress?: (pct: number) => void
+): Promise<void> {
+  return new Promise((resolve, reject) => {
+    const xhr = new XMLHttpRequest();
+    xhr.open("PUT", uploadUrl);
+    xhr.setRequestHeader("Content-Type", contentType || "application/zip");
+    xhr.upload.onprogress = (event) => {
+      if (!event.lengthComputable) return;
+      onProgress?.(Math.min(99, Math.round((event.loaded / event.total) * 100)));
+    };
+    xhr.onload = () => {
+      if (xhr.status >= 200 && xhr.status < 300) {
+        onProgress?.(100);
+        resolve();
+        return;
+      }
+      reject(
+        new Error(
+          `Upload failed (${xhr.status}). ${xhr.responseText?.slice(0, 180) || ""}`
+        )
+      );
+    };
+    xhr.onerror = () => reject(new Error("Network error during R2 upload."));
+    xhr.send(file);
+  });
 }
 
 export function CreateUserForm() {
@@ -154,15 +184,20 @@ export function PublishReleaseForm() {
       if (!version) throw new Error("Version is required.");
       if (!file || file.size === 0) throw new Error("ZIP file is required.");
 
-      // Large packages (1GB+) must go straight to Supabase, not through Netlify.
-      setStatus("Requesting secure upload slot…");
+      // Large packages go straight to Cloudflare R2 (not through Netlify body limits).
+      const contentType = file.type || "application/zip";
+      setStatus("Requesting secure R2 upload slot…");
       const slotRes = await fetch("/api/labs/release-upload-url", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ version, filename: file.name }),
+        body: JSON.stringify({
+          version,
+          filename: file.name,
+          contentType,
+        }),
       });
       const slot = await slotRes.json();
-      if (!slotRes.ok || !slot.token || !slot.path) {
+      if (!slotRes.ok || !slot.uploadUrl || !slot.path) {
         throw new Error(slot.error || "Could not start upload.");
       }
 
@@ -171,17 +206,12 @@ export function PublishReleaseForm() {
         setStatus(`Hashing file… ${pct}%`);
       });
 
-      setStatus(`Uploading ${(file.size / (1024 * 1024)).toFixed(0)} MB to private storage…`);
-      const supabase = createClient();
-      const { error: uploadError } = await supabase.storage
-        .from("labs-releases")
-        .uploadToSignedUrl(slot.path, slot.token, file, {
-          contentType: file.type || "application/zip",
-          upsert: false,
-        });
-      if (uploadError) {
-        throw new Error(uploadError.message);
-      }
+      setStatus(
+        `Uploading ${(file.size / (1024 * 1024)).toFixed(0)} MB to Cloudflare R2…`
+      );
+      await uploadFileToR2(slot.uploadUrl, file, contentType, (pct) => {
+        setStatus(`Uploading to R2… ${pct}%`);
+      });
 
       setStatus("Saving release record…");
       const finRes = await fetch("/api/labs/release-finalize", {
@@ -220,8 +250,8 @@ export function PublishReleaseForm() {
   return (
     <form className="labs-form" onSubmit={onSubmit}>
       <p className="labs-muted">
-        Large Labs packages (1GB+) upload directly to private storage. Keep this
-        tab open until it finishes.
+        Large Labs packages (1GB+) upload directly to private Cloudflare R2.
+        Keep this tab open until hashing and upload finish.
       </p>
       <div className="labs-field">
         <label htmlFor="version">Version</label>
