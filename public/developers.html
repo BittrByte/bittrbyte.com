@@ -10,9 +10,9 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="css/site.css?v=product-home-18" />
+  <link rel="stylesheet" href="css/site.css?v=devs-polish-1" />
 </head>
-<body >
+<body>
 
   <header class="nav" id="nav">
     <div class="nav__inner">
@@ -78,10 +78,14 @@
             <p class="dev-hero__body">We are looking for operating system developers, systems engineers, and specialists in digital addiction and online safety.</p>
             <p class="dev-hero__note">Applications are reviewed individually by our team.</p>
           </div>
-          <form class="form reveal" data-delay="1" data-ajax id="labsForm" action="https://formspree.io/f/xyznbewe" method="POST" data-success="Application received — we'll review and respond.">
+          <form class="form form--labs reveal" data-delay="1" data-ajax id="labsForm" action="https://formspree.io/f/xyznbewe" method="POST" data-success="Application received — we'll review and respond.">
+            <div class="form__head">
+              <h2 class="form__title">Request access</h2>
+              <p class="form__subtitle">Tell us a little about yourself. We’ll review each application individually.</p>
+            </div>
             <div class="form-row">
-              <div class="field"><label for="name">Full name</label><input id="name" name="name" type="text" required placeholder="Jane Doe" /></div>
-              <div class="field"><label for="email">Email</label><input id="email" name="email" type="email" required placeholder="jane@example.com" /></div>
+              <div class="field"><label for="name">Full name</label><input id="name" name="name" type="text" required placeholder="Jane Doe" autocomplete="name" /></div>
+              <div class="field"><label for="email">Email</label><input id="email" name="email" type="email" required placeholder="jane@example.com" autocomplete="email" /></div>
             </div>
             <div class="field">
               <label for="expertise">Area of expertise</label>
@@ -103,17 +107,17 @@
             <button class="btn btn--primary btn--block btn--lg" type="submit">Apply to SKYWALL Labs</button>
             <p class="form__status" role="status" aria-live="polite"></p>
             <p class="form__note">We typically respond within a few working days.</p>
-            <p class="form__note" style="margin-top:0.85rem;">
-              Already have access?
-              <a href="/labs/login">Log in to SKYWALL Labs</a>
-            </p>
+            <div class="form__login">
+              <p class="form__login-label">Already have access?</p>
+              <a class="btn btn--ghost btn--block" href="/labs/login">Log in to SKYWALL Labs</a>
+            </div>
           </form>
         </div>
       </div>
     </section>
   </main>
 
-    <footer class="footer">
+  <footer class="footer">
     <div class="container">
       <div class="footer__top">
         <div class="footer__cols">
@@ -123,7 +127,7 @@
             <a href="tel:+441916030179">0191 603 0179</a>
             <a href="partner.html">Partner with us</a>
           </div>
-        <div class="footer__col">
+          <div class="footer__col">
             <h4>SKYWALL</h4>
             <a href="skywall/individuals.html">For individuals</a>
             <a href="skywall/parents.html">For parents</a>
@@ -134,12 +138,12 @@
             <a href="store/devices.html">SKYWALL Devices</a>
             <a href="store/os.html">SKYWALL OS</a>
           </div>
-          </div>
+        </div>
       </div>
       <div class="footer__bottom">
         <a class="footer__logo" href="index.html" aria-label="BittrByte home"><img src="images/Black_Logo.svg" alt="BittrByte" /></a>
         <p>&copy; 2026 BittrByte Ltd. All rights reserved.</p>
-</div>
+      </div>
     </div>
   </footer>
   <script src="js/site.js?v=product-home-18"></script>
