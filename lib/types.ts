@@ -40,17 +40,6 @@ export type LabsRelease = {
   created_at: string;
 };
 
-export type LabsEvidence = {
-  id: string;
-  title: string;
-  caption: string | null;
-  media_type: string;
-  media_url: string | null;
-  storage_path: string | null;
-  sort_order: number;
-  published_at: string;
-};
-
 export type LabsPost = {
   id: string;
   author_id: string;

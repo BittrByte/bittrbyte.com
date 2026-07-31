@@ -3,7 +3,6 @@
 import { useActionState, useState } from "react";
 import { sha256 } from "js-sha256";
 import {
-  addEvidenceAction,
   createUserAction,
   updateAccessAction,
   type AdminState,
@@ -468,35 +467,3 @@ export function PublishReleaseForm() {
   );
 }
 
-export function EvidenceForm() {
-  const [state, action, pending] = useActionState(addEvidenceAction, initial);
-  return (
-    <form className="labs-form" action={action}>
-      <div className="labs-field">
-        <label htmlFor="title">Title</label>
-        <input id="title" name="title" required />
-      </div>
-      <div className="labs-field">
-        <label htmlFor="caption">Caption</label>
-        <input id="caption" name="caption" />
-      </div>
-      <div className="labs-field">
-        <label htmlFor="mediaType">Type</label>
-        <select id="mediaType" name="mediaType" defaultValue="screenshot">
-          <option value="screenshot">Screenshot</option>
-          <option value="video">Video</option>
-          <option value="clip">Clip</option>
-        </select>
-      </div>
-      <div className="labs-field">
-        <label htmlFor="mediaUrl">Media URL</label>
-        <input id="mediaUrl" name="mediaUrl" type="url" placeholder="https://…" />
-      </div>
-      {state.error ? <p className="labs-error">{state.error}</p> : null}
-      {state.ok ? <p className="labs-ok">{state.ok}</p> : null}
-      <button className="btn" disabled={pending}>
-        Add evidence
-      </button>
-    </form>
-  );
-}

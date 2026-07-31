@@ -248,35 +248,6 @@ export async function publishReleaseAction(
   return { ok: `Published ${version}.` };
 }
 
-export async function addEvidenceAction(
-  _prev: AdminState,
-  formData: FormData
-): Promise<AdminState> {
-  const admin = await requireAdminProfile();
-  if (!admin) return { error: "Admin only." };
-
-  const title = String(formData.get("title") || "").trim();
-  const caption = String(formData.get("caption") || "").trim();
-  const mediaUrl = String(formData.get("mediaUrl") || "").trim();
-  const mediaType = String(formData.get("mediaType") || "screenshot");
-
-  if (!title) return { error: "Title required." };
-
-  const service = createServiceClient();
-  const { error } = await service.from("labs_evidence").insert({
-    title,
-    caption: caption || null,
-    media_url: mediaUrl || null,
-    media_type: mediaType,
-  });
-
-  if (error) return { error: error.message };
-
-  revalidatePath("/labs/admin");
-  revalidatePath("/labs");
-  return { ok: "Evidence added." };
-}
-
 export async function bootstrapAdminAction(
   _prev: AdminState,
   formData: FormData

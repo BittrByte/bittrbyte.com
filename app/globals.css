@@ -169,6 +169,23 @@ textarea {
   padding: 1.25rem 1.35rem;
 }
 
+.labs-panel + .labs-panel,
+.labs-grid + .labs-panel {
+  margin-top: 1rem;
+}
+
+.labs-panel__head {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  align-items: center;
+  margin-bottom: 0.75rem;
+}
+
+.labs-panel__head h2 {
+  margin: 0;
+}
+
 .labs-panel h2,
 .labs-panel h3 {
   margin: 0 0 0.75rem;

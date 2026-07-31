@@ -6,7 +6,6 @@ import type { LabsProfile, LabsRelease } from "@/lib/types";
 import {
   AccessControls,
   CreateUserForm,
-  EvidenceForm,
   PublishReleaseForm,
 } from "./ui";
 
@@ -52,12 +51,7 @@ export default async function AdminPage() {
         </section>
       </div>
 
-      <section className="labs-panel" style={{ marginTop: "1rem" }}>
-        <h2>Evidence</h2>
-        <EvidenceForm />
-      </section>
-
-      <section className="labs-panel" style={{ marginTop: "1rem" }}>
+      <section className="labs-panel">
         <h2>Users</h2>
         <table className="labs-table">
           <thead>
@@ -94,7 +88,7 @@ export default async function AdminPage() {
         </table>
       </section>
 
-      <section className="labs-panel" style={{ marginTop: "1rem" }}>
+      <section className="labs-panel">
         <h2>Recent releases</h2>
         <table className="labs-table">
           <thead>
@@ -118,7 +112,7 @@ export default async function AdminPage() {
         </table>
       </section>
 
-      <section className="labs-panel" style={{ marginTop: "1rem" }}>
+      <section className="labs-panel">
         <h2>Audit log</h2>
         <table className="labs-table">
           <thead>
