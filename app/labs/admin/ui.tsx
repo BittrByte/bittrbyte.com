@@ -4,6 +4,7 @@ import { useActionState, useState } from "react";
 import { sha256 } from "js-sha256";
 import {
   createUserAction,
+  setReleaseDownloadAction,
   updateAccessAction,
   updatePermissionsAction,
   type AdminState,
@@ -347,6 +348,39 @@ export function AccessControls({
         </button>
       </form>
     </div>
+  );
+}
+
+export function ReleaseDownloadControl({
+  releaseId,
+  downloadEnabled,
+}: {
+  releaseId: string;
+  downloadEnabled: boolean;
+}) {
+  const [state, action, pending] = useActionState(
+    setReleaseDownloadAction,
+    initial
+  );
+
+  return (
+    <form className="labs-form" action={action}>
+      <input type="hidden" name="releaseId" value={releaseId} />
+      <input
+        type="hidden"
+        name="enabled"
+        value={downloadEnabled ? "false" : "true"}
+      />
+      {state.error ? <p className="labs-error">{state.error}</p> : null}
+      {state.ok ? <p className="labs-ok">{state.ok}</p> : null}
+      <button className="btn" type="submit" disabled={pending}>
+        {pending
+          ? "Updating…"
+          : downloadEnabled
+            ? "Disable download"
+            : "Enable download"}
+      </button>
+    </form>
   );
 }
 

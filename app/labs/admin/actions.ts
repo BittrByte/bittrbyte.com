@@ -208,6 +208,54 @@ export async function updatePermissionsAction(
   };
 }
 
+export async function setReleaseDownloadAction(
+  _prev: AdminState,
+  formData: FormData
+): Promise<AdminState> {
+  const admin = await requireAdminProfile();
+  if (!admin) return { error: "Admin only." };
+
+  const releaseId = String(formData.get("releaseId") || "");
+  const enabledRaw = String(formData.get("enabled") || "");
+  if (!releaseId) return { error: "Missing release." };
+  if (enabledRaw !== "true" && enabledRaw !== "false") {
+    return { error: "Invalid download setting." };
+  }
+
+  const downloadEnabled = enabledRaw === "true";
+  const service = createServiceClient();
+  const { data: release, error } = await service
+    .from("labs_releases")
+    .update({ download_enabled: downloadEnabled })
+    .eq("id", releaseId)
+    .select("id, version, download_enabled")
+    .maybeSingle();
+
+  if (error) return { error: error.message };
+  if (!release) return { error: "Release not found." };
+
+  await writeAudit({
+    actorId: admin.id,
+    eventType: "release_download_enabled",
+    targetType: "release",
+    targetId: release.id,
+    metadata: {
+      version: release.version,
+      download_enabled: downloadEnabled,
+    },
+  });
+
+  revalidatePath("/labs/admin");
+  revalidatePath("/labs");
+  revalidatePath("/labs/releases");
+  revalidatePath(`/labs/releases/${release.id}`);
+  return {
+    ok: downloadEnabled
+      ? `Downloads enabled for ${release.version}.`
+      : `Downloads disabled for ${release.version}.`,
+  };
+}
+
 export async function publishReleaseAction(
   _prev: AdminState,
   formData: FormData

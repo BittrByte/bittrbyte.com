@@ -67,6 +67,7 @@ They sign in with **username + password** (not email).
 1. Package the whole `releases/skywall-os-0.1-bluejay/` folder (OTA zip + boot/dtbo/vendor_boot + FLASH.md + README + SHA256SUMS), not only the Lineage zip.
 2. Prefer the Mac script for large (1GB+) packages — see below. For smaller ZIPs you can still use Admin → Publish release ZIP.
 3. Members download via short-lived R2 signed URLs only (~90 seconds). Login/expiry/`can_download` are checked first; downloads are audited.
+4. To stop downloads for an old or faulty build without deleting it: Admin → Recent releases → **Disable download**. Members can still view the release page. Re-enable later with **Enable download**.
 
 ### Publish a huge release from your Mac (recommended for 1GB+)
 

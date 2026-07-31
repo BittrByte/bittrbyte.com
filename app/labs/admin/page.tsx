@@ -7,6 +7,7 @@ import {
   AccessControls,
   CreateUserForm,
   PublishReleaseForm,
+  ReleaseDownloadControl,
 } from "./ui";
 
 export default async function AdminPage() {
@@ -103,6 +104,8 @@ export default async function AdminPage() {
               <th>Size</th>
               <th>SHA256</th>
               <th>Latest</th>
+              <th>Download</th>
+              <th>Control</th>
             </tr>
           </thead>
           <tbody>
@@ -112,6 +115,13 @@ export default async function AdminPage() {
                 <td>{r.size_bytes ?? "—"}</td>
                 <td className="labs-muted">{r.sha256?.slice(0, 16) || "—"}</td>
                 <td>{r.is_latest ? "Yes" : "No"}</td>
+                <td>{r.download_enabled ? "Enabled" : "Disabled"}</td>
+                <td>
+                  <ReleaseDownloadControl
+                    releaseId={r.id}
+                    downloadEnabled={r.download_enabled}
+                  />
+                </td>
               </tr>
             ))}
           </tbody>
