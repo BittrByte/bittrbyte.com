@@ -5,6 +5,7 @@ import { sha256 } from "js-sha256";
 import {
   createUserAction,
   updateAccessAction,
+  updatePermissionsAction,
   type AdminState,
 } from "./actions";
 
@@ -243,10 +244,10 @@ export function CreateUserForm() {
         <label htmlFor="customDate">Custom expiry (if custom)</label>
         <input id="customDate" name="customDate" type="datetime-local" />
       </div>
-      <label>
+      <label className="labs-check">
         <input type="checkbox" name="canDownload" defaultChecked /> Can download
       </label>
-      <label>
+      <label className="labs-check">
         <input type="checkbox" name="canPost" defaultChecked /> Can post
       </label>
       {state.error ? <p className="labs-error">{state.error}</p> : null}
@@ -260,41 +261,92 @@ export function CreateUserForm() {
 
 export function AccessControls({
   profileId,
+  canDownload,
+  canPost,
 }: {
   profileId: string;
+  canDownload: boolean;
+  canPost: boolean;
 }) {
-  const [state, action, pending] = useActionState(updateAccessAction, initial);
+  const [accessState, accessAction, accessPending] = useActionState(
+    updateAccessAction,
+    initial
+  );
+  const [permState, permAction, permPending] = useActionState(
+    updatePermissionsAction,
+    initial
+  );
+
   return (
-    <form className="labs-form" action={action}>
-      <input type="hidden" name="profileId" value={profileId} />
-      <div className="labs-field">
-        <label htmlFor={`action-${profileId}`}>Action</label>
-        <select id={`action-${profileId}`} name="action" defaultValue="extend">
-          <option value="extend">Extend / set expiry</option>
-          <option value="activate">Activate</option>
-          <option value="revoke">Revoke</option>
-        </select>
-      </div>
-      <div className="labs-field">
-        <label htmlFor={`expiry-${profileId}`}>Expiry preset</label>
-        <select id={`expiry-${profileId}`} name="expiryPreset" defaultValue="3m">
-          <option value="30d">30 days</option>
-          <option value="3m">3 months</option>
-          <option value="6m">6 months</option>
-          <option value="indefinite">Indefinite</option>
-          <option value="custom">Custom</option>
-        </select>
-      </div>
-      <div className="labs-field">
-        <label htmlFor={`custom-${profileId}`}>Custom date</label>
-        <input id={`custom-${profileId}`} name="customDate" type="datetime-local" />
-      </div>
-      {state.error ? <p className="labs-error">{state.error}</p> : null}
-      {state.ok ? <p className="labs-ok">{state.ok}</p> : null}
-      <button className="btn" disabled={pending}>
-        Apply
-      </button>
-    </form>
+    <div className="labs-stack">
+      <form className="labs-form" action={permAction}>
+        <input type="hidden" name="profileId" value={profileId} />
+        <label className="labs-check">
+          <input
+            type="checkbox"
+            name="canDownload"
+            defaultChecked={canDownload}
+            key={`dl-${profileId}-${canDownload ? "1" : "0"}`}
+          />
+          Can download
+        </label>
+        <label className="labs-check">
+          <input
+            type="checkbox"
+            name="canPost"
+            defaultChecked={canPost}
+            key={`post-${profileId}-${canPost ? "1" : "0"}`}
+          />
+          Can post
+        </label>
+        {permState.error ? <p className="labs-error">{permState.error}</p> : null}
+        {permState.ok ? <p className="labs-ok">{permState.ok}</p> : null}
+        <button className="btn" type="submit" disabled={permPending}>
+          {permPending ? "Saving…" : "Save permissions"}
+        </button>
+      </form>
+
+      <form className="labs-form" action={accessAction}>
+        <input type="hidden" name="profileId" value={profileId} />
+        <div className="labs-field">
+          <label htmlFor={`action-${profileId}`}>Access</label>
+          <select id={`action-${profileId}`} name="action" defaultValue="extend">
+            <option value="extend">Extend / set expiry</option>
+            <option value="activate">Activate</option>
+            <option value="revoke">Revoke</option>
+          </select>
+        </div>
+        <div className="labs-field">
+          <label htmlFor={`expiry-${profileId}`}>Expiry preset</label>
+          <select
+            id={`expiry-${profileId}`}
+            name="expiryPreset"
+            defaultValue="3m"
+          >
+            <option value="30d">30 days</option>
+            <option value="3m">3 months</option>
+            <option value="6m">6 months</option>
+            <option value="indefinite">Indefinite</option>
+            <option value="custom">Custom</option>
+          </select>
+        </div>
+        <div className="labs-field">
+          <label htmlFor={`custom-${profileId}`}>Custom date</label>
+          <input
+            id={`custom-${profileId}`}
+            name="customDate"
+            type="datetime-local"
+          />
+        </div>
+        {accessState.error ? (
+          <p className="labs-error">{accessState.error}</p>
+        ) : null}
+        {accessState.ok ? <p className="labs-ok">{accessState.ok}</p> : null}
+        <button className="btn" type="submit" disabled={accessPending}>
+          {accessPending ? "Applying…" : "Apply access"}
+        </button>
+      </form>
+    </div>
   );
 }
 

@@ -58,15 +58,31 @@ If the browser says “Network error” but CORS looks correct: R2 often omits C
 
 ## Create a YC reviewer
 
-Admin → Create user → Reviewer → username + temp password + expiry (e.g. 3 months).
+Admin → Create user → Reviewer → username + temp password + expiry (e.g. 3 months). Use **Can download** / **Can post** on create, then change them later per user with **Save permissions** in the Users table.
 
 They sign in with **username + password** (not email).
 
 ## Publish first ZIP
 
 1. Package the whole `releases/skywall-os-0.1-bluejay/` folder (OTA zip + boot/dtbo/vendor_boot + FLASH.md + README + SHA256SUMS), not only the Lineage zip.
-2. Admin → Publish release ZIP → fill notes → choose the package → mark latest.
+2. Prefer the Mac script for large (1GB+) packages — see below. For smaller ZIPs you can still use Admin → Publish release ZIP.
 3. Members download via short-lived R2 signed URLs only (~90 seconds). Login/expiry/`can_download` are checked first; downloads are audited.
+
+### Publish a huge release from your Mac (recommended for 1GB+)
+
+Browser uploads to R2 are fragile for multi‑GB packages. Use this script on a machine that has `.env.local` with Supabase + R2 keys. It uploads straight to the same private R2 bucket and inserts the same `labs_releases` row the Admin portal would — the Labs site and member download flow stay unchanged.
+
+```bash
+cd bittrbyte-new
+npm run labs:publish-release -- \
+  --file "/Users/admin/Desktop/SkywallX/releases/skywall-os-0.1-bluejay.zip" \
+  --version 0.1-bluejay \
+  --latest
+```
+
+Optional flags: `--device`, `--summary`, `--notes`, `--known-issues`, `--install-notes`.
+
+The Admin portal Publish form remains for smaller releases. Do not use both for the same version unless you intend two listings.
 
 ## Security notes
 

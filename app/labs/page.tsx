@@ -64,7 +64,13 @@ export default async function LabsDashboardPage() {
             <p className="labs-muted">{release.summary || "No summary yet."}</p>
             <div className="labs-actions">
               {release.download_enabled && release.storage_path ? (
-                <DownloadButton releaseId={release.id} />
+                profile?.can_download ? (
+                  <DownloadButton releaseId={release.id} />
+                ) : (
+                  <span className="labs-muted">
+                    Download not permitted for your account.
+                  </span>
+                )
               ) : (
                 <span className="labs-muted">Download not available yet.</span>
               )}

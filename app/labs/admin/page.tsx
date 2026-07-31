@@ -59,6 +59,7 @@ export default async function AdminPage() {
               <th>Name</th>
               <th>Role</th>
               <th>Status</th>
+              <th>Download</th>
               <th>Expires</th>
               <th>Controls</th>
             </tr>
@@ -74,13 +75,18 @@ export default async function AdminPage() {
                 </td>
                 <td>{u.role}</td>
                 <td>{u.status}</td>
+                <td>{u.can_download ? "Allowed" : "Blocked"}</td>
                 <td>
                   {u.access_expires
                     ? new Date(u.access_expires).toLocaleDateString()
                     : "Indefinite"}
                 </td>
                 <td>
-                  <AccessControls profileId={u.id} />
+                  <AccessControls
+                    profileId={u.id}
+                    canDownload={u.can_download}
+                    canPost={u.can_post}
+                  />
                 </td>
               </tr>
             ))}

@@ -2,6 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { LabsAppChrome } from "@/components/labs/chrome";
 import { DownloadButton } from "@/components/labs/download-button";
+import { getSessionProfile } from "@/lib/labs/access";
 import { createServiceClient } from "@/lib/supabase/server";
 import type { LabsRelease } from "@/lib/types";
 
@@ -11,6 +12,7 @@ export default async function ReleaseDetailPage({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
+  const { profile } = await getSessionProfile();
   const service = createServiceClient();
   const { data } = await service
     .from("labs_releases")
@@ -61,7 +63,13 @@ export default async function ReleaseDetailPage({
         ) : null}
         <div className="labs-actions">
           {release.download_enabled && release.storage_path ? (
-            <DownloadButton releaseId={release.id} />
+            profile?.can_download ? (
+              <DownloadButton releaseId={release.id} />
+            ) : (
+              <span className="labs-muted">
+                Download not permitted for your account.
+              </span>
+            )
           ) : (
             <span className="labs-muted">Download disabled.</span>
           )}

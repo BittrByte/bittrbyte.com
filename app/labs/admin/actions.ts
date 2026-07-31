@@ -161,7 +161,51 @@ export async function updateAccessAction(
   });
 
   revalidatePath("/labs/admin");
+  revalidatePath("/labs");
+  revalidatePath("/labs/account");
   return { ok: "Updated." };
+}
+
+export async function updatePermissionsAction(
+  _prev: AdminState,
+  formData: FormData
+): Promise<AdminState> {
+  const admin = await requireAdminProfile();
+  if (!admin) return { error: "Admin only." };
+
+  const profileId = String(formData.get("profileId") || "");
+  if (!profileId) return { error: "Missing profile." };
+
+  const canDownload = formData.get("canDownload") === "on";
+  const canPost = formData.get("canPost") === "on";
+  const patch = {
+    can_download: canDownload,
+    can_post: canPost,
+  };
+
+  const service = createServiceClient();
+  const { error } = await service
+    .from("labs_profiles")
+    .update(patch)
+    .eq("id", profileId);
+
+  if (error) return { error: error.message };
+
+  await writeAudit({
+    actorId: admin.id,
+    eventType: "permissions",
+    targetType: "profile",
+    targetId: profileId,
+    metadata: patch,
+  });
+
+  revalidatePath("/labs/admin");
+  revalidatePath("/labs");
+  revalidatePath("/labs/account");
+  revalidatePath("/labs/releases");
+  return {
+    ok: `Permissions saved — download ${canDownload ? "on" : "off"}, post ${canPost ? "on" : "off"}.`,
+  };
 }
 
 export async function publishReleaseAction(

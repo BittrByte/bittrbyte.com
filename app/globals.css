@@ -257,6 +257,20 @@ textarea {
   gap: 0.9rem;
 }
 
+.labs-check {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  font-size: 0.9rem;
+  color: var(--labs-ink);
+  cursor: pointer;
+}
+
+.labs-check input {
+  width: auto;
+  accent-color: #f2f2f2;
+}
+
 .labs-field {
   display: grid;
   gap: 0.35rem;
