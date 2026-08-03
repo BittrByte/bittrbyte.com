@@ -6,6 +6,23 @@ import { getSessionProfile } from "@/lib/labs/access";
 import { createServiceClient } from "@/lib/supabase/server";
 import type { LabsRelease } from "@/lib/types";
 
+function ReleaseTextSection({
+  title,
+  body,
+  open = false,
+}: {
+  title: string;
+  body: string;
+  open?: boolean;
+}) {
+  return (
+    <details className="labs-disclosure" open={open}>
+      <summary className="labs-disclosure__summary">{title}</summary>
+      <div className="labs-disclosure__body">{body}</div>
+    </details>
+  );
+}
+
 export default async function ReleaseDetailPage({
   params,
 }: {
@@ -38,28 +55,16 @@ export default async function ReleaseDetailPage({
           {release.sha256 ? <span>SHA256 {release.sha256}</span> : null}
         </div>
         {release.notes ? (
-          <div>
-            <h3>Notes</h3>
-            <p className="labs-muted" style={{ whiteSpace: "pre-wrap" }}>
-              {release.notes}
-            </p>
-          </div>
+          <ReleaseTextSection title="Notes" body={release.notes} open />
         ) : null}
         {release.known_issues ? (
-          <div>
-            <h3>Known issues</h3>
-            <p className="labs-muted" style={{ whiteSpace: "pre-wrap" }}>
-              {release.known_issues}
-            </p>
-          </div>
+          <ReleaseTextSection title="Known issues" body={release.known_issues} />
         ) : null}
         {release.install_notes ? (
-          <div>
-            <h3>Install notes</h3>
-            <p className="labs-muted" style={{ whiteSpace: "pre-wrap" }}>
-              {release.install_notes}
-            </p>
-          </div>
+          <ReleaseTextSection
+            title="Install notes"
+            body={release.install_notes}
+          />
         ) : null}
         <div className="labs-actions">
           {release.download_enabled && release.storage_path ? (

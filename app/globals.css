@@ -201,6 +201,57 @@ textarea {
   line-height: 1.5;
 }
 
+.labs-disclosure {
+  border: 1px solid var(--labs-line);
+  background: rgba(0, 0, 0, 0.18);
+  padding: 0;
+}
+
+.labs-disclosure + .labs-disclosure {
+  margin-top: 0.75rem;
+}
+
+.labs-disclosure__summary {
+  cursor: pointer;
+  list-style: none;
+  padding: 0.9rem 1rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--labs-ink);
+  user-select: none;
+}
+
+.labs-disclosure__summary::-webkit-details-marker {
+  display: none;
+}
+
+.labs-disclosure__summary::after {
+  content: "+";
+  float: right;
+  color: var(--labs-muted);
+  font-weight: 500;
+}
+
+.labs-disclosure[open] > .labs-disclosure__summary::after {
+  content: "–";
+}
+
+.labs-disclosure__summary:hover {
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.labs-disclosure__body {
+  margin: 0;
+  padding: 0 1rem 1.15rem;
+  color: var(--labs-muted);
+  font-size: 0.95rem;
+  line-height: 1.7;
+  white-space: pre-wrap;
+  max-width: 46rem;
+}
+
 .labs-meta {
   display: flex;
   flex-wrap: wrap;
