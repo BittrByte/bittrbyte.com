@@ -77,18 +77,7 @@ What stays on the phone
 • No SKYWALL analytics or usage-reporting SDK phones home about addiction or behaviour. The proxy processes a request and returns a draft; it does not keep a chat database.
 
 
-What we cannot prove from this code alone
-
-• Whether Google Gemini retains or trains on prompts depends on Google’s account settings and terms — not something this inventory can prove.
-
-• Whether the hosting platform logs full request bodies depends on that host’s configuration.
-
-• Unwired Labs retention / DPA details live in their contracts, not in this app source.
-
-• Claims such as “nothing you type leaves the phone” are only true when the AI proxy is not configured. This Labs build uses the proxy when AI chat is used.
-
-
-This is not a formal privacy policy or legal notice. It covers the SKYWALL app and AI proxy that ship with this OS Labs package, not every Android or carrier service on the device.`;
+This covers the SKYWALL app and AI proxy that ship with this OS Labs package. It is not a formal privacy policy, and it does not describe every Android or carrier service on the device.`;
 
 const service = createClient(url, key, {
   auth: { autoRefreshToken: false, persistSession: false },
