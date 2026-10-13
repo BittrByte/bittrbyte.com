@@ -1485,6 +1485,18 @@ body.nav-locked { overflow: hidden; touch-action: none; }
   justify-self: end;
   width: 100%;
 }
+/* Wash the shapes out toward the text so the copy sits on a flat light field. */
+.product-card--home .geo-bg .g2 { opacity: 0.34; }
+.product-card--home .geo-bg .g3 { opacity: 0.2; }
+.product-card--home .geo-bg .veil {
+  background: linear-gradient(
+    90deg,
+    #f7f7f8 0%,
+    #f7f7f8 46%,
+    var(--bg) 64%,
+    transparent 84%
+  );
+}
 .home-kicker { margin: 0 0 18px; display: block; }
 .home-title {
   margin: 0 0 26px;
@@ -1599,6 +1611,15 @@ body.nav-locked { overflow: hidden; touch-action: none; }
   .home-title { max-width: 16em; margin-inline: auto; }
   .home-text p { margin-inline: auto; }
   .product-card--home .home-paths { align-items: center; }
+  .product-card--home .geo-bg .veil {
+    background: linear-gradient(
+      180deg,
+      #f7f7f8 0%,
+      #f7f7f8 58%,
+      var(--bg) 78%,
+      transparent 100%
+    );
+  }
 }
 
 .slide-page { padding-top: clamp(40px, 6vw, 72px); }
