@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Why partner with BittrByte? | BittrByte</title>
+  <meta name="description" content="Why partner with BittrByte?" />
+  <meta name="theme-color" content="#f5f5f7" />
+  <link rel="icon" type="image/png" sizes="48x48" href="images/favicon-48.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/site.css?v=partner-page-1" />
+</head>
+<body>
+
+  <header class="nav" id="nav">
+    <div class="nav__inner">
+      <a class="nav__brand" href="index.html" aria-label="BittrByte home"><img src="images/Black_Logo.svg" alt="BittrByte" /></a>
+      <ul class="nav__items">
+        <li class="nav__item has-dropdown"><button class="nav__link" type="button">About<svg class="nav__chevron" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M3 5l3 3 3-3"/></svg></button><div class="nav__dropdown"><span class="nav__dropdown-label">About</span><a href="about.html">Our Mission</a><a href="team.html">Team</a></div></li>
+        <li class="nav__item has-dropdown"><button class="nav__link" type="button"><span class="nav__skywall">SKYWALL</span><svg class="nav__chevron" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M3 5l3 3 3-3"/></svg></button><div class="nav__dropdown"><span class="nav__dropdown-label">SKYWALL</span><a href="skywall/parents.html">For parents</a><a href="skywall/individuals.html">For individuals</a></div></li>
+        <li class="nav__item"><a class="nav__link" href="partners.html">Partners</a></li>
+        <li class="nav__item"><a class="nav__link" href="developers.html">Pilot</a></li>
+
+        <li class="nav__item"><a class="nav__link" href="support.html">Contact</a></li>
+      </ul>
+      <div class="nav__actions">
+        <button class="nav__toggle" id="navToggle" aria-label="Toggle menu" aria-expanded="false"><span></span></button>
+      </div>
+    </div>
+    <nav class="nav__mobile-panel" aria-label="Mobile navigation">
+      <div class="mobile-nav__group mobile-nav__group--accordion">
+        <button type="button" class="mobile-nav__trigger" aria-expanded="false">About<svg class="nav__chevron" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M3 5l3 3 3-3"/></svg></button>
+        <div class="mobile-nav__submenu">
+          <a href="about.html">Our Mission</a>
+          <a href="team.html">Team</a>
+        </div>
+      </div>
+      <div class="mobile-nav__group mobile-nav__group--accordion">
+        <button type="button" class="mobile-nav__trigger" aria-expanded="false"><span class="nav__skywall">SKYWALL</span><svg class="nav__chevron" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M3 5l3 3 3-3"/></svg></button>
+        <div class="mobile-nav__submenu">
+          <a href="skywall/parents.html">For parents</a>
+          <a href="skywall/individuals.html">For individuals</a>
+        </div>
+      </div>
+      <div class="mobile-nav__group">
+        <a href="partners.html">Partners</a>
+        <a href="developers.html">Pilot</a>
+      </div>
+
+      <div class="mobile-nav__group">
+        <a href="support.html">Contact</a>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+    <section class="section partner-page">
+      <div class="container partner-page__grid">
+        <div class="partner-page__copy">
+          <h1>Why partner with BittrByte?</h1>
+          <p class="partner-page__lead">BittrByte develops OS-level technologies for digital self-control and parental control. We offer our methods through licensing, technical integration and joint development with device manufacturers and digital safeguarding providers.</p>
+          <div class="partner-page__group">
+            <h2>For device manufacturers</h2>
+            <ul>
+              <li>Differentiate your devices with stronger, native digital controls.</li>
+              <li>Give users and families meaningful choices within your existing ecosystem.</li>
+              <li>Integrate our methods with your platform and safeguarding capabilities.</li>
+            </ul>
+          </div>
+          <div class="partner-page__group">
+            <h2>For digital safeguarding providers</h2>
+            <ul>
+              <li>Combine your on-device detection with our restriction and enforcement methods.</li>
+              <li>Let users and parents define lasting boundaries around your protection.</li>
+              <li>Work together to bring complementary technologies to more devices.</li>
+            </ul>
+          </div>
+        </div>
+        <form class="form partner-page__form" id="partnerForm">
+          <div class="form__head">
+            <h2 class="form__title">Discuss a partnership</h2>
+          </div>
+          <div class="field">
+            <label for="partnerName">Name</label>
+            <input id="partnerName" name="name" type="text" required autocomplete="name" />
+          </div>
+          <div class="field">
+            <label for="partnerEmail">Email</label>
+            <input id="partnerEmail" name="email" type="email" required autocomplete="email" />
+          </div>
+          <div class="field">
+            <label for="partnerMessage">Message <span class="pilot__optional">optional</span></label>
+            <textarea id="partnerMessage" name="message" rows="3"></textarea>
+          </div>
+          <button class="btn btn--primary btn--block" type="submit">Send</button>
+          <p class="form__note">Opens an email to admin@bittrbyte.com.</p>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer__top">
+        <div class="footer__cols">
+          <div class="footer__col">
+            <h4>Contact</h4>
+            <a href="mailto:admin@bittrbyte.com">admin@bittrbyte.com</a>
+            <a href="tel:+441916030179">0191 603 0179</a>
+            <a href="partners.html">Partner with us</a>
+          </div>
+          <div class="footer__col">
+            <h4>SKYWALL</h4>
+            <a href="skywall/individuals.html">For individuals</a>
+            <a href="skywall/parents.html">For parents</a>
+          </div>
+        </div>
+      </div>
+      <div class="footer__bottom">
+        <a class="footer__logo" href="index.html" aria-label="BittrByte home"><img src="images/Black_Logo.svg" alt="BittrByte" /></a>
+        <p>&copy; 2026 BittrByte Ltd. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+  <script src="js/site.js?v=partner-page-1"></script>
+</body>
+</html>

@@ -3,116 +3,90 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Developers — SKYWALL Labs</title>
-  <meta name="description" content="Apply to SKYWALL Labs — help test, review, and develop SKYWALL OS." />
+  <title>Pilot | BittrByte</title>
+  <meta name="description" content="Get in touch about a SKYWALL device." />
   <meta name="theme-color" content="#f5f5f7" />
   <link rel="icon" type="image/png" sizes="48x48" href="images/favicon-48.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="css/site.css?v=devs-polish-1" />
+  <link rel="stylesheet" href="css/site.css?v=pilot-signup-4" />
 </head>
-<body>
+<body class="page-pilot">
 
   <header class="nav" id="nav">
     <div class="nav__inner">
       <a class="nav__brand" href="index.html" aria-label="BittrByte home"><img src="images/Black_Logo.svg" alt="BittrByte" /></a>
       <ul class="nav__items">
-        <li class="nav__item has-dropdown">
-          <button class="nav__link" type="button">Store<svg class="nav__chevron" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 5l3 3 3-3"/></svg></button>
-          <div class="nav__dropdown"><span class="nav__dropdown-label">Store</span><a href="store/devices.html">SKYWALL Devices</a><a href="store/os.html">SKYWALL OS</a></div>
-        </li>
-        <li class="nav__item has-dropdown">
-          <button class="nav__link" type="button"><span class="sw-link">SKYWALL</span><svg class="nav__chevron" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 5l3 3 3-3"/></svg></button>
-          <div class="nav__dropdown"><span class="nav__dropdown-label">SKYWALL</span><a href="skywall/individuals.html">For individuals</a><a href="skywall/parents.html">For parents</a><a href="skywall/ecosystem.html">Ecosystem</a></div>
-        </li>
-        <li class="nav__item"><a class="nav__link" href="partner.html">Partner</a></li>
-        <li class="nav__item"><a class="nav__link" href="developers.html">Developers</a></li>
-        <li class="nav__item"><a class="nav__link" href="archive.html">Archive</a></li>
-        <li class="nav__item"><a class="nav__link" href="about.html">About</a></li>
-        <li class="nav__item"><a class="nav__link" href="support.html">Support</a></li>
+        <li class="nav__item has-dropdown"><button class="nav__link" type="button">About<svg class="nav__chevron" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M3 5l3 3 3-3"/></svg></button><div class="nav__dropdown"><span class="nav__dropdown-label">About</span><a href="about.html">Our Mission</a><a href="team.html">Team</a></div></li>
+        <li class="nav__item has-dropdown"><button class="nav__link" type="button"><span class="nav__skywall">SKYWALL</span><svg class="nav__chevron" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M3 5l3 3 3-3"/></svg></button><div class="nav__dropdown"><span class="nav__dropdown-label">SKYWALL</span><a href="skywall/parents.html">For parents</a><a href="skywall/individuals.html">For individuals</a></div></li>
+        <li class="nav__item"><a class="nav__link" href="partners.html">Partners</a></li>
+        <li class="nav__item"><a class="nav__link" href="developers.html">Pilot</a></li>
+
+        <li class="nav__item"><a class="nav__link" href="support.html">Contact</a></li>
       </ul>
       <div class="nav__actions">
-        <a class="nav__basket" href="basket.html" aria-label="Basket" style="position:relative;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6.5 8.5h11l-1 11.5H7.5l-1-11.5z"/><path d="M9 8.5V7.2a3 3 0 0 1 6 0v1.3"/><path d="M6.5 8.5h11"/></svg><span class="nav__basket-count" id="basketCount">0</span></a>
         <button class="nav__toggle" id="navToggle" aria-label="Toggle menu" aria-expanded="false"><span></span></button>
       </div>
     </div>
     <nav class="nav__mobile-panel" aria-label="Mobile navigation">
       <div class="mobile-nav__group mobile-nav__group--accordion">
-        <button type="button" class="mobile-nav__trigger" aria-expanded="false">Store<svg class="mobile-nav__chevron" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M3 5l3 3 3-3"/></svg></button>
+        <button type="button" class="mobile-nav__trigger" aria-expanded="false">About<svg class="nav__chevron" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M3 5l3 3 3-3"/></svg></button>
         <div class="mobile-nav__submenu">
-          <a href="store/devices.html">SKYWALL Devices</a>
-          <a href="store/os.html">SKYWALL OS</a>
+          <a href="about.html">Our Mission</a>
+          <a href="team.html">Team</a>
         </div>
       </div>
       <div class="mobile-nav__group mobile-nav__group--accordion">
-        <button type="button" class="mobile-nav__trigger" aria-expanded="false"><span class="sw-link">SKYWALL</span><svg class="mobile-nav__chevron" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M3 5l3 3 3-3"/></svg></button>
+        <button type="button" class="mobile-nav__trigger" aria-expanded="false"><span class="nav__skywall">SKYWALL</span><svg class="nav__chevron" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M3 5l3 3 3-3"/></svg></button>
         <div class="mobile-nav__submenu">
-          <a href="skywall/individuals.html">For individuals</a>
           <a href="skywall/parents.html">For parents</a>
-          <a href="skywall/ecosystem.html">Ecosystem</a>
+          <a href="skywall/individuals.html">For individuals</a>
         </div>
       </div>
       <div class="mobile-nav__group">
-        <a href="partner.html">Partner</a>
-        <a href="developers.html">Developers</a>
-        <a href="archive.html">Archive</a>
-        <a href="about.html">About</a>
-        <a href="support.html">Support</a>
+        <a href="partners.html">Partners</a>
+        <a href="developers.html">Pilot</a>
+      </div>
+
+      <div class="mobile-nav__group">
+        <a href="support.html">Contact</a>
       </div>
     </nav>
   </header>
 
   <main>
-    <section class="section labs-hero" id="apply">
+    <section class="section pilot" id="signup">
       <div class="geo-bg subtle" aria-hidden="true"><span class="g1"></span><span class="g2"></span><span class="veil"></span></div>
       <div class="labs-hero__media" aria-hidden="true">
         <img src="images/labs-hero.png" alt="" width="1024" height="1365" decoding="async" />
       </div>
-      <div class="container">
-        <div class="dev-hero dev-hero--labs">
-          <div class="dev-hero__copy reveal">
-            <span class="eyebrow">SKYWALL Labs</span>
-            <h1 class="h-display">Help refine SKYWALL OS.</h1>
-            <p class="dev-hero__lede">SKYWALL Labs is where selected experts test, review and help improve SKYWALL OS ahead of its public release.</p>
-            <p class="dev-hero__body">We are looking for operating system developers, systems engineers, and specialists in digital addiction and online safety.</p>
-            <p class="dev-hero__note">Applications are reviewed individually by our team.</p>
-          </div>
-          <form class="form form--labs reveal" data-delay="1" data-ajax id="labsForm" action="https://formspree.io/f/xyznbewe" method="POST" data-success="Application received — we'll review and respond.">
-            <div class="form__head">
-              <h2 class="form__title">Request access</h2>
-              <p class="form__subtitle">Tell us a little about yourself. We’ll review each application individually.</p>
-            </div>
-            <div class="form-row">
-              <div class="field"><label for="name">Full name</label><input id="name" name="name" type="text" required placeholder="Jane Doe" autocomplete="name" /></div>
-              <div class="field"><label for="email">Email</label><input id="email" name="email" type="email" required placeholder="jane@example.com" autocomplete="email" /></div>
-            </div>
-            <div class="field">
-              <label for="expertise">Area of expertise</label>
-              <select id="expertise" name="expertise" required>
-                <option value="" disabled selected>Select…</option>
-                <option>OS / systems development</option>
-                <option>Digital addiction / behavioural science</option>
-                <option>Mobile / embedded engineering</option>
-                <option>UX / product design</option>
-                <option>Other</option>
-              </select>
-            </div>
-            <div class="field">
-              <label for="background">Your background</label>
-              <textarea id="background" name="background" required placeholder="Tell us about your experience and why you want to join SKYWALL Labs…"></textarea>
-            </div>
-            <input type="hidden" name="_subject" value="SKYWALL Labs Application — BittrByte" />
-            <input type="hidden" name="form_type" value="labs_application" />
-            <button class="btn btn--primary btn--block btn--lg" type="submit">Apply to SKYWALL Labs</button>
-            <p class="form__status" role="status" aria-live="polite"></p>
-            <p class="form__note">We typically respond within a few working days.</p>
-            <div class="form__login">
-              <p class="form__login-label">Already have access?</p>
-              <a class="btn btn--ghost btn--block" href="/labs/login">Log in to SKYWALL Labs</a>
-            </div>
-          </form>
+      <div class="container pilot__grid">
+        <div class="pilot__copy">
+          <h1>Experience SKYWALL today.</h1>
+          <p>We are committed to making SKYWALL accessible to the people who need stronger digital boundaries most.</p>
+          <p>If you’re struggling with compulsive pornography or gambling use and are interested in purchasing a SKYWALL device, please get in touch.</p>
+          <p>As an early user, your feedback will help us refine SKYWALL’s interface and shape its future development.</p>
         </div>
+        <form class="form pilot__form" id="pilotForm">
+          <div class="form__head">
+            <h2 class="form__title">Get in touch</h2>
+          </div>
+          <div class="field">
+            <label for="pilotName">Name</label>
+            <input id="pilotName" name="name" type="text" required autocomplete="name" />
+          </div>
+          <div class="field">
+            <label for="pilotEmail">Email</label>
+            <input id="pilotEmail" name="email" type="email" required autocomplete="email" />
+          </div>
+          <div class="field">
+            <label for="pilotMessage">Message <span class="pilot__optional">optional</span></label>
+            <textarea id="pilotMessage" name="message" rows="3"></textarea>
+          </div>
+          <button class="btn btn--primary btn--block" type="submit">Send</button>
+          <p class="form__note">Opens an email to admin@bittrbyte.com.</p>
+        </form>
       </div>
     </section>
   </main>
@@ -125,18 +99,12 @@
             <h4>Contact</h4>
             <a href="mailto:admin@bittrbyte.com">admin@bittrbyte.com</a>
             <a href="tel:+441916030179">0191 603 0179</a>
-            <a href="partner.html">Partner with us</a>
+            <a href="partners.html">Partner with us</a>
           </div>
           <div class="footer__col">
             <h4>SKYWALL</h4>
             <a href="skywall/individuals.html">For individuals</a>
             <a href="skywall/parents.html">For parents</a>
-            <a href="skywall/ecosystem.html">Ecosystem</a>
-          </div>
-          <div class="footer__col">
-            <h4>Store</h4>
-            <a href="store/devices.html">SKYWALL Devices</a>
-            <a href="store/os.html">SKYWALL OS</a>
           </div>
         </div>
       </div>
@@ -146,6 +114,6 @@
       </div>
     </div>
   </footer>
-  <script src="js/site.js?v=product-home-18"></script>
+  <script src="js/site.js?v=pilot-signup-1"></script>
 </body>
 </html>

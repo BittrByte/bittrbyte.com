@@ -1,4 +1,4 @@
-/* BittrByte — site.js */
+/* BittrByte | site.js */
 (function () {
   'use strict';
 
@@ -406,6 +406,77 @@
 
     window.addEventListener('scroll', onScroll, { passive: true });
     updateQuoteFade();
+  })();
+
+  /* ---------- Caption carousels ---------- */
+  document.querySelectorAll('[data-carousel]').forEach(function (root) {
+    var track = root.querySelector('.carousel__track');
+    var slides = root.querySelectorAll('.carousel__slide');
+    var dots = root.querySelectorAll('.carousel__dot');
+    var prev = root.querySelector('[data-carousel-prev]');
+    var next = root.querySelector('[data-carousel-next]');
+    var index = 0;
+    var count = slides.length;
+    if (!track || !count) return;
+
+    function go(nextIndex) {
+      index = (nextIndex + count) % count;
+      track.style.transform = 'translateX(' + (-index * 100) + '%)';
+      dots.forEach(function (dot, i) {
+        var on = i === index;
+        dot.classList.toggle('is-active', on);
+        dot.setAttribute('aria-current', on ? 'true' : 'false');
+      });
+    }
+
+    if (prev) prev.addEventListener('click', function () { go(index - 1); });
+    if (next) next.addEventListener('click', function () { go(index + 1); });
+    dots.forEach(function (dot, i) {
+      dot.addEventListener('click', function () { go(i); });
+    });
+
+    var startX = 0;
+    var tracking = false;
+    root.addEventListener('pointerdown', function (e) {
+      if (e.target.closest('button')) return;
+      tracking = true;
+      startX = e.clientX;
+    });
+    root.addEventListener('pointerup', function (e) {
+      if (!tracking) return;
+      tracking = false;
+      var dx = e.clientX - startX;
+      if (dx > 48) go(index - 1);
+      else if (dx < -48) go(index + 1);
+    });
+    root.addEventListener('pointercancel', function () { tracking = false; });
+
+    root.addEventListener('keydown', function (e) {
+      if (e.key === 'ArrowLeft') { e.preventDefault(); go(index - 1); }
+      if (e.key === 'ArrowRight') { e.preventDefault(); go(index + 1); }
+    });
+  });
+
+  /* ---------- Contact boxes: open an email, nothing is stored ---------- */
+  (function () {
+    function bindMailForm(form, subject) {
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        var data = new FormData(form);
+        var name = String(data.get('name') || '').trim();
+        var email = String(data.get('email') || '').trim();
+        var message = String(data.get('message') || '').trim();
+        var body = 'Name: ' + name + '\nEmail: ' + email;
+        if (message) body += '\n\n' + message;
+        window.location.href = 'mailto:admin@bittrbyte.com?subject=' +
+          encodeURIComponent(subject) +
+          '&body=' + encodeURIComponent(body);
+      });
+    }
+    var pilot = document.getElementById('pilotForm');
+    if (pilot) bindMailForm(pilot, 'SKYWALL: get in touch');
+    var partner = document.getElementById('partnerForm');
+    if (partner) bindMailForm(partner, 'Discuss a partnership');
   })();
 
 })();
