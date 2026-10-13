@@ -794,7 +794,11 @@ body.nav-locked { overflow: hidden; touch-action: none; }
   border-top: 1px solid var(--line-soft);
 }
 .team-head .eyebrow { margin-bottom: 16px; }
-.team-head .h-sub { margin: 0; max-width: 36ch; }
+.team-head .h-sub {
+  margin: 0;
+  max-width: none;
+  text-wrap: unset;
+}
 .team-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
 .team-card { background: var(--surface); border: 1px solid var(--line-soft); border-radius: var(--radius); padding: 28px 20px; text-align: center; }
 .team-photo { width: 100px; height: 100px; margin: 0 auto 16px; border-radius: 50%; overflow: hidden; border: 1px solid var(--line); }
