@@ -540,7 +540,8 @@ body.nav-locked { overflow: hidden; touch-action: none; }
 .product-card__visual--phone {
   max-width: 420px;
   margin-inline: auto;
-  overflow: visible;
+  -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 55%, rgba(0,0,0,0.55) 78%, transparent 100%);
+  mask-image: linear-gradient(to bottom, #000 0%, #000 55%, rgba(0,0,0,0.55) 78%, transparent 100%);
 }
 .product-card__visual--phone img {
   width: 100%;
@@ -548,47 +549,6 @@ body.nav-locked { overflow: hidden; touch-action: none; }
   display: block;
   pointer-events: none;
   user-select: none;
-  -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 55%, rgba(0,0,0,0.55) 78%, transparent 100%);
-  mask-image: linear-gradient(to bottom, #000 0%, #000 55%, rgba(0,0,0,0.55) 78%, transparent 100%);
-}
-.home-phone {
-  position: relative;
-  width: 100%;
-}
-.home-chat {
-  position: absolute;
-  z-index: 3;
-  left: 50%;
-  right: auto;
-  top: 52%;
-  transform: translateX(-50%);
-  width: min(290px, 78%);
-  max-width: min(290px, 78%);
-  padding: 16px 18px 17px;
-  background: #000;
-  color: #fff;
-  border-radius: 18px;
-  box-shadow: 0 14px 36px rgba(0, 0, 0, 0.22);
-  font-family: var(--font-heading);
-  font-weight: 500;
-  font-size: clamp(13px, 1.25vw, 15px);
-  line-height: 1.35;
-  letter-spacing: -0.01em;
-  text-align: left;
-}
-.home-chat p { margin: 0; color: #fff; }
-.home-chat::after {
-  content: "";
-  position: absolute;
-  left: 50%;
-  right: auto;
-  bottom: -7px;
-  width: 14px;
-  height: 14px;
-  margin-left: -7px;
-  background: #000;
-  transform: rotate(45deg);
-  border-radius: 2px;
 }
 
 /* ========== CARD RAIL ========== */
@@ -1620,13 +1580,6 @@ body.nav-locked { overflow: hidden; touch-action: none; }
   .home-title { max-width: 16em; margin-inline: auto; }
   .home-text p { margin-inline: auto; }
   .home-actions { justify-content: center; }
-  .home-chat {
-    top: 50%;
-    width: min(260px, 82%);
-    max-width: min(260px, 82%);
-    font-size: 13px;
-    padding: 15px 16px 16px;
-  }
 }
 
 .slide-page { padding-top: clamp(40px, 6vw, 72px); }
