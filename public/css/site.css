@@ -1635,18 +1635,14 @@ body.nav-locked { overflow: hidden; touch-action: none; }
   margin: 0 auto;
 }
 .sky-orbit {
-  position: relative;
-  width: min(1120px, 100%);
-  height: 920px;
+  display: flex;
+  justify-content: center;
   margin: 48px auto 0;
 }
 .sky-mark {
-  position: absolute;
-  left: 50%;
-  top: 50%;
+  position: relative;
   width: 270px;
   height: 270px;
-  transform: translate(-50%, -50%);
 }
 .sky-mark::before {
   content: "";
@@ -1689,88 +1685,6 @@ body.nav-locked { overflow: hidden; touch-action: none; }
   padding-left: 0.14em;
   color: #1d1d1f;
 }
-.sky-bubble {
-  position: absolute;
-  width: min(236px, 28%);
-  margin: 0;
-  padding: 14px 16px;
-  border-radius: 18px;
-  background: #1d1d1f;
-  color: #fff;
-  font-family: var(--font);
-  font-size: 14px;
-  font-weight: 400;
-  line-height: 1.45;
-  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.08);
-}
-.sky-bubble::after {
-  content: "";
-  position: absolute;
-  bottom: -5px;
-  top: auto;
-  width: 12px;
-  height: 12px;
-  background: #1d1d1f;
-  transform: rotate(45deg);
-}
-.sky-bubble--1 { top: 0; left: 50%; width: min(300px, 34%); transform: translateX(-50%); }
-.sky-bubble--1::after { left: 22%; }
-.sky-bubble--2 { top: 18px; right: 0; }
-.sky-bubble--2::after { left: 74%; }
-.sky-bubble--3 { top: 430px; right: 0; }
-.sky-bubble--3::after { left: 31%; }
-.sky-bubble--4 { right: 0; bottom: 150px; }
-.sky-bubble--4::after { left: 81%; }
-.sky-bubble--5 { bottom: 0; left: 50%; width: min(320px, 36%); transform: translateX(-50%); }
-.sky-bubble--5::after { left: 58%; }
-.sky-bubble--6 { left: 0; bottom: 168px; }
-.sky-bubble--6::after { left: 17%; }
-.sky-bubble--7 { top: 250px; left: 0; }
-.sky-bubble--7::after { left: 64%; }
-.sky-bubble--8 { top: 36px; left: 0; }
-.sky-bubble--8::after { left: 41%; }
-.sky-bubble--9 { top: 210px; right: 0; }
-.sky-bubble--9::after { left: 16%; }
-.sky-bubble--10 { left: 0; top: 500px; width: min(280px, 32%); }
-.sky-bubble--10::after { left: 73%; }
-@media (max-width: 900px) {
-  .sky-orbit {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 14px;
-    height: auto;
-  }
-  .sky-mark {
-    position: relative;
-    left: auto;
-    top: auto;
-    transform: none;
-    order: -1;
-    margin: 8px 0 10px;
-  }
-  .sky-bubble,
-  .sky-bubble--1,
-  .sky-bubble--2,
-  .sky-bubble--3,
-  .sky-bubble--4,
-  .sky-bubble--5,
-  .sky-bubble--6,
-  .sky-bubble--7,
-  .sky-bubble--8,
-  .sky-bubble--9,
-  .sky-bubble--10 {
-    position: relative;
-    top: auto;
-    right: auto;
-    bottom: auto;
-    left: auto;
-    width: min(420px, 100%);
-    transform: none;
-  }
-  .sky-bubble::after { display: block; }
-}
-
 .slide-page { padding-top: clamp(40px, 6vw, 72px); }
 .slide-page .h-section { margin-bottom: 16px; }
 .slide-page__lead {
