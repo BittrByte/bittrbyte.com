@@ -176,7 +176,13 @@ h1, h2, h3, h4 { font-weight: 600; line-height: 1.1; letter-spacing: -0.025em; t
   text-transform: uppercase; color: rgba(0,0,0,0.55);
 }
 
-.nav__actions { display: flex; align-items: center; gap: 16px; }
+.nav__actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 16px;
+  height: var(--nav-h);
+}
 .nav__basket {
   display: flex; align-items: center; justify-content: center;
   width: 32px; height: 32px; color: rgba(0,0,0,0.9);
@@ -198,7 +204,9 @@ h1, h2, h3, h4 { font-weight: 600; line-height: 1.1; letter-spacing: -0.025em; t
 .nav__basket-count.has-items { display: block; }
 
 .nav__toggle {
-  display: none; width: 44px; height: 44px;
+  display: none;
+  width: 44px;
+  height: var(--nav-h);
   border: none; background: none; cursor: pointer; position: relative;
   z-index: 2; flex-shrink: 0;
   -webkit-tap-highlight-color: transparent;
@@ -485,6 +493,7 @@ body.nav-locked { overflow: hidden; touch-action: none; }
   border-top: 1px solid var(--line-soft);
   overflow: hidden;
 }
+.videos__head .lead { margin: 16px auto 0; }
 .videos__head { text-align: center; max-width: 620px; margin: 0 auto 48px; }
 .video-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; }
 .video-grid--single {
@@ -1281,7 +1290,7 @@ body.nav-locked { overflow: hidden; touch-action: none; }
 }
 
 @media (max-width: 640px) {
-  .container { padding: 0 20px; }
+  .container { padding: 0 22px; }
   .section { padding: clamp(48px, 12vw, 72px) 0; }
   .form-row { grid-template-columns: 1fr; }
   .founder-story__images { grid-template-columns: 1fr; }
@@ -1307,6 +1316,23 @@ body.nav-locked { overflow: hidden; touch-action: none; }
 
   /* Buttons */
   .btn { white-space: normal; }
+  .home-actions {
+    flex-direction: column;
+    align-items: stretch;
+    width: 100%;
+    max-width: min(320px, 100%);
+    margin-inline: auto;
+  }
+  .home-actions .btn { width: 100%; min-width: 0; }
+  .mission-hero__actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .mission-hero__actions .mission-btn {
+    width: 100%;
+    min-width: 0;
+    flex: none;
+  }
   .hero__actions {
     flex-direction: column;
     align-items: stretch;
@@ -1631,6 +1657,11 @@ body.nav-locked { overflow: hidden; touch-action: none; }
     padding: 36px 0 48px;
   }
   .pilot__grid { grid-template-columns: 1fr; }
+  .pilot__media { display: none; }
+  .page-pilot .pilot {
+    min-height: 0;
+    align-items: stretch;
+  }
 }
 
 .mission-hero {
@@ -1741,6 +1772,16 @@ body.nav-locked { overflow: hidden; touch-action: none; }
     margin-top: -10px;
   }
 }
+
+@media (max-width: 640px) {
+  /* Side arrows sit on top of slide titles at phone widths — use swipe + dots instead */
+  .carousel__btn { display: none; }
+  .carousel__controls { margin-top: 14px; }
+  .carousel__dots { gap: 9px; min-height: 22px; }
+  .footer__col a { overflow-wrap: anywhere; }
+  .footer__cols { gap: 28px 40px; align-items: start; }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .carousel__track { transition: none; }
 }
