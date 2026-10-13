@@ -22,7 +22,8 @@ html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
   --geo-4: #888890;
   --geo-5: #64646c;
   --font: Arial, Helvetica, "Segoe UI", sans-serif;
-  --font-brand: 'Montserrat', Arial, Helvetica, sans-serif;
+  --font-heading: 'Montserrat', Arial, Helvetica, sans-serif;
+  --font-brand: var(--font-heading);
   --maxw: 1180px;
   --radius: 14px;
   --ease: cubic-bezier(0.22, 1, 0.36, 1);
@@ -69,6 +70,17 @@ a { color: inherit; text-decoration: none; }
 .section { position: relative; padding: clamp(72px, 11vw, 120px) 0; }
 
 /* Titles / subtitles / body / mini-labels */
+h1, h2, h3, h4,
+.h-display,
+.h-section,
+.h-sub,
+.home-title,
+.form__title,
+.mission-hero__lede,
+.pilot__copy p:first-of-type,
+.founder-story__epigraph {
+  font-family: var(--font-heading);
+}
 h1, h2, h3, h4 {
   font-weight: var(--fw-title);
   color: var(--text);
@@ -82,6 +94,7 @@ h1, h2, h3, h4 {
 .mission-hero h1,
 .pilot__copy h1,
 .partner-page h1 {
+  font-family: var(--font-heading);
   font-size: var(--fs-title);
   font-weight: var(--fw-title);
   color: var(--text);
@@ -94,6 +107,7 @@ h1, h2, h3, h4 {
 .founder-story__copy h3,
 .partner-page__copy h2,
 .video-card__meta h3 {
+  font-family: var(--font-heading);
   font-size: var(--fs-sub);
   font-weight: var(--fw-title);
   color: var(--text);
