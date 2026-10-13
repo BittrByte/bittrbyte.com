@@ -1553,13 +1553,16 @@ body.nav-locked { overflow: hidden; touch-action: none; }
   max-width: 42em;
   font-size: clamp(15px, 1.2vw, 17px);
 }
-.partner-page__group {
-  margin-top: 0;
-  padding-top: 26px;
+.partner-page__rule {
+  border: 0;
   border-top: 1px solid var(--line-soft);
+  height: 0;
+  margin: 32px 0;
 }
-.partner-page__group + .partner-page__group {
-  margin-top: 8px;
+.partner-page__group {
+  margin: 0;
+  padding: 0;
+  border: 0;
 }
 .partner-page__copy h2 {
   margin: 0 0 12px;
@@ -1575,9 +1578,6 @@ body.nav-locked { overflow: hidden; touch-action: none; }
 .partner-page li {
   font-size: clamp(15px, 1.15vw, 16px);
   line-height: 1.6;
-}
-.partner-page__copy > .partner-page__lead + .partner-page__group {
-  margin-top: 26px;
 }
 .partner-page__form {
   width: 100%;
