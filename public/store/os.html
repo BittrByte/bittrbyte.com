@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>SKYWALL OS — BittrByte Store</title>
+  <meta name="description" content="SKYWALL OS — downloadable operating system for enforceable digital safety. Coming soon." />
+  <meta name="theme-color" content="#f5f5f7" />
+  <link rel="icon" type="image/png" sizes="48x48" href="../images/favicon-48.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../css/site.css?v=product-home-14" />
+  <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.5.0/model-viewer.min.js"></script>
+</head>
+<body>
+
+  <header class="nav" id="nav">
+    <div class="nav__inner">
+      <a class="nav__brand" href="../index.html" aria-label="BittrByte home"><img src="../images/Black_Logo.svg" alt="BittrByte" /></a>
+      <ul class="nav__items">
+        <li class="nav__item has-dropdown">
+          <button class="nav__link" type="button">Store<svg class="nav__chevron" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 5l3 3 3-3"/></svg></button>
+          <div class="nav__dropdown"><span class="nav__dropdown-label">Store</span><a href="devices.html">SKYWALL Devices</a><a href="os.html">SKYWALL OS</a></div>
+        </li>
+        <li class="nav__item has-dropdown">
+          <button class="nav__link" type="button"><span class="sw-link">SKYWALL</span><svg class="nav__chevron" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 5l3 3 3-3"/></svg></button>
+          <div class="nav__dropdown"><span class="nav__dropdown-label">SKYWALL</span><a href="../skywall/individuals.html">For individuals</a><a href="../skywall/parents.html">For parents</a><a href="../skywall/ecosystem.html">Ecosystem</a></div>
+        </li>
+        <li class="nav__item"><a class="nav__link" href="../partner.html">Partner</a></li>
+        <li class="nav__item"><a class="nav__link" href="../developers.html">Developers</a></li>
+        <li class="nav__item"><a class="nav__link" href="../archive.html">Archive</a></li>
+        <li class="nav__item"><a class="nav__link" href="../about.html">About</a></li>
+        <li class="nav__item"><a class="nav__link" href="../support.html">Support</a></li>
+      </ul>
+      <div class="nav__actions">
+        <a class="nav__basket" href="../basket.html" aria-label="Basket" style="position:relative;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6.5 8.5h11l-1 11.5H7.5l-1-11.5z"/><path d="M9 8.5V7.2a3 3 0 0 1 6 0v1.3"/><path d="M6.5 8.5h11"/></svg><span class="nav__basket-count" id="basketCount">0</span></a>
+        <button class="nav__toggle" id="navToggle" aria-label="Toggle menu" aria-expanded="false"><span></span></button>
+      </div>
+    </div>
+    <nav class="nav__mobile-panel" aria-label="Mobile navigation">
+      <div class="mobile-nav__group mobile-nav__group--accordion">
+        <button type="button" class="mobile-nav__trigger" aria-expanded="false">Store<svg class="mobile-nav__chevron" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M3 5l3 3 3-3"/></svg></button>
+        <div class="mobile-nav__submenu">
+          <a href="devices.html">SKYWALL Devices</a>
+          <a href="os.html">SKYWALL OS</a>
+        </div>
+      </div>
+      <div class="mobile-nav__group mobile-nav__group--accordion">
+        <button type="button" class="mobile-nav__trigger" aria-expanded="false"><span class="sw-link">SKYWALL</span><svg class="mobile-nav__chevron" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M3 5l3 3 3-3"/></svg></button>
+        <div class="mobile-nav__submenu">
+          <a href="../skywall/individuals.html">For individuals</a>
+          <a href="../skywall/parents.html">For parents</a>
+          <a href="../skywall/ecosystem.html">Ecosystem</a>
+        </div>
+      </div>
+      <div class="mobile-nav__group">
+        <a href="../partner.html">Partner</a>
+        <a href="../developers.html">Developers</a>
+        <a href="../archive.html">Archive</a>
+        <a href="../about.html">About</a>
+        <a href="../support.html">Support</a>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+    <section class="os-hero section" style="padding-top:clamp(32px,5vw,56px);">
+      <div class="container">
+        <div class="os-collage reveal">
+          <div class="os-collage__overlay">
+            <span class="coming-soon-badge">Coming soon</span>
+            <h1 class="h-display"><span class="sw">SKYWALL</span> OS</h1>
+            <p class="lead">An operating system built around enforceable <br class="br-desktop-only" />digital limits.</p>
+          </div>
+          <model-viewer class="panel-1" data-src="../models/os-panel-homescreen.glb" alt="Homescreen panel" orientation="0deg 0deg 0deg" camera-orbit="-22deg 72deg 0.95m" interaction-prompt="none" tone-mapping="neutral" exposure="1" disable-zoom disable-pan></model-viewer>
+          <model-viewer class="panel-3" data-src="../models/os-panel-logo.glb" alt="Logo panel" orientation="0deg 0deg 0deg" camera-orbit="20deg 70deg 0.95m" interaction-prompt="none" tone-mapping="neutral" exposure="1" disable-zoom disable-pan></model-viewer>
+          <model-viewer class="panel-4" data-src="../models/os-panel-wallpaper.glb" alt="Wallpaper panel" orientation="0deg 0deg 0deg" camera-orbit="-16deg 68deg 0.95m" interaction-prompt="none" tone-mapping="neutral" exposure="1" disable-zoom disable-pan></model-viewer>
+          <model-viewer class="panel-2" data-src="../models/os-panel-hamburger.glb" alt="Menu panel" orientation="0deg 0deg 0deg" camera-orbit="18deg 66deg 0.95m" interaction-prompt="none" tone-mapping="neutral" exposure="1" disable-zoom disable-pan></model-viewer>
+          <img class="os-collage__static" src="../images/os-panels.png" alt="SKYWALL OS interface — homescreen, wallpaper, logo and menu panels" loading="lazy" />
+        </div>
+        <div class="split-section" style="margin-top:48px;">
+          <div class="reveal">
+            <img src="../images/pixel-6a-on-table.jpg" alt="Pixel 6a running SKYWALL OS on a table" style="border-radius:var(--radius);width:100%;" />
+          </div>
+          <div class="split-section__copy reveal" data-delay="1">
+            <span class="eyebrow">Download</span>
+            <h2 class="h-sub">SKYWALL OS for your device.</h2>
+            <p>We're building SKYWALL OS for public download. In the meantime, join SKYWALL Labs to help test and refine it.</p>
+            <div style="margin-top:24px;">
+              <a class="btn btn--primary btn--lg" href="../developers.html">Apply to SKYWALL Labs</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+    <footer class="footer">
+    <div class="container">
+      <div class="footer__top">
+        <div class="footer__cols">
+          <div class="footer__col">
+            <h4>Contact</h4>
+            <a href="mailto:admin@bittrbyte.com">admin@bittrbyte.com</a>
+            <a href="tel:+441916030179">0191 603 0179</a>
+            <a href="../partner.html">Partner with us</a>
+          </div>
+        <div class="footer__col">
+            <h4>SKYWALL</h4>
+            <a href="../skywall/individuals.html">For individuals</a>
+            <a href="../skywall/parents.html">For parents</a>
+            <a href="../skywall/ecosystem.html">Ecosystem</a>
+          </div>
+          <div class="footer__col">
+            <h4>Store</h4>
+            <a href="../store/devices.html">SKYWALL Devices</a>
+            <a href="../store/os.html">SKYWALL OS</a>
+          </div>
+          </div>
+      </div>
+      <div class="footer__bottom">
+        <a class="footer__logo" href="../index.html" aria-label="BittrByte home"><img src="../images/Black_Logo.svg" alt="BittrByte" /></a>
+        <p>&copy; 2026 BittrByte Ltd. All rights reserved.</p>
+</div>
+    </div>
+  </footer>
+  <script src="../js/site.js?v=product-home-14"></script>
+  <script>
+    // Only load the heavy 3D panels on larger screens. On mobile we show a
+    // lightweight static image instead (see .os-collage__static).
+    (function () {
+      if (window.innerWidth > 1020) {
+        document.querySelectorAll('.os-collage model-viewer[data-src]').forEach(function (mv) {
+          mv.setAttribute('src', mv.getAttribute('data-src'));
+        });
+      }
+    })();
+  </script>
+</body>
+</html>

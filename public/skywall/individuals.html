@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>How it works for individuals | BittrByte</title>
-  <meta name="description" content="How it works for individuals" />
+  <title>SKYWALL for Individuals — BittrByte</title>
+  <meta name="description" content="SKYWALL for individuals — OS-level digital safety that enforces the limits you set." />
   <meta name="theme-color" content="#f5f5f7" />
   <link rel="icon" type="image/png" sizes="48x48" href="../images/favicon-48.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="../css/site.css?v=partner-sep-1" />
+  <link rel="stylesheet" href="../css/site.css?v=product-home-14" />
 </head>
 <body>
 
@@ -18,75 +18,124 @@
     <div class="nav__inner">
       <a class="nav__brand" href="../index.html" aria-label="BittrByte home"><img src="../images/Black_Logo.svg" alt="BittrByte" /></a>
       <ul class="nav__items">
-        <li class="nav__item"><a class="nav__link" href="../team.html">About</a></li>
-        <li class="nav__item has-dropdown"><button class="nav__link" type="button"><span class="nav__skywall">SKYWALL</span><svg class="nav__chevron" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M3 5l3 3 3-3"/></svg></button><div class="nav__dropdown"><span class="nav__dropdown-label">SKYWALL</span><a href="../skywall/parents.html">For parents</a><a href="../skywall/individuals.html">For individuals</a></div></li>
-        <li class="nav__item"><a class="nav__link" href="../partners.html">Partners</a></li>
-        <li class="nav__item"><a class="nav__link" href="../developers.html">Pilot</a></li>
-
-        <li class="nav__item"><a class="nav__link" href="../support.html">Contact</a></li>
+        <li class="nav__item has-dropdown">
+          <button class="nav__link" type="button">Store<svg class="nav__chevron" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 5l3 3 3-3"/></svg></button>
+          <div class="nav__dropdown"><span class="nav__dropdown-label">Store</span><a href="../store/devices.html">SKYWALL Devices</a><a href="../store/os.html">SKYWALL OS</a></div>
+        </li>
+        <li class="nav__item has-dropdown">
+          <button class="nav__link" type="button"><span class="sw-link">SKYWALL</span><svg class="nav__chevron" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 5l3 3 3-3"/></svg></button>
+          <div class="nav__dropdown"><span class="nav__dropdown-label">SKYWALL</span><a href="individuals.html">For individuals</a><a href="parents.html">For parents</a><a href="ecosystem.html">Ecosystem</a></div>
+        </li>
+        <li class="nav__item"><a class="nav__link" href="../partner.html">Partner</a></li>
+        <li class="nav__item"><a class="nav__link" href="../developers.html">Developers</a></li>
+        <li class="nav__item"><a class="nav__link" href="../archive.html">Archive</a></li>
+        <li class="nav__item"><a class="nav__link" href="../about.html">About</a></li>
+        <li class="nav__item"><a class="nav__link" href="../support.html">Support</a></li>
       </ul>
       <div class="nav__actions">
+        <a class="nav__basket" href="../basket.html" aria-label="Basket" style="position:relative;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6.5 8.5h11l-1 11.5H7.5l-1-11.5z"/><path d="M9 8.5V7.2a3 3 0 0 1 6 0v1.3"/><path d="M6.5 8.5h11"/></svg><span class="nav__basket-count" id="basketCount">0</span></a>
         <button class="nav__toggle" id="navToggle" aria-label="Toggle menu" aria-expanded="false"><span></span></button>
       </div>
     </div>
     <nav class="nav__mobile-panel" aria-label="Mobile navigation">
-      <div class="mobile-nav__group">
-        <a href="../team.html">About</a>
+      <div class="mobile-nav__group mobile-nav__group--accordion">
+        <button type="button" class="mobile-nav__trigger" aria-expanded="false">Store<svg class="mobile-nav__chevron" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M3 5l3 3 3-3"/></svg></button>
+        <div class="mobile-nav__submenu">
+          <a href="../store/devices.html">SKYWALL Devices</a>
+          <a href="../store/os.html">SKYWALL OS</a>
+        </div>
       </div>
       <div class="mobile-nav__group mobile-nav__group--accordion">
-        <button type="button" class="mobile-nav__trigger" aria-expanded="false"><span class="nav__skywall">SKYWALL</span><svg class="nav__chevron" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M3 5l3 3 3-3"/></svg></button>
+        <button type="button" class="mobile-nav__trigger" aria-expanded="false"><span class="sw-link">SKYWALL</span><svg class="mobile-nav__chevron" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M3 5l3 3 3-3"/></svg></button>
         <div class="mobile-nav__submenu">
-          <a href="../skywall/parents.html">For parents</a>
-          <a href="../skywall/individuals.html">For individuals</a>
+          <a href="individuals.html">For individuals</a>
+          <a href="parents.html">For parents</a>
+          <a href="ecosystem.html">Ecosystem</a>
         </div>
       </div>
       <div class="mobile-nav__group">
-        <a href="../partners.html">Partners</a>
-        <a href="../developers.html">Pilot</a>
-      </div>
-
-      <div class="mobile-nav__group">
-        <a href="../support.html">Contact</a>
+        <a href="../partner.html">Partner</a>
+        <a href="../developers.html">Developers</a>
+        <a href="../archive.html">Archive</a>
+        <a href="../about.html">About</a>
+        <a href="../support.html">Support</a>
       </div>
     </nav>
   </header>
 
   <main>
-    <section class="section slide-page">
+    <section class="section problem">
+      <div class="geo-bg subtle" aria-hidden="true"><span class="g1"></span><span class="g2"></span><span class="veil"></span></div>
       <div class="container">
-        <h1 class="h-section">How it works for individuals</h1>
-        <p class="slide-page__lead">SKYWALL is an OS-level system and method integrated into how a device works, rather than installed afterwards as a separate app. Users choose whether to use it, what to restrict and the conditions under which those restrictions can later be changed.</p>
-        <div class="carousel" data-carousel tabindex="0" aria-label="How it works for individuals">
-          <div class="carousel__stage">
-          <div class="carousel__viewport">
-            <div class="carousel__track">
-              <figure class="carousel__slide"><div class="carousel__frame"><img src="../images/individuals/slide-01.png" alt="SKYWALL by BittrByte. A revolutionary new method of self-control." /></div></figure>
-              <figure class="carousel__slide"><div class="carousel__frame"><img src="../images/individuals/slide-02.png" alt="The problem. Strong digital boundaries come at a significant cost." /></div></figure>
-              <figure class="carousel__slide"><div class="carousel__frame"><img src="../images/individuals/slide-03.png" alt="The solution. SKYWALL real-world release." /></div></figure>
-              <figure class="carousel__slide"><div class="carousel__frame"><img src="../images/individuals/slide-04.png" alt="The solution. Describe a restriction and commit to it." /></div></figure>
-              <figure class="carousel__slide"><div class="carousel__frame"><img src="../images/individuals/slide-05.png" alt="Why now. Advances in on-device artificial intelligence." /></div></figure>
-              <figure class="carousel__slide"><div class="carousel__frame"><img src="../images/individuals/slide-06.png" alt="The future. Beyond the screen." /></div></figure>
+        <div class="problem__statement reveal">
+          <span class="eyebrow">The Problem</span>
+          <h2>Digital devices cannot tell commitment from impulse.</h2>
+          <p>The same person who sets a limit can remove it moments later. When temptation arrives, the device obeys the impulse just as readily as it obeyed the promise.</p>
+        </div>
+        <div class="stats reveal" data-delay="1">
+          <div class="stat"><div class="stat__num">1 in 4</div><div class="stat__label">people worldwide show some form of digital addiction</div></div>
+          <div class="stat"><div class="stat__num">~850M</div><div class="stat__label">affected by compulsive social-media use</div></div>
+          <div class="stat"><div class="stat__num">~450M</div><div class="stat__label">affected by access to online pornography</div></div>
+          <div class="stat"><div class="stat__num">~350M</div><div class="stat__label">affected by compulsive gaming</div></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section skywall-section">
+      <div class="geo-bg right-lean" aria-hidden="true"><span class="g1"></span><span class="g2"></span><span class="veil"></span></div>
+      <div class="container">
+        <div class="skywall-section__inner reveal">
+          <span class="eyebrow">The Solution</span>
+          <h2 class="h-section"><span class="sw">SKYWALL™</span>: restrictions enforced by reality, not willpower.</h2>
+          <p class="patent-note">2 patents filed</p>
+          <p class="lead" style="margin-top:20px;">
+            You set what to limit. You also set what must happen before that limit can be changed: go to a place, or wait until a moment. Until that condition is met, edits and deletion are blocked. The way out is a real-world action, not a password.
+          </p>
+          <div class="sw-pillars">
+            <div class="sw-pillar"><span class="sw-pillar__label">OS-level</span><p>Built into the device, not layered on top as a deletable app.</p></div>
+            <div class="sw-pillar"><span class="sw-pillar__label">User-authored</span><p>The user sets both the limit and the release condition.</p></div>
+            <div class="sw-pillar"><span class="sw-pillar__label">Real-world release</span><p>The way out is a place or a moment — not a password.</p></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section videos">
+      <div class="container">
+        <div class="videos__head reveal">
+          <span class="eyebrow">Demo</span>
+          <h2 class="h-section">See it in action.</h2>
+        </div>
+        <div class="video-grid video-grid--single">
+          <div class="video-card reveal">
+            <div class="video-frame" data-youtube="wysuvjGwG1A" data-title="Space and Time Enforcement"></div>
+            <div class="video-card__meta">
+              <h3>Space and time enforcement.</h3>
+              <p>Block distracting apps at work — change the rule only at home, between 7 and 8 pm.</p>
             </div>
           </div>
-            <button class="carousel__btn carousel__btn--prev" type="button" data-carousel-prev aria-label="Previous slide"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M7 3L4 6l3 3"/></svg></button>
-            <button class="carousel__btn carousel__btn--next" type="button" data-carousel-next aria-label="Next slide"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M5 3l3 3-3 3"/></svg></button>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="split-section">
+          <div class="reveal">
+            <img src="../images/skywall-real-hardware.jpg" alt="SKYWALL OS running on a Google Pixel device" style="border-radius:var(--radius);width:100%;" />
           </div>
-          <div class="carousel__controls">
-            <div class="carousel__dots">
-              <button class="carousel__dot is-active" type="button" aria-label="Slide 1" aria-current="true"></button>
-              <button class="carousel__dot" type="button" aria-label="Slide 2"></button>
-              <button class="carousel__dot" type="button" aria-label="Slide 3"></button>
-              <button class="carousel__dot" type="button" aria-label="Slide 4"></button>
-              <button class="carousel__dot" type="button" aria-label="Slide 5"></button>
-              <button class="carousel__dot" type="button" aria-label="Slide 6"></button>
-            </div>
+          <div class="split-section__copy reveal" data-delay="1">
+            <span class="eyebrow">Device</span>
+            <h2 class="h-sub">Built on real hardware.</h2>
+            <p>SKYWALL runs on phones we ship — with the OS integrated from the ground up.</p>
+            <a class="btn btn--primary" href="../store/devices.html#waitlist" style="margin-top:16px;">Join the waitlist</a>
           </div>
         </div>
       </div>
     </section>
   </main>
 
-  <footer class="footer">
+    <footer class="footer">
     <div class="container">
       <div class="footer__top">
         <div class="footer__cols">
@@ -94,21 +143,27 @@
             <h4>Contact</h4>
             <a href="mailto:admin@bittrbyte.com">admin@bittrbyte.com</a>
             <a href="tel:+441916030179">0191 603 0179</a>
-            <a href="../partners.html">Partner with us</a>
+            <a href="../partner.html">Partner with us</a>
           </div>
-          <div class="footer__col">
+        <div class="footer__col">
             <h4>SKYWALL</h4>
             <a href="../skywall/individuals.html">For individuals</a>
             <a href="../skywall/parents.html">For parents</a>
+            <a href="../skywall/ecosystem.html">Ecosystem</a>
           </div>
-        </div>
+          <div class="footer__col">
+            <h4>Store</h4>
+            <a href="../store/devices.html">SKYWALL Devices</a>
+            <a href="../store/os.html">SKYWALL OS</a>
+          </div>
+          </div>
       </div>
       <div class="footer__bottom">
         <a class="footer__logo" href="../index.html" aria-label="BittrByte home"><img src="../images/Black_Logo.svg" alt="BittrByte" /></a>
         <p>&copy; 2026 BittrByte Ltd. All rights reserved.</p>
-      </div>
+</div>
     </div>
   </footer>
-  <script src="../js/site.js?v=mobile-polish-2"></script>
+  <script src="../js/site.js?v=product-home-14"></script>
 </body>
 </html>

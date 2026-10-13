@@ -1,0 +1,259 @@
+/* Independent Mode Visualization Styles */
+
+.independent-container {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+/* Branding */
+.branding {
+    position: absolute;
+    top: 60px;
+    text-align: center;
+    color: var(--white);
+    z-index: 100;
+}
+
+.branding h1 {
+    font-size: 48px;
+    font-weight: 400;
+    letter-spacing: 3px;
+    margin-bottom: 10px;
+}
+
+.branding .subtitle {
+    font-size: 18px;
+    font-style: italic;
+    color: var(--grey-light);
+    letter-spacing: 2px;
+}
+
+/* Visualization Area */
+.visualization-area {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 60px;
+    padding: 40px;
+}
+
+/* Device Items */
+.device-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Device SVG Container with White Glow */
+.device-svg-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    filter: drop-shadow(0 15px 40px rgba(0,0,0,0.7))
+            drop-shadow(0 0 20px rgba(255, 255, 255, 0.3))
+            drop-shadow(0 0 40px rgba(255, 255, 255, 0.2));
+    animation: device-pulse 8s ease-in-out infinite;
+}
+
+/* Pulsing Animation */
+@keyframes device-pulse {
+    0%, 25%, 100% {
+        filter: drop-shadow(0 15px 40px rgba(0,0,0,0.7))
+                drop-shadow(0 0 20px rgba(255, 255, 255, 0.3))
+                drop-shadow(0 0 40px rgba(255, 255, 255, 0.2));
+        transform: scale(1);
+    }
+    12.5% {
+        filter: drop-shadow(0 15px 40px rgba(0,0,0,0.7))
+                drop-shadow(0 0 40px rgba(255, 255, 255, 0.6))
+                drop-shadow(0 0 80px rgba(255, 255, 255, 0.4));
+        transform: scale(1.05);
+    }
+}
+
+/* Sequential Animation Delays for Left to Right Pulsing */
+/* Desktop (leftmost) - starts first */
+.desktop-container {
+    animation-delay: 0s;
+}
+
+/* Phone (second from left) */
+.phone-container {
+    animation-delay: 2s;
+}
+
+/* Laptop (third from left) */
+.laptop-container {
+    animation-delay: 4s;
+}
+
+/* Tablet (rightmost) */
+.tablet-container {
+    animation-delay: 6s;
+}
+
+/* Device Label */
+.device-label {
+    color: var(--white);
+    font-size: 16px;
+    opacity: 0.9;
+    text-align: center;
+    margin-top: 15px;
+    letter-spacing: 1px;
+}
+
+/* Device SVG Sizes */
+.desktop-container svg {
+    width: 200px;
+    height: auto;
+}
+
+.phone-container svg {
+    width: 130px;
+    height: auto;
+}
+
+.laptop-container svg {
+    width: 200px;
+    height: auto;
+}
+
+.tablet-container svg {
+    width: 140px;
+    height: auto;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 1400px) {
+    .visualization-area {
+        gap: 40px;
+    }
+    
+    .desktop-container svg {
+        width: 160px;
+    }
+    
+    .phone-container svg {
+        width: 110px;
+    }
+    
+    .laptop-container svg {
+        width: 160px;
+    }
+    
+    .tablet-container svg {
+        width: 120px;
+    }
+    
+    .branding h1 {
+        font-size: 40px;
+    }
+    
+    .branding .subtitle {
+        font-size: 16px;
+    }
+}
+
+@media (max-width: 1200px) {
+    .visualization-area {
+        gap: 30px;
+        padding: 30px;
+    }
+    
+    .desktop-container svg {
+        width: 140px;
+    }
+    
+    .phone-container svg {
+        width: 90px;
+    }
+    
+    .laptop-container svg {
+        width: 140px;
+    }
+    
+    .tablet-container svg {
+        width: 100px;
+    }
+    
+    .branding h1 {
+        font-size: 36px;
+    }
+    
+    .branding .subtitle {
+        font-size: 14px;
+    }
+    
+    .device-label {
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 900px) {
+    .visualization-area {
+        flex-wrap: wrap;
+        gap: 40px;
+    }
+    
+    .desktop-container svg {
+        width: 120px;
+    }
+    
+    .phone-container svg {
+        width: 80px;
+    }
+    
+    .laptop-container svg {
+        width: 120px;
+    }
+    
+    .tablet-container svg {
+        width: 90px;
+    }
+    
+    .branding h1 {
+        font-size: 28px;
+    }
+    
+    .branding .subtitle {
+        font-size: 12px;
+    }
+}
+
+@media (max-width: 768px) {
+    .visualization-area {
+        gap: 30px;
+        padding: 20px;
+    }
+    
+    .branding {
+        top: 40px;
+    }
+    
+    .branding h1 {
+        font-size: 24px;
+    }
+    
+    .branding .subtitle {
+        font-size: 11px;
+    }
+    
+    .device-label {
+        font-size: 12px;
+        margin-top: 10px;
+    }
+}
+
+
+
+
+
+
+

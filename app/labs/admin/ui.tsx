@@ -1,0 +1,555 @@
+"use client";
+
+import { useActionState, useState } from "react";
+import { sha256 } from "js-sha256";
+import {
+  createUserAction,
+  setReleaseDownloadAction,
+  updateAccessAction,
+  updatePermissionsAction,
+  type AdminState,
+} from "./actions";
+
+const initial: AdminState = {};
+
+async function hashFileSha256(
+  file: File,
+  onProgress?: (pct: number) => void
+): Promise<string> {
+  const hasher = sha256.create();
+  const chunkSize = 8 * 1024 * 1024;
+  let offset = 0;
+  while (offset < file.size) {
+    const chunk = file.slice(offset, offset + chunkSize);
+    const buf = new Uint8Array(await chunk.arrayBuffer());
+    hasher.update(buf);
+    offset += buf.length;
+    onProgress?.(Math.min(99, Math.round((offset / file.size) * 100)));
+  }
+  return hasher.hex();
+}
+
+async function sleep(ms: number) {
+  await new Promise((r) => setTimeout(r, ms));
+}
+
+async function putBlobToR2(
+  uploadUrl: string,
+  blob: Blob,
+  contentType?: string
+): Promise<{ etag: string | null }> {
+  // Prefer fetch: same CORS rules, clearer failures than XHR status 0.
+  const headers: Record<string, string> = {};
+  if (contentType) headers["Content-Type"] = contentType;
+
+  let lastErr: Error | null = null;
+  for (let attempt = 1; attempt <= 5; attempt++) {
+    try {
+      const res = await fetch(uploadUrl, {
+        method: "PUT",
+        headers,
+        body: blob,
+        mode: "cors",
+        credentials: "omit",
+        cache: "no-store",
+      });
+      if (res.ok) {
+        return { etag: res.headers.get("ETag") || res.headers.get("etag") };
+      }
+      const body = (await res.text()).slice(0, 220);
+      throw new Error(`Upload failed (${res.status}). ${body}`);
+    } catch (err) {
+      lastErr =
+        err instanceof Error
+          ? err
+          : new Error("Upload failed with an unknown error.");
+      // R2 often omits CORS headers on 4xx/5xx, so browsers report TypeError
+      // "Failed to fetch" instead of the real XML error.
+      if (attempt < 5) {
+        await sleep(500 * attempt * attempt);
+        continue;
+      }
+    }
+  }
+
+  let healthHint = "";
+  try {
+    const healthRes = await fetch("/api/labs/r2-health");
+    const health = await healthRes.json();
+    if (!health.ok) {
+      healthHint = ` Server R2 check failed (putStatus=${health.putStatus ?? "?"}, hasChecksum=${health.hasChecksum}, error=${health.error || health.putBody || "unknown"}).`;
+    } else {
+      healthHint =
+        " Server R2 credentials look fine — this was likely a dropped connection on a large chunk. Retry the publish.";
+    }
+  } catch {
+    healthHint = "";
+  }
+
+  throw new Error(
+    `${lastErr?.message || "Network error during R2 upload."}${healthHint}`
+  );
+}
+
+async function uploadFileToR2Single(
+  uploadUrl: string,
+  file: File,
+  contentType: string,
+  onProgress?: (pct: number) => void
+): Promise<void> {
+  // Still use XHR here for coarse progress on small single-PUT files.
+  return new Promise((resolve, reject) => {
+    const xhr = new XMLHttpRequest();
+    xhr.open("PUT", uploadUrl);
+    xhr.setRequestHeader("Content-Type", contentType);
+    xhr.timeout = 30 * 60 * 1000;
+    xhr.upload.onprogress = (event) => {
+      if (!event.lengthComputable) return;
+      onProgress?.(Math.min(99, Math.round((event.loaded / event.total) * 100)));
+    };
+    xhr.onload = () => {
+      if (xhr.status >= 200 && xhr.status < 300) {
+        onProgress?.(100);
+        resolve();
+        return;
+      }
+      reject(
+        new Error(
+          `Upload failed (${xhr.status}). ${xhr.responseText?.slice(0, 220) || ""}`
+        )
+      );
+    };
+    xhr.onerror = () => {
+      void putBlobToR2(uploadUrl, file, contentType)
+        .then(() => {
+          onProgress?.(100);
+          resolve();
+        })
+        .catch(reject);
+    };
+    xhr.ontimeout = () =>
+      reject(new Error("Upload timed out. Check your connection and retry."));
+    xhr.send(file);
+  });
+}
+
+async function uploadFileToR2Multipart(
+  file: File,
+  slot: { path: string; uploadId: string; partSize: number },
+  onProgress?: (pct: number) => void
+): Promise<void> {
+  const partSize = slot.partSize || 64 * 1024 * 1024;
+  const totalParts = Math.ceil(file.size / partSize);
+  const parts: { partNumber: number; etag: string }[] = [];
+
+  try {
+    for (let partNumber = 1; partNumber <= totalParts; partNumber++) {
+      const start = (partNumber - 1) * partSize;
+      const end = Math.min(start + partSize, file.size);
+      const blob = file.slice(start, end);
+
+      const partRes = await fetch("/api/labs/release-upload-part-url", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          path: slot.path,
+          uploadId: slot.uploadId,
+          partNumber,
+        }),
+      });
+      const partSlot = await partRes.json();
+      if (!partRes.ok || !partSlot.uploadUrl) {
+        throw new Error(partSlot.error || `Could not start part ${partNumber}.`);
+      }
+
+      onProgress?.(
+        Math.min(99, Math.round(((partNumber - 1) / totalParts) * 100))
+      );
+      const { etag } = await putBlobToR2(partSlot.uploadUrl, blob);
+      if (!etag) {
+        throw new Error(
+          `Part ${partNumber}/${totalParts} uploaded but R2 did not return ETag. Add ExposeHeaders: ["ETag"] to bucket CORS.`
+        );
+      }
+      parts.push({ partNumber, etag });
+      onProgress?.(Math.min(99, Math.round((partNumber / totalParts) * 100)));
+    }
+
+    const doneRes = await fetch("/api/labs/release-upload-complete", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        path: slot.path,
+        uploadId: slot.uploadId,
+        parts,
+      }),
+    });
+    const done = await doneRes.json();
+    if (!doneRes.ok) {
+      throw new Error(done.error || "Could not finish multipart upload.");
+    }
+    onProgress?.(100);
+  } catch (err) {
+    await fetch("/api/labs/release-upload-complete", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        path: slot.path,
+        uploadId: slot.uploadId,
+        abort: true,
+      }),
+    }).catch(() => undefined);
+    throw err;
+  }
+}
+
+export function CreateUserForm() {
+  const [state, action, pending] = useActionState(createUserAction, initial);
+  return (
+    <form className="labs-form" action={action}>
+      <div className="labs-field">
+        <label htmlFor="kind">Account type</label>
+        <select id="kind" name="kind" defaultValue="member">
+          <option value="member">Member (email)</option>
+          <option value="reviewer">Reviewer (username)</option>
+          <option value="admin">Admin (email)</option>
+        </select>
+      </div>
+      <div className="labs-field">
+        <label htmlFor="displayName">Display name</label>
+        <input id="displayName" name="displayName" required />
+      </div>
+      <div className="labs-field">
+        <label htmlFor="email">Email (members/admins)</label>
+        <input id="email" name="email" type="email" />
+      </div>
+      <div className="labs-field">
+        <label htmlFor="username">Username (reviewers)</label>
+        <input id="username" name="username" placeholder="yc-partner" />
+      </div>
+      <div className="labs-field">
+        <label htmlFor="password">Temporary password</label>
+        <input id="password" name="password" type="text" required minLength={8} />
+      </div>
+      <div className="labs-field">
+        <label htmlFor="expiryPreset">Access length</label>
+        <select id="expiryPreset" name="expiryPreset" defaultValue="3m">
+          <option value="30d">30 days</option>
+          <option value="3m">3 months</option>
+          <option value="6m">6 months</option>
+          <option value="indefinite">Indefinite</option>
+          <option value="custom">Custom date</option>
+        </select>
+      </div>
+      <div className="labs-field">
+        <label htmlFor="customDate">Custom expiry (if custom)</label>
+        <input id="customDate" name="customDate" type="datetime-local" />
+      </div>
+      <label className="labs-check">
+        <input type="checkbox" name="canDownload" defaultChecked /> Can download
+      </label>
+      <label className="labs-check">
+        <input type="checkbox" name="canPost" defaultChecked /> Can post
+      </label>
+      {state.error ? <p className="labs-error">{state.error}</p> : null}
+      {state.ok ? <p className="labs-ok">{state.ok}</p> : null}
+      <button className="btn btn--primary" disabled={pending}>
+        {pending ? "Creating…" : "Create account"}
+      </button>
+    </form>
+  );
+}
+
+export function AccessControls({
+  profileId,
+  canDownload,
+  canPost,
+}: {
+  profileId: string;
+  canDownload: boolean;
+  canPost: boolean;
+}) {
+  const [accessState, accessAction, accessPending] = useActionState(
+    updateAccessAction,
+    initial
+  );
+  const [permState, permAction, permPending] = useActionState(
+    updatePermissionsAction,
+    initial
+  );
+
+  return (
+    <div className="labs-stack">
+      <form className="labs-form" action={permAction}>
+        <input type="hidden" name="profileId" value={profileId} />
+        <label className="labs-check">
+          <input
+            type="checkbox"
+            name="canDownload"
+            defaultChecked={canDownload}
+            key={`dl-${profileId}-${canDownload ? "1" : "0"}`}
+          />
+          Can download
+        </label>
+        <label className="labs-check">
+          <input
+            type="checkbox"
+            name="canPost"
+            defaultChecked={canPost}
+            key={`post-${profileId}-${canPost ? "1" : "0"}`}
+          />
+          Can post
+        </label>
+        {permState.error ? <p className="labs-error">{permState.error}</p> : null}
+        {permState.ok ? <p className="labs-ok">{permState.ok}</p> : null}
+        <button className="btn" type="submit" disabled={permPending}>
+          {permPending ? "Saving…" : "Save permissions"}
+        </button>
+      </form>
+
+      <form className="labs-form" action={accessAction}>
+        <input type="hidden" name="profileId" value={profileId} />
+        <div className="labs-field">
+          <label htmlFor={`action-${profileId}`}>Access</label>
+          <select id={`action-${profileId}`} name="action" defaultValue="extend">
+            <option value="extend">Extend / set expiry</option>
+            <option value="activate">Activate</option>
+            <option value="revoke">Revoke</option>
+          </select>
+        </div>
+        <div className="labs-field">
+          <label htmlFor={`expiry-${profileId}`}>Expiry preset</label>
+          <select
+            id={`expiry-${profileId}`}
+            name="expiryPreset"
+            defaultValue="3m"
+          >
+            <option value="30d">30 days</option>
+            <option value="3m">3 months</option>
+            <option value="6m">6 months</option>
+            <option value="indefinite">Indefinite</option>
+            <option value="custom">Custom</option>
+          </select>
+        </div>
+        <div className="labs-field">
+          <label htmlFor={`custom-${profileId}`}>Custom date</label>
+          <input
+            id={`custom-${profileId}`}
+            name="customDate"
+            type="datetime-local"
+          />
+        </div>
+        {accessState.error ? (
+          <p className="labs-error">{accessState.error}</p>
+        ) : null}
+        {accessState.ok ? <p className="labs-ok">{accessState.ok}</p> : null}
+        <button className="btn" type="submit" disabled={accessPending}>
+          {accessPending ? "Applying…" : "Apply access"}
+        </button>
+      </form>
+    </div>
+  );
+}
+
+export function ReleaseDownloadControl({
+  releaseId,
+  downloadEnabled,
+}: {
+  releaseId: string;
+  downloadEnabled: boolean;
+}) {
+  const [state, action, pending] = useActionState(
+    setReleaseDownloadAction,
+    initial
+  );
+
+  return (
+    <form className="labs-form" action={action}>
+      <input type="hidden" name="releaseId" value={releaseId} />
+      <input
+        type="hidden"
+        name="enabled"
+        value={downloadEnabled ? "false" : "true"}
+      />
+      {state.error ? <p className="labs-error">{state.error}</p> : null}
+      {state.ok ? <p className="labs-ok">{state.ok}</p> : null}
+      <button className="btn" type="submit" disabled={pending}>
+        {pending
+          ? "Updating…"
+          : downloadEnabled
+            ? "Disable download"
+            : "Enable download"}
+      </button>
+    </form>
+  );
+}
+
+export function PublishReleaseForm() {
+  const [error, setError] = useState<string | null>(null);
+  const [ok, setOk] = useState<string | null>(null);
+  const [pending, setPending] = useState(false);
+  const [status, setStatus] = useState("");
+
+  async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    setError(null);
+    setOk(null);
+    setPending(true);
+    setStatus("Preparing upload…");
+
+    const form = e.currentTarget;
+    const fd = new FormData(form);
+    const version = String(fd.get("version") || "").trim();
+    const device = String(fd.get("device") || "Pixel 6a").trim();
+    const summary = String(fd.get("summary") || "").trim();
+    const notes = String(fd.get("notes") || "").trim();
+    const knownIssues = String(fd.get("knownIssues") || "").trim();
+    const installNotes = String(fd.get("installNotes") || "").trim();
+    const isLatest = fd.get("isLatest") === "on";
+    const file = fd.get("zip") as File | null;
+
+    try {
+      if (!version) throw new Error("Version is required.");
+      if (!file || file.size === 0) throw new Error("ZIP file is required.");
+
+      // Lock MIME so the signed URL and browser PUT always match.
+      const contentType = "application/octet-stream";
+
+      setStatus("Checking Cloudflare R2 from the server…");
+      const healthRes = await fetch("/api/labs/r2-health");
+      const health = await healthRes.json();
+      if (!healthRes.ok || !health.ok) {
+        throw new Error(
+          health.error ||
+            `R2 is not ready on the server (putStatus=${health.putStatus ?? "?"}, hasChecksum=${health.hasChecksum}). Check Netlify R2 env vars and redeploy.`
+        );
+      }
+
+      setStatus("Requesting secure R2 upload slot…");
+      const slotRes = await fetch("/api/labs/release-upload-url", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          version,
+          filename: file.name,
+          contentType,
+          sizeBytes: file.size,
+        }),
+      });
+      const slot = await slotRes.json();
+      if (!slotRes.ok || !slot.path) {
+        throw new Error(slot.error || "Could not start upload.");
+      }
+      if (slot.mode === "single" && !slot.uploadUrl) {
+        throw new Error(slot.error || "Could not start upload.");
+      }
+      if (slot.mode === "multipart" && !slot.uploadId) {
+        throw new Error(slot.error || "Could not start multipart upload.");
+      }
+
+      // Upload before hashing so a broken R2 path fails fast (not after 10+ min).
+      setStatus(
+        `Uploading ${(file.size / (1024 * 1024)).toFixed(0)} MB to Cloudflare R2…`
+      );
+      if (slot.mode === "multipart") {
+        await uploadFileToR2Multipart(
+          file,
+          {
+            path: slot.path,
+            uploadId: slot.uploadId,
+            partSize: slot.partSize,
+          },
+          (pct) => setStatus(`Uploading to R2… ${pct}%`)
+        );
+      } else {
+        await uploadFileToR2Single(slot.uploadUrl, file, contentType, (pct) => {
+          setStatus(`Uploading to R2… ${pct}%`);
+        });
+      }
+
+      setStatus("Hashing file (can take a few minutes for 1GB+)…");
+      const digest = await hashFileSha256(file, (pct) => {
+        setStatus(`Hashing file… ${pct}%`);
+      });
+
+      setStatus("Saving release record…");
+      const finRes = await fetch("/api/labs/release-finalize", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          version,
+          device,
+          summary,
+          notes,
+          knownIssues,
+          installNotes,
+          isLatest,
+          storagePath: slot.path,
+          filename: slot.filename || file.name,
+          sizeBytes: file.size,
+          sha256: digest,
+        }),
+      });
+      const fin = await finRes.json();
+      if (!finRes.ok) {
+        throw new Error(fin.error || "Could not finalize release.");
+      }
+
+      setOk(`Published ${version}.`);
+      setStatus("");
+      form.reset();
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Upload failed.");
+      setStatus("");
+    } finally {
+      setPending(false);
+    }
+  }
+
+  return (
+    <form className="labs-form" onSubmit={onSubmit}>
+      <p className="labs-muted">
+        Large Labs packages (1GB+) upload directly to private Cloudflare R2.
+        Keep this tab open until hashing and upload finish.
+      </p>
+      <div className="labs-field">
+        <label htmlFor="version">Version</label>
+        <input id="version" name="version" required placeholder="0.1.0-labs" />
+      </div>
+      <div className="labs-field">
+        <label htmlFor="device">Device</label>
+        <input id="device" name="device" defaultValue="Pixel 6a" />
+      </div>
+      <div className="labs-field">
+        <label htmlFor="summary">Summary</label>
+        <textarea id="summary" name="summary" />
+      </div>
+      <div className="labs-field">
+        <label htmlFor="notes">Notes</label>
+        <textarea id="notes" name="notes" />
+      </div>
+      <div className="labs-field">
+        <label htmlFor="knownIssues">Known issues</label>
+        <textarea id="knownIssues" name="knownIssues" />
+      </div>
+      <div className="labs-field">
+        <label htmlFor="installNotes">Install notes</label>
+        <textarea id="installNotes" name="installNotes" />
+      </div>
+      <div className="labs-field">
+        <label htmlFor="zip">ZIP package</label>
+        <input id="zip" name="zip" type="file" accept=".zip,application/zip" required />
+      </div>
+      <label>
+        <input type="checkbox" name="isLatest" defaultChecked /> Mark as latest
+      </label>
+      {status ? <p className="labs-muted">{status}</p> : null}
+      {error ? <p className="labs-error">{error}</p> : null}
+      {ok ? <p className="labs-ok">{ok}</p> : null}
+      <button className="btn btn--primary" disabled={pending}>
+        {pending ? "Working…" : "Publish release"}
+      </button>
+    </form>
+  );
+}
+

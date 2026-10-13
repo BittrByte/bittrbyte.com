@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Skywall OS - Mirror Mode</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
+    <style>
+        /* Common Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --black: #000000;
+            --white: #FFFFFF;
+            --grey-light: #CCCCCC;
+            --grey-mid: #999999;
+            --grey-dark: #666666;
+            --red-accent: #E53935;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 400;
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow: hidden;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* Container */
+        .mirror-mode-container {
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        /* Branding */
+        .branding {
+            position: absolute;
+            top: 60px;
+            text-align: center;
+            color: var(--white);
+            z-index: 100;
+        }
+
+        .branding h1 {
+            font-size: 48px;
+            font-weight: 400;
+            letter-spacing: 3px;
+            margin-bottom: 5px;
+        }
+
+        .branding .subtitle {
+            font-size: 14px;
+            font-style: italic;
+            color: var(--grey-light);
+            letter-spacing: 1px;
+        }
+
+        /* Visualization Area */
+        .visualization-area {
+            width: 900px;
+            height: 600px;
+            position: relative;
+        }
+
+        /* Connection Line SVG */
+        .connection-svg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 5;
+        }
+
+        /* Red Zone Circle */
+        .red-zone {
+            position: absolute;
+            width: 400px;
+            height: 400px;
+            border-radius: 50%;
+            background: rgba(229, 57, 53, 0.15);
+            border: 3px solid var(--red-accent);
+            top: 50%;
+            left: 22%;
+            transform: translate(-50%, -50%);
+            z-index: 1;
+            box-shadow: 0 0 40px rgba(229, 57, 53, 0.3),
+                        inset 0 0 60px rgba(229, 57, 53, 0.1);
+        }
+
+        .red-zone-label {
+            position: absolute;
+            top: 50%;
+            left: 22%;
+            transform: translate(-50%, 220px);
+            color: var(--red-accent);
+            font-size: 16px;
+            font-weight: 400;
+            letter-spacing: 1.5px;
+            opacity: 0.9;
+            z-index: 2;
+            text-align: center;
+        }
+
+        /* Device Containers */
+        .device-container {
+            position: absolute;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            z-index: 10;
+        }
+
+        .device-label {
+            color: var(--white);
+            font-size: 16px;
+            opacity: 0.9;
+            text-align: center;
+            margin-top: 15px;
+            letter-spacing: 1px;
+        }
+
+        /* Phone Container */
+        .phone-container {
+            top: 50%;
+            left: 60%;
+            transform: translate(-50%, -50%);
+            transition: all 3s cubic-bezier(0.4, 0.0, 0.2, 1);
+        }
+
+        .phone-container.in-zone {
+            left: 22%;
+        }
+
+        /* Laptop Container */
+        .laptop-container {
+            top: 50%;
+            right: 80px;
+            transform: translate(0%, -50%);
+            transition: filter 0.5s ease;
+        }
+
+        .laptop-container.active {
+            filter: drop-shadow(0 0 40px rgba(229, 57, 53, 0.8))
+                    drop-shadow(0 0 60px rgba(229, 57, 53, 0.6))
+                    drop-shadow(0 0 80px rgba(229, 57, 53, 0.4));
+        }
+
+        /* Device SVG Styles */
+        .device-svg-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            filter: drop-shadow(0 15px 40px rgba(0,0,0,0.7));
+        }
+
+        .phone-svg svg {
+            width: 100px;
+            height: auto;
+        }
+
+        .laptop-svg svg {
+            width: 180px;
+            height: auto;
+        }
+
+        /* Responsive */
+        @media (max-width: 1200px) {
+            .visualization-area {
+                width: 700px;
+                height: 500px;
+            }
+            
+            .branding h1 {
+                font-size: 36px;
+            }
+            
+            .branding .subtitle {
+                font-size: 16px;
+            }
+
+            .red-zone {
+                width: 300px;
+                height: 300px;
+            }
+
+            .red-zone-label {
+                font-size: 14px;
+                transform: translate(-50%, 170px);
+            }
+
+            .phone-svg svg {
+                width: 80px;
+            }
+
+            .laptop-svg svg {
+                width: 140px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .visualization-area {
+                width: 500px;
+                height: 400px;
+            }
+            
+            .branding h1 {
+                font-size: 28px;
+            }
+            
+            .branding .subtitle {
+                font-size: 14px;
+            }
+
+            .red-zone {
+                width: 240px;
+                height: 240px;
+            }
+
+            .red-zone-label {
+                font-size: 12px;
+                transform: translate(-50%, 140px);
+            }
+
+            .phone-svg svg {
+                width: 70px;
+            }
+
+            .laptop-svg svg {
+                width: 110px;
+            }
+
+            .device-label {
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="mirror-mode-container">
+        <div class="branding">
+            <h1>Mirror Mode</h1>
+            <p class="subtitle">Device Synchronization</p>
+        </div>
+        
+        <div class="visualization-area">
+            <!-- SVG for connection line -->
+            <svg class="connection-svg" id="connectionSvg">
+                <line id="connectionLine" 
+                      stroke="rgba(255, 255, 255, 0.25)" 
+                      stroke-width="2" 
+                      stroke-dasharray="10, 6"/>
+            </svg>
+
+            <!-- Red Zone Circle -->
+            <div class="red-zone"></div>
+            <div class="red-zone-label">Restriction Area</div>
+
+            <!-- Phone Parent Device -->
+            <div class="device-container phone-container" id="phoneDevice">
+                <div class="device-svg-container phone-svg">
+                    <svg viewBox="0 0 220 440" xmlns="http://www.w3.org/2000/svg">
+                        <defs>
+                            <linearGradient id="phoneFrame" x1="0%" y1="0%" x2="100%" y2="0%">
+                                <stop offset="0%" style="stop-color:#333;stop-opacity:1" />
+                                <stop offset="10%" style="stop-color:#111;stop-opacity:1" />
+                                <stop offset="90%" style="stop-color:#111;stop-opacity:1" />
+                                <stop offset="100%" style="stop-color:#333;stop-opacity:1" />
+                            </linearGradient>
+                            <linearGradient id="phoneGlass" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" style="stop-color:#fff;stop-opacity:0.05" />
+                                <stop offset="40%" style="stop-color:#fff;stop-opacity:0" />
+                            </linearGradient>
+                        </defs>
+                        
+                        <!-- Outer Frame -->
+                        <rect x="10" y="10" width="200" height="420" rx="45" fill="url(#phoneFrame)"/>
+                        <!-- Black Bezel Border -->
+                        <rect x="15" y="15" width="190" height="410" rx="40" fill="#000"/>
+                        <!-- Screen -->
+                        <rect x="22" y="22" width="176" height="396" rx="35" fill="#050505"/>
+                        
+                        <!-- Reflection -->
+                        <path d="M 22 22 L 198 22 L 22 418 Z" fill="url(#phoneGlass)"/>
+                        
+                        <!-- Dynamic Island / Notch -->
+                        <rect x="75" y="30" width="70" height="20" rx="10" fill="#000"/>
+                        
+                        <!-- Side Buttons -->
+                        <rect x="2" y="120" width="3" height="40" rx="1.5" fill="#222"/>
+                        <rect x="215" y="150" width="3" height="70" rx="1.5" fill="#222"/>
+                    </svg>
+                </div>
+                <div class="device-label">Phone Parent</div>
+            </div>
+
+            <!-- Laptop Device -->
+            <div class="device-container laptop-container" id="laptopDevice">
+                <div class="device-svg-container laptop-svg">
+                    <svg viewBox="0 0 400 240" xmlns="http://www.w3.org/2000/svg">
+                        <defs>
+                            <!-- Metallic Aluminum Gradient -->
+                            <linearGradient id="laptopMetal" x1="0%" y1="0%" x2="0%" y2="100%">
+                                <stop offset="0%" style="stop-color:#4a4a4a;stop-opacity:1" />
+                                <stop offset="5%" style="stop-color:#3a3a3a;stop-opacity:1" />
+                                <stop offset="95%" style="stop-color:#2a2a2a;stop-opacity:1" />
+                                <stop offset="100%" style="stop-color:#1a1a1a;stop-opacity:1" />
+                            </linearGradient>
+                            <!-- Glossy Screen Reflection -->
+                            <linearGradient id="screenGlass" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" style="stop-color:#ffffff;stop-opacity:0.1" />
+                                <stop offset="50%" style="stop-color:#ffffff;stop-opacity:0.02" />
+                                <stop offset="100%" style="stop-color:#ffffff;stop-opacity:0" />
+                            </linearGradient>
+                        </defs>
+                        
+                        <!-- Base/Keyboard Deck -->
+                        <path d="M 40 200 L 360 200 L 360 215 Q 360 225 350 225 L 50 225 Q 40 225 40 215 Z" fill="url(#laptopMetal)" />
+                        <path d="M 40 200 L 360 200 L 360 205 L 40 205 Z" fill="#1a1a1a" opacity="0.5"/>
+                        
+                        <!-- Screen Lid -->
+                        <rect x="50" y="20" width="300" height="185" rx="12" fill="url(#laptopMetal)" stroke="#222" stroke-width="1"/>
+                        
+                        <!-- Black Bezel -->
+                        <rect x="52" y="22" width="296" height="181" rx="8" fill="#000"/>
+                        
+                        <!-- Screen Area -->
+                        <rect x="56" y="26" width="288" height="173" fill="#050505"/>
+                        
+                        <!-- Webcam Notch Area -->
+                        <path d="M 185 26 L 215 26 L 212 34 L 188 34 Z" fill="#000"/>
+                        
+                        <!-- Reflection -->
+                        <path d="M 56 26 L 344 26 L 56 200 Z" fill="url(#screenGlass)"/>
+                        
+                        <!-- Trackpad -->
+                        <rect x="160" y="208" width="80" height="12" rx="2" fill="#000" opacity="0.2"/>
+                        
+                        <!-- Keyboard cutout hint -->
+                        <rect x="60" y="202" width="280" height="2" fill="#000" opacity="0.3"/>
+                    </svg>
+                </div>
+                <div class="device-label">Laptop</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        (function() {
+            'use strict';
+
+            // Configuration
+            const ANIMATION_DURATION = 3000; // 3s to move into zone
+            const PAUSE_DURATION = 2000; // 2s pause in zone
+            const CYCLE_DELAY = 1000; // 1s before returning
+
+            // DOM Elements
+            const phoneDevice = document.getElementById('phoneDevice');
+            const laptopDevice = document.getElementById('laptopDevice');
+            const connectionLine = document.getElementById('connectionLine');
+            const visualizationArea = document.querySelector('.visualization-area');
+
+            // State
+            let animationTimeout = null;
+
+            // Update connection line between devices
+            function updateConnectionLine() {
+                const phoneRect = phoneDevice.getBoundingClientRect();
+                const laptopRect = laptopDevice.getBoundingClientRect();
+                const vizRect = visualizationArea.getBoundingClientRect();
+
+                // Calculate centers relative to visualization area
+                const phoneX = phoneRect.left + phoneRect.width / 2 - vizRect.left;
+                const phoneY = phoneRect.top + phoneRect.height / 2 - vizRect.top;
+                const laptopX = laptopRect.left + laptopRect.width / 2 - vizRect.left;
+                const laptopY = laptopRect.top + laptopRect.height / 2 - vizRect.top;
+
+                connectionLine.setAttribute('x1', phoneX);
+                connectionLine.setAttribute('y1', phoneY);
+                connectionLine.setAttribute('x2', laptopX);
+                connectionLine.setAttribute('y2', laptopY);
+            }
+
+            // Animation sequence
+            function startAnimation() {
+                // Initial position (right side)
+                phoneDevice.classList.remove('in-zone');
+                laptopDevice.classList.remove('active');
+                
+                setTimeout(() => {
+                    updateConnectionLine();
+                }, 100);
+
+                // Move phone into red zone after delay
+                animationTimeout = setTimeout(() => {
+                    phoneDevice.classList.add('in-zone');
+                    
+                    // Update line during animation
+                    const lineUpdateInterval = setInterval(() => {
+                        updateConnectionLine();
+                    }, 50);
+
+                    // Activate laptop glow when phone enters zone
+                    setTimeout(() => {
+                        clearInterval(lineUpdateInterval);
+                        laptopDevice.classList.add('active');
+                        updateConnectionLine();
+                    }, ANIMATION_DURATION);
+
+                    // Return to original position after pause
+                    setTimeout(() => {
+                        laptopDevice.classList.remove('active');
+                        phoneDevice.classList.remove('in-zone');
+                        
+                        const returnLineInterval = setInterval(() => {
+                            updateConnectionLine();
+                        }, 50);
+
+                        setTimeout(() => {
+                            clearInterval(returnLineInterval);
+                            updateConnectionLine();
+                            // Restart animation cycle
+                            setTimeout(startAnimation, CYCLE_DELAY);
+                        }, ANIMATION_DURATION);
+
+                    }, ANIMATION_DURATION + PAUSE_DURATION);
+
+                }, CYCLE_DELAY);
+            }
+
+            // Handle window resize
+            let resizeTimeout;
+            window.addEventListener('resize', () => {
+                clearTimeout(resizeTimeout);
+                resizeTimeout = setTimeout(() => {
+                    updateConnectionLine();
+                }, 250);
+            });
+
+            // Handle page visibility changes
+            document.addEventListener('visibilitychange', () => {
+                if (document.hidden) {
+                    if (animationTimeout) {
+                        clearTimeout(animationTimeout);
+                    }
+                } else {
+                    startAnimation();
+                }
+            });
+
+            // Initialize
+            function init() {
+                updateConnectionLine();
+                startAnimation();
+            }
+
+            // Start when DOM is ready
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', init);
+            } else {
+                init();
+            }
+        })();
+    </script>
+</body>
+</html>
+
