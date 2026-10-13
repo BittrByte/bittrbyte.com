@@ -963,30 +963,30 @@ body.nav-locked { overflow: hidden; touch-action: none; }
 .social svg { width: 15px; height: 15px; fill: #000; opacity: 0.75; }
 
 .dev-hero { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center; min-height: 70vh; }
-.dev-hero--labs {
+.dev-hero--pilot {
   grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
   gap: clamp(32px, 4vw, 64px);
   align-items: start;
   min-height: 0;
   padding-block: clamp(12px, 2.5vw, 28px);
 }
-.dev-hero--labs .form,
-.dev-hero--labs .form--labs {
+.dev-hero--pilot .form,
+.dev-hero--pilot .form--pilot {
   width: 100%;
   max-width: 500px;
   justify-self: end;
   padding: clamp(28px, 3.5vw, 36px);
   box-shadow: 0 16px 48px rgba(0, 0, 0, 0.05);
 }
-.dev-hero--labs textarea { min-height: 110px; }
-.dev-hero--labs .field { margin-bottom: 16px; }
-.dev-hero--labs .field:last-of-type { margin-bottom: 20px; }
-.dev-hero--labs .field input,
-.dev-hero--labs .field select,
-.dev-hero--labs .field textarea {
+.dev-hero--pilot textarea { min-height: 110px; }
+.dev-hero--pilot .field { margin-bottom: 16px; }
+.dev-hero--pilot .field:last-of-type { margin-bottom: 20px; }
+.dev-hero--pilot .field input,
+.dev-hero--pilot .field select,
+.dev-hero--pilot .field textarea {
   min-height: 44px;
 }
-.dev-hero--labs .field textarea { min-height: 110px; padding-top: 12px; }
+.dev-hero--pilot .field textarea { min-height: 110px; padding-top: 12px; }
 .dev-hero__copy { max-width: 520px; padding-top: 4px; }
 .dev-hero__copy .eyebrow { margin-bottom: 18px; }
 .dev-hero__copy .h-display { margin-bottom: 20px; }
@@ -1017,17 +1017,17 @@ body.nav-locked { overflow: hidden; touch-action: none; }
 .dev-hero__photo img { border-radius: var(--radius); width: 100%; aspect-ratio: 3/4; object-fit: cover; box-shadow: 0 24px 60px rgba(0,0,0,0.12); }
 
 /*
-  Labs photo: same idea as the home phone fade — CSS mask dissolves the image
+  Pilot photo: same idea as the home phone fade — CSS mask dissolves the image
   into the geo background behind it (no hard color veil fighting the jagged texture).
 */
-.labs-hero {
+.pilot {
   position: relative;
   overflow: hidden;
   padding-block: clamp(56px, 8vw, 96px);
 }
-.labs-hero .geo-bg { z-index: 0; }
-.labs-hero .container { position: relative; z-index: 2; }
-.labs-hero__media {
+.pilot .geo-bg { z-index: 0; }
+.pilot .container { position: relative; z-index: 2; }
+.pilot__media {
   position: absolute;
   top: 0;
   right: 0;
@@ -1045,7 +1045,7 @@ body.nav-locked { overflow: hidden; touch-action: none; }
   -webkit-mask-composite: source-in;
   mask-composite: intersect;
 }
-.labs-hero__media img {
+.pilot__media img {
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -1190,16 +1190,16 @@ body.nav-locked { overflow: hidden; touch-action: none; }
   .sw-pillars { grid-template-columns: 1fr; }
   .support-page__grid { grid-template-columns: 1fr; }
 
-  /* Labs / partner heroes */
+  /* Pilot / partner heroes */
   .dev-hero { min-height: auto; gap: 32px; padding-block: 8px; }
-  .labs-hero { padding-block: clamp(40px, 8vw, 64px); }
-  .dev-hero--labs {
+  .pilot { padding-block: clamp(40px, 8vw, 64px); }
+  .dev-hero--pilot {
     grid-template-columns: 1fr;
     gap: 32px;
     padding-block: 0;
   }
-  .dev-hero--labs .form,
-  .dev-hero--labs .form--labs {
+  .dev-hero--pilot .form,
+  .dev-hero--pilot .form--pilot {
     max-width: none;
     justify-self: stretch;
     padding: 28px 22px;
@@ -1210,7 +1210,7 @@ body.nav-locked { overflow: hidden; touch-action: none; }
     padding-top: 0;
   }
   .dev-hero__lede, .dev-hero__body, .dev-hero__note { max-width: none; }
-  .labs-hero__media {
+  .pilot__media {
     width: 100%;
     opacity: 0.7;
     -webkit-mask-image:
@@ -1220,7 +1220,7 @@ body.nav-locked { overflow: hidden; touch-action: none; }
       linear-gradient(to bottom, transparent 0%, #000 12%, #000 42%, transparent 72%),
       linear-gradient(to left, #000 0%, #000 40%, transparent 100%);
   }
-  .labs-hero__media img {
+  .pilot__media img {
     opacity: 0.28;
     object-position: 60% 22%;
   }
@@ -1266,19 +1266,19 @@ body.nav-locked { overflow: hidden; touch-action: none; }
   .founder-story__images { grid-template-columns: 1fr; }
   .team-grid { grid-template-columns: 1fr; }
 
-  /* Developers / Labs apply */
-  .labs-hero.section { padding-block: 40px 48px; }
-  .dev-hero--labs { gap: 28px; }
-  .dev-hero--labs .form,
-  .dev-hero--labs .form--labs {
+  /* Pilot apply */
+  .pilot.section { padding-block: 40px 48px; }
+  .dev-hero--pilot { gap: 28px; }
+  .dev-hero--pilot .form,
+  .dev-hero--pilot .form--pilot {
     padding: 24px 18px;
   }
-  .dev-hero--labs textarea { min-height: 120px; }
+  .dev-hero--pilot textarea { min-height: 120px; }
   .form__head { margin-bottom: 18px; padding-bottom: 16px; }
   .form__title { font-size: 18px; }
   .form__subtitle { font-size: 13px; }
   .form__login { margin-top: 18px; padding-top: 18px; }
-  .labs-hero__media img { opacity: 0.22; }
+  .pilot__media img { opacity: 0.22; }
 
   /* Typography */
   .h-display { font-size: clamp(28px, 8.2vw, 36px); line-height: 1.08; }
@@ -1552,12 +1552,12 @@ body.nav-locked { overflow: hidden; touch-action: none; }
 
 .page-pilot main { flex: 0 0 auto; }
 .page-pilot .footer { margin-top: 0; }
-.page-pilot .labs-hero {
+.page-pilot .pilot {
   min-height: calc(100svh - var(--nav-h));
   display: flex;
   align-items: center;
 }
-.page-pilot .labs-hero .container { width: 100%; }
+.page-pilot .pilot .container { width: 100%; }
 
 .pilot.section {
   position: relative;
