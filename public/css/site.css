@@ -901,17 +901,25 @@ body.nav-locked { overflow: hidden; touch-action: none; }
   justify-content: center;
   padding-block: 4px;
 }
-.founder-story__copy .eyebrow { margin-bottom: 16px; }
-.founder-story__copy h3 { margin: 0 0 20px; }
-.founder-story__copy p { margin-bottom: 18px; }
+.founder-story__copy .eyebrow { margin-bottom: 14px; }
+.founder-story__copy h3 {
+  margin: 0 0 16px;
+  font-size: clamp(18px, 1.7vw, 22px);
+}
+.founder-story__copy p {
+  margin-bottom: 14px;
+  font-size: clamp(15px, 1.15vw, 16px);
+  line-height: 1.7;
+  max-width: 40em;
+}
 .founder-story__copy p:last-child { margin-bottom: 0; }
 .founder-story__epigraph {
   font-style: italic;
   color: var(--text) !important;
-  font-size: var(--fs-lede) !important;
+  font-size: clamp(16px, 1.3vw, 17px) !important;
   font-weight: var(--fw-title) !important;
-  line-height: 1.45 !important;
-  margin-bottom: 22px !important;
+  line-height: 1.5 !important;
+  margin-bottom: 18px !important;
 }
 .team-head {
   margin-bottom: 40px;
