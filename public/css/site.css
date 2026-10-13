@@ -21,7 +21,8 @@ html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
   --geo-3: #a0a0a8;
   --geo-4: #888890;
   --geo-5: #64646c;
-  --font: 'Montserrat', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+  --font: Arial, Helvetica, "Segoe UI", sans-serif;
+  --font-brand: 'Montserrat', Arial, Helvetica, sans-serif;
   --maxw: 1180px;
   --radius: 14px;
   --ease: cubic-bezier(0.22, 1, 0.36, 1);
@@ -33,7 +34,7 @@ body {
   background: var(--bg);
   color: var(--text);
   line-height: 1.65;
-  font-weight: 300;
+  font-weight: 400;
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
   padding-top: var(--nav-h);
@@ -53,7 +54,7 @@ h1, h2, h3, h4 { font-weight: 600; line-height: 1.1; letter-spacing: -0.025em; t
 .h-display { font-size: clamp(36px, 5.5vw, 64px); font-weight: 600; line-height: 1.05; }
 .h-section { font-size: clamp(28px, 4vw, 44px); }
 .h-sub { font-size: clamp(19px, 2.2vw, 25px); font-weight: 500; }
-.lead { font-size: clamp(16px, 1.45vw, 19px); color: var(--muted); font-weight: 300; max-width: 64ch; }
+.lead { font-size: clamp(16px, 1.45vw, 19px); color: var(--muted); font-weight: 400; max-width: 64ch; }
 .eyebrow {
   display: inline-block;
   font-size: 10.5px;
@@ -63,7 +64,12 @@ h1, h2, h3, h4 { font-weight: 600; line-height: 1.1; letter-spacing: -0.025em; t
   color: var(--accent);
   margin-bottom: 18px;
 }
-.sw, .sw-grad { display: inline; }
+.sw, .sw-grad, .brand { display: inline; }
+.sw, .brand {
+  font-family: var(--font-brand);
+  font-weight: 500;
+  letter-spacing: -0.01em;
+}
 
 .btn {
   display: inline-flex; align-items: center; justify-content: center; gap: 10px;
@@ -407,7 +413,7 @@ body.nav-locked { overflow: hidden; touch-action: none; }
 .product-card__lead {
   font-size: clamp(17px, 1.7vw, 21px);
   color: var(--muted);
-  font-weight: 300;
+  font-weight: 400;
   margin: 0 auto 28px;
   max-width: 40ch;
 }
@@ -1389,7 +1395,7 @@ body.nav-locked { overflow: hidden; touch-action: none; }
   margin: 0;
   max-width: 42em;
   font-size: 16px;
-  font-weight: 300;
+  font-weight: 400;
   line-height: 1.7;
   letter-spacing: 0.01em;
   color: rgba(0, 0, 0, 0.78);
@@ -1425,7 +1431,7 @@ body.nav-locked { overflow: hidden; touch-action: none; }
 .partner-page__lead {
   margin: 0 0 32px;
   font-size: 16px;
-  font-weight: 300;
+  font-weight: 400;
   line-height: 1.7;
   letter-spacing: 0.01em;
   color: rgba(0, 0, 0, 0.78);
@@ -1446,7 +1452,7 @@ body.nav-locked { overflow: hidden; touch-action: none; }
 }
 .partner-page li {
   font-size: 16px;
-  font-weight: 300;
+  font-weight: 400;
   line-height: 1.6;
   color: rgba(0, 0, 0, 0.78);
 }
@@ -1478,7 +1484,7 @@ body.nav-locked { overflow: hidden; touch-action: none; }
   margin: 0 0 28px;
   max-width: 42rem;
   font-size: 16px;
-  font-weight: 300;
+  font-weight: 400;
   line-height: 1.7;
   letter-spacing: 0.01em;
   color: rgba(0, 0, 0, 0.78);
@@ -1546,7 +1552,7 @@ body.nav-locked { overflow: hidden; touch-action: none; }
 .carousel__dot.is-active { width: 22px; background: #000; }
 
 .nav__skywall {
-  font-family: 'Montserrat', var(--font);
+  font-family: var(--font-brand);
   font-weight: 500;
   background-image: linear-gradient(90deg, #000000 0%, #8e8e93 100%);
   -webkit-background-clip: text;
@@ -1600,7 +1606,7 @@ body.nav-locked { overflow: hidden; touch-action: none; }
   margin: 0 0 1em;
   max-width: 38rem;
   font-size: 16px;
-  font-weight: 300;
+  font-weight: 400;
   line-height: 1.7;
   letter-spacing: 0.01em;
   color: rgba(0, 0, 0, 0.78);
@@ -1667,7 +1673,7 @@ body.nav-locked { overflow: hidden; touch-action: none; }
 .mission-hero__text p:last-child {
   margin-bottom: 0;
   font-size: 16px;
-  font-weight: 300;
+  font-weight: 400;
   line-height: 1.75;
   letter-spacing: 0.01em;
   color: rgba(0, 0, 0, 0.78);
@@ -1693,7 +1699,7 @@ body.nav-locked { overflow: hidden; touch-action: none; }
 }
 .mission-btn {
   min-width: 160px;
-  font-family: 'Montserrat', var(--font);
+  font-family: var(--font);
   font-weight: 500;
   color: #fff;
   background: var(--text);
