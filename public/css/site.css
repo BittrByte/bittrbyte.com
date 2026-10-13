@@ -76,7 +76,6 @@ h1, h2, h3, h4,
 .h-sub,
 .home-title,
 .form__title,
-.mission-hero__lede,
 .pilot__copy p:first-of-type,
 .founder-story__epigraph {
   font-family: var(--font-heading);
@@ -129,7 +128,6 @@ h1, h2, h3, h4 {
   color: var(--text-body);
 }
 .lead { max-width: 64ch; }
-.mission-hero__lede,
 .pilot__copy p:first-of-type {
   font-size: var(--fs-lede);
   font-weight: var(--fw-title);
@@ -148,7 +146,6 @@ h1, h2, h3, h4 {
   color: var(--muted);
   margin-bottom: 18px;
 }
-.mission-hero__paths p,
 .team-role {
   font-size: var(--fs-caption);
   font-weight: var(--fw-title);
@@ -1418,16 +1415,7 @@ body.nav-locked { overflow: hidden; touch-action: none; }
 
   /* Buttons */
   .btn { white-space: normal; }
-  .home-paths { align-items: center; }
-  .mission-hero__actions {
-    flex-direction: column;
-    align-items: stretch;
-  }
-  .mission-hero__actions .mission-btn {
-    width: 100%;
-    min-width: 0;
-    flex: none;
-  }
+  .product-card--home .home-paths { align-items: center; }
   .hero__actions {
     flex-direction: column;
     align-items: stretch;
@@ -1610,7 +1598,7 @@ body.nav-locked { overflow: hidden; touch-action: none; }
   .product-card--home .product-card__copy { max-width: min(40rem, 100%); }
   .home-title { max-width: 16em; margin-inline: auto; }
   .home-text p { margin-inline: auto; }
-  .home-paths { align-items: center; }
+  .product-card--home .home-paths { align-items: center; }
 }
 
 .slide-page { padding-top: clamp(40px, 6vw, 72px); }
@@ -1791,34 +1779,6 @@ body.nav-locked { overflow: hidden; touch-action: none; }
   max-width: 40em;
   text-align: left;
 }
-.mission-hero__lede { max-width: 22em; }
-.mission-hero__paths {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 16px;
-  margin-top: 44px;
-}
-.mission-hero__paths p { margin: 0; display: block; }
-.mission-hero__actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 14px;
-}
-.mission-btn {
-  min-width: 180px;
-  padding: 15px 28px;
-  font-size: 16px;
-  font-family: var(--font);
-  font-weight: 500;
-  color: #fff;
-  background: var(--text);
-  border-color: var(--text);
-}
-.mission-btn:hover {
-  color: #fff;
-  background: #333;
-}
 .mission-hero__phone {
   margin-top: -10px;
   width: 100%;
@@ -1836,8 +1796,6 @@ body.nav-locked { overflow: hidden; touch-action: none; }
     text-align: left;
   }
   .mission-hero__copy { align-items: flex-start; width: 100%; padding-top: 28px; }
-  .mission-hero__actions { width: 100%; }
-  .mission-hero__actions .mission-btn { flex: 1 1 140px; }
   .mission-hero__phone {
     order: -1;
     max-width: min(300px, 78vw);
