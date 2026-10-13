@@ -540,8 +540,7 @@ body.nav-locked { overflow: hidden; touch-action: none; }
 .product-card__visual--phone {
   max-width: 420px;
   margin-inline: auto;
-  -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 55%, rgba(0,0,0,0.55) 78%, transparent 100%);
-  mask-image: linear-gradient(to bottom, #000 0%, #000 55%, rgba(0,0,0,0.55) 78%, transparent 100%);
+  overflow: visible;
 }
 .product-card__visual--phone img {
   width: 100%;
@@ -549,6 +548,41 @@ body.nav-locked { overflow: hidden; touch-action: none; }
   display: block;
   pointer-events: none;
   user-select: none;
+  -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 55%, rgba(0,0,0,0.55) 78%, transparent 100%);
+  mask-image: linear-gradient(to bottom, #000 0%, #000 55%, rgba(0,0,0,0.55) 78%, transparent 100%);
+}
+.home-phone {
+  position: relative;
+  width: 100%;
+}
+.home-chat {
+  position: absolute;
+  z-index: 3;
+  left: -6%;
+  top: 14%;
+  max-width: min(250px, 72%);
+  padding: 14px 16px 15px;
+  background: #000;
+  color: #fff;
+  border-radius: 18px;
+  box-shadow: 0 14px 36px rgba(0, 0, 0, 0.22);
+  font-family: var(--font-heading);
+  font-weight: 500;
+  font-size: clamp(12px, 1.15vw, 14px);
+  line-height: 1.35;
+  letter-spacing: -0.01em;
+}
+.home-chat p { margin: 0; color: #fff; }
+.home-chat::after {
+  content: "";
+  position: absolute;
+  right: 18px;
+  bottom: -7px;
+  width: 14px;
+  height: 14px;
+  background: #000;
+  transform: rotate(45deg);
+  border-radius: 2px;
 }
 
 /* ========== CARD RAIL ========== */
@@ -1565,6 +1599,16 @@ body.nav-locked { overflow: hidden; touch-action: none; }
   .home-title { max-width: 16em; margin-inline: auto; }
   .home-text p { margin-inline: auto; }
   .home-actions { justify-content: center; }
+  .home-chat {
+    left: 4%;
+    top: 8%;
+    max-width: min(220px, 70%);
+    font-size: 12px;
+  }
+  .home-chat::after {
+    right: 22px;
+    bottom: -6px;
+  }
 }
 
 .slide-page { padding-top: clamp(40px, 6vw, 72px); }
