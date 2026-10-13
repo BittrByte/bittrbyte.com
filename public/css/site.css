@@ -65,11 +65,7 @@ h1, h2, h3, h4 { font-weight: 600; line-height: 1.1; letter-spacing: -0.025em; t
   margin-bottom: 18px;
 }
 .sw, .sw-grad, .brand { display: inline; }
-.sw, .brand {
-  font-family: var(--font-brand);
-  font-weight: 500;
-  letter-spacing: -0.01em;
-}
+/* Brand words inside sentences stay on the body font — only .nav__skywall keeps Montserrat. */
 
 .btn {
   display: inline-flex; align-items: center; justify-content: center; gap: 10px;
