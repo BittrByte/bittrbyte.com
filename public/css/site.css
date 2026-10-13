@@ -1398,7 +1398,7 @@ body.nav-locked { overflow: hidden; touch-action: none; }
 }
 .product-card--home .product-card__copy {
   margin: 0;
-  max-width: 36rem;
+  max-width: min(42rem, 100%);
   justify-self: start;
 }
 .product-card--home .product-card__visual--phone {
@@ -1407,36 +1407,37 @@ body.nav-locked { overflow: hidden; touch-action: none; }
   width: 100%;
 }
 .home-kicker {
-  margin: 0 0 16px;
-  font-size: 12px;
+  margin: 0 0 18px;
+  font-size: clamp(12px, 1.05vw, 14px);
   font-weight: 600;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.14em;
   color: var(--muted);
 }
 .home-title {
-  margin: 0 0 20px;
-  font-size: clamp(30px, 3.2vw, 42px);
+  margin: 0 0 26px;
+  max-width: 13em;
+  font-size: clamp(34px, 4.8vw, 56px);
   font-weight: 500;
-  line-height: 1.12;
-  letter-spacing: -0.03em;
+  line-height: 1.08;
+  letter-spacing: -0.035em;
 }
 .home-text {
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 18px;
 }
 .home-text p {
   margin: 0;
-  max-width: 42em;
-  font-size: 16px;
+  max-width: 36em;
+  font-size: clamp(17px, 1.45vw, 20px);
   font-weight: 400;
-  line-height: 1.7;
-  letter-spacing: 0.01em;
+  line-height: 1.65;
+  letter-spacing: 0.005em;
   color: rgba(0, 0, 0, 0.78);
 }
 .home-explore {
-  margin: 28px 0 14px;
-  font-size: 13px;
+  margin: 34px 0 16px;
+  font-size: clamp(14px, 1.15vw, 16px);
   font-weight: 500;
   letter-spacing: 0.04em;
   color: var(--muted);
@@ -1444,7 +1445,12 @@ body.nav-locked { overflow: hidden; touch-action: none; }
 .home-actions {
   display: flex;
   flex-wrap: wrap;
-  gap: 12px;
+  gap: 14px;
+}
+.product-card--home .home-actions .mission-btn {
+  min-width: 180px;
+  padding: 15px 28px;
+  font-size: 16px;
 }
 .partner-page.section {
   padding: clamp(48px, 7vw, 80px) 0 clamp(56px, 8vw, 88px);
@@ -1508,7 +1514,9 @@ body.nav-locked { overflow: hidden; touch-action: none; }
   .product-card--home .product-card__visual--phone {
     justify-self: center;
   }
-  .product-card--home .product-card__copy { max-width: 36rem; }
+  .product-card--home .product-card__copy { max-width: min(40rem, 100%); }
+  .home-title { max-width: 16em; margin-inline: auto; }
+  .home-text p { margin-inline: auto; }
   .home-actions { justify-content: center; }
 }
 
