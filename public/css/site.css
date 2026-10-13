@@ -1631,33 +1631,48 @@ body.nav-locked { overflow: hidden; touch-action: none; }
 .pilot__form {
   width: 100%;
   background: #fff;
+  padding: clamp(28px, 3.5vw, 36px);
 }
 .pilot__grid {
   display: grid;
-  grid-template-columns: minmax(0, 1.05fr) minmax(280px, 400px);
+  grid-template-columns: minmax(0, 1.1fr) minmax(300px, 420px);
   align-items: start;
   gap: clamp(36px, 5vw, 80px);
   width: 100%;
 }
 .pilot__copy h1 {
-  margin: 0 0 22px;
-  max-width: 12em;
-  font-size: clamp(32px, 3.4vw, 44px);
+  margin: 0 0 26px;
+  max-width: 11em;
+  font-size: clamp(36px, 4.4vw, 52px);
   font-weight: 500;
-  letter-spacing: -0.03em;
-  line-height: 1.1;
+  letter-spacing: -0.035em;
+  line-height: 1.08;
 }
 .pilot__copy p {
-  margin: 0 0 1em;
-  max-width: 38rem;
-  font-size: 16px;
+  margin: 0 0 1.05em;
+  max-width: 36em;
+  font-size: clamp(17px, 1.4vw, 19px);
   font-weight: 400;
-  line-height: 1.7;
-  letter-spacing: 0.01em;
+  line-height: 1.65;
+  letter-spacing: 0.005em;
   color: rgba(0, 0, 0, 0.78);
 }
+.pilot__copy p:first-of-type {
+  font-size: clamp(19px, 1.7vw, 22px);
+  font-weight: 500;
+  line-height: 1.4;
+  letter-spacing: -0.015em;
+  color: #1d1d1f;
+  max-width: 28em;
+  margin-bottom: 1.2em;
+}
 .pilot__copy p:last-child { margin-bottom: 0; }
-.pilot__form textarea { min-height: 88px; }
+.pilot__form .form__title {
+  font-size: clamp(20px, 1.8vw, 24px);
+  font-weight: 500;
+  letter-spacing: -0.02em;
+}
+.pilot__form textarea { min-height: 96px; }
 .pilot__optional {
   font-weight: 400;
   letter-spacing: 0;
