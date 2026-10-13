@@ -558,8 +558,9 @@ body.nav-locked { overflow: hidden; touch-action: none; }
 .home-chat {
   position: absolute;
   z-index: 3;
-  left: -6%;
-  top: 14%;
+  left: auto;
+  right: -4%;
+  top: 34%;
   max-width: min(250px, 72%);
   padding: 14px 16px 15px;
   background: #000;
@@ -576,7 +577,8 @@ body.nav-locked { overflow: hidden; touch-action: none; }
 .home-chat::after {
   content: "";
   position: absolute;
-  right: 18px;
+  left: 18px;
+  right: auto;
   bottom: -7px;
   width: 14px;
   height: 14px;
@@ -1608,13 +1610,15 @@ body.nav-locked { overflow: hidden; touch-action: none; }
   .home-text p { margin-inline: auto; }
   .home-actions { justify-content: center; }
   .home-chat {
-    left: 4%;
-    top: 8%;
+    left: auto;
+    right: 2%;
+    top: 28%;
     max-width: min(220px, 70%);
     font-size: 12px;
   }
   .home-chat::after {
-    right: 22px;
+    left: 22px;
+    right: auto;
     bottom: -6px;
   }
 }
