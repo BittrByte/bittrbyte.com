@@ -1623,7 +1623,8 @@ body.nav-locked { overflow: hidden; touch-action: none; }
 .slide-page .h-section { margin-bottom: 16px; }
 .slide-page__lead {
   margin: 0 0 28px;
-  max-width: 42rem;
+  max-width: none;
+  width: 100%;
 }
 .carousel { width: 100%; outline: none; }
 .carousel__stage { position: relative; }
