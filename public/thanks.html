@@ -4,29 +4,60 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Thank You — BittrByte</title>
+  <meta name="description" content="Thank you for contacting BittrByte." />
   <meta name="robots" content="noindex" />
-  <meta name="theme-color" content="#f5f5f7" />
-  <link rel="icon" type="image/png" sizes="48x48" href="images/favicon-48.png" />
+  <meta name="theme-color" content="#000000" />
+  <link rel="icon" type="image/png" sizes="48x48" href="favicon-48.png" />
+  <link rel="icon" type="image/png" sizes="512x512" href="favicon-512.png" />
+  <link rel="apple-touch-icon" href="apple-touch-icon.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="css/site.css?v=product-home-14" />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
   <style>
-    .thanks { min-height: 100svh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 40px 24px; }
-    .thanks img { height: 28px; margin: 0 auto 32px; }
-    .thanks .check { width: 64px; height: 64px; margin: 0 auto 24px; border-radius: 50%; border: 1px solid var(--accent-line); background: var(--surface); display: flex; align-items: center; justify-content: center; }
-    .thanks .check svg { width: 28px; height: 28px; stroke: var(--text); fill: none; stroke-width: 2.2; }
-    .thanks h1 { font-size: clamp(28px, 5vw, 42px); margin-bottom: 16px; }
-    .thanks p { color: var(--muted); font-size: 17px; margin-bottom: 32px; max-width: 480px; }
+    .thanks {
+      min-height: 100svh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 40px 24px;
+      position: relative;
+      overflow: hidden;
+    }
+    .thanks__bg {
+      position: absolute; inset: 0; z-index: 0;
+      background:
+        radial-gradient(70% 60% at 50% 30%, rgba(255,255,255,0.06), transparent 65%),
+        #000;
+    }
+    .thanks__inner { position: relative; z-index: 1; max-width: 560px; }
+    .thanks img { height: 64px; margin: 0 auto 36px; }
+    .thanks .check {
+      width: 66px; height: 66px; margin: 0 auto 28px;
+      border-radius: 50%;
+      border: 1px solid var(--accent-line);
+      background: rgba(255,255,255,0.06);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .thanks .check svg { width: 28px; height: 28px; stroke: #fff; fill: none; stroke-width: 2.2; }
+    .thanks h1 { font-size: clamp(30px, 5vw, 46px); margin-bottom: 18px; }
+    .thanks p { color: var(--muted); font-size: 17px; margin-bottom: 36px; }
   </style>
 </head>
-<body style="padding-top:0;">
+<body>
   <section class="thanks">
-    <a href="index.html" aria-label="BittrByte home"><img src="images/Black_Logo.svg" alt="BittrByte" /></a>
-    <div class="check" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg></div>
-    <h1>Thank you.</h1>
-    <p>We've received your message and will be in touch.</p>
-    <a class="btn btn--primary btn--lg" href="index.html">Back to the site</a>
+    <div class="thanks__bg" aria-hidden="true"></div>
+    <div class="thanks__inner">
+      <a href="index.html" aria-label="BittrByte home"><img src="logo.png" alt="BittrByte" /></a>
+      <div class="check" aria-hidden="true">
+        <svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg>
+      </div>
+      <h1>Thank you.</h1>
+      <p>We've received your message and will be in touch. In the meantime, feel free to explore more about SKYWALL.</p>
+      <a class="btn btn--primary btn--lg" href="index.html">Back to the site</a>
+    </div>
   </section>
 </body>
 </html>

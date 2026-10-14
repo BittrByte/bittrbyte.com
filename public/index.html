@@ -3,243 +3,516 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>BittrByte — SKYWALL Devices &amp; OS</title>
-  <meta name="description" content="BittrByte builds SKYWALL — an OS-level digital safety system. Phones with SKYWALL OS, a downloadable OS, and a developer community." />
-  <meta name="theme-color" content="#f5f5f7" />
-  <link rel="icon" type="image/png" sizes="48x48" href="images/favicon-48.png" />
-  <link rel="apple-touch-icon" href="images/apple-touch-icon.png" />
+  <title>BittrByte — SKYWALL: Digital Safety as a Competitive Edge for Device Makers</title>
+  <meta name="description" content="SKYWALL by BittrByte turns digital safety into a defensible competitive edge. An OS-level method that enforces the limits people set for themselves — licensable IP for device and OS manufacturers." />
+  <meta name="author" content="BittrByte Ltd" />
+  <meta name="theme-color" content="#000000" />
+  <link rel="canonical" href="https://bittrbyte.com/" />
+
+  <link rel="icon" type="image/png" sizes="48x48" href="favicon-48.png" />
+  <link rel="icon" type="image/png" sizes="512x512" href="favicon-512.png" />
+  <link rel="apple-touch-icon" href="apple-touch-icon.png" />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="BittrByte" />
+  <meta property="og:url" content="https://bittrbyte.com/" />
+  <meta property="og:title" content="SKYWALL by BittrByte — Turn digital safety into a competitive edge" />
+  <meta property="og:description" content="An OS-level method that enforces the limits people set for themselves. Licensable IP for device and OS makers." />
+  <meta property="og:image" content="https://bittrbyte.com/og-image.jpg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:site" content="@BittrByte" />
+  <meta name="twitter:title" content="SKYWALL by BittrByte — Turn digital safety into a competitive edge" />
+  <meta name="twitter:description" content="An OS-level method that enforces the limits people set for themselves. Licensable IP for device and OS makers." />
+  <meta name="twitter:image" content="https://bittrbyte.com/og-image.jpg" />
+
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="css/site.css?v=product-home-14" />
-  <link rel="preload" as="image" href="images/hero-phone-mobile.png?v=14" />
-  <link rel="preload" as="image" href="images/os-card.png" />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "BittrByte",
+    "legalName": "BittrByte Ltd",
+    "url": "https://bittrbyte.com/",
+    "logo": "https://bittrbyte.com/og-image.jpg",
+    "description": "BittrByte provides the IP and technical expertise behind SKYWALL — an OS-level digital-safety enforcement method for device manufacturers.",
+    "email": "admin@bittrbyte.com",
+    "telephone": "+44 191 603 0179",
+    "sameAs": [
+      "https://www.linkedin.com/company/bittrbyte/",
+      "https://x.com/BittrByte",
+      "https://www.instagram.com/bittrbyte/",
+      "https://youtube.com/@bittrbyte",
+      "https://www.tiktok.com/@bittrbyte"
+    ]
+  }
+  </script>
 </head>
 <body>
 
+  <!-- NAV -->
   <header class="nav" id="nav">
-    <div class="nav__inner">
-      <a class="nav__brand" href="index.html" aria-label="BittrByte home">
-        <img src="images/Black_Logo.svg" alt="BittrByte" />
+    <div class="container nav__inner">
+      <a class="nav__brand" href="#top" aria-label="BittrByte home">
+        <img src="logo.png" alt="BittrByte" />
+        <span class="nav__brand-name">BittrByte</span>
       </a>
-      <ul class="nav__items">
-        <li class="nav__item has-dropdown">
-          <button class="nav__link" type="button">Store
-            <svg class="nav__chevron" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 5l3 3 3-3"/></svg>
-          </button>
-          <div class="nav__dropdown">
-            <span class="nav__dropdown-label">Store</span>
-            <a href="store/devices.html">SKYWALL Devices</a>
-            <a href="store/os.html">SKYWALL OS</a>
-          </div>
-        </li>
-        <li class="nav__item has-dropdown">
-          <button class="nav__link" type="button"><span class="sw-link">SKYWALL</span>
-            <svg class="nav__chevron" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 5l3 3 3-3"/></svg>
-          </button>
-          <div class="nav__dropdown">
-            <span class="nav__dropdown-label">SKYWALL</span>
-            <a href="skywall/individuals.html">For individuals</a>
-            <a href="skywall/parents.html">For parents</a>
-            <a href="skywall/ecosystem.html">Ecosystem</a>
-          </div>
-        </li>
-        <li class="nav__item"><a class="nav__link" href="partner.html">Partner</a></li>
-        <li class="nav__item"><a class="nav__link" href="developers.html">Developers</a></li>
-        <li class="nav__item"><a class="nav__link" href="archive.html">Archive</a></li>
-        <li class="nav__item"><a class="nav__link" href="about.html">About</a></li>
-        <li class="nav__item"><a class="nav__link" href="support.html">Support</a></li>
-      </ul>
-      <div class="nav__actions">
-        <a class="nav__basket" href="basket.html" aria-label="Basket" style="position:relative;">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6.5 8.5h11l-1 11.5H7.5l-1-11.5z"/><path d="M9 8.5V7.2a3 3 0 0 1 6 0v1.3"/><path d="M6.5 8.5h11"/></svg>
-          <span class="nav__basket-count" id="basketCount">0</span>
-        </a>
+      <nav>
+        <ul class="nav__links" id="navLinks">
+          <li><a href="#skywall" class="sw-link">SKYWALL</a></li>
+          <li><a href="#videos">Live Demos</a></li>
+          <li><a href="#makers">For Device Makers</a></li>
+          <li><a href="#support">Support Us</a></li>
+          <li><a href="#about">About</a></li>
+        </ul>
+      </nav>
+      <div class="nav__cta">
+        <a class="btn btn--primary" href="#partner">Request Partnership</a>
         <button class="nav__toggle" id="navToggle" aria-label="Toggle menu" aria-expanded="false"><span></span></button>
       </div>
     </div>
-    <nav class="nav__mobile-panel" aria-label="Mobile navigation">
-      <div class="mobile-nav__group mobile-nav__group--accordion">
-        <button type="button" class="mobile-nav__trigger" aria-expanded="false">Store<svg class="mobile-nav__chevron" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M3 5l3 3 3-3"/></svg></button>
-        <div class="mobile-nav__submenu">
-          <a href="store/devices.html">SKYWALL Devices</a>
-          <a href="store/os.html">SKYWALL OS</a>
-        </div>
-      </div>
-      <div class="mobile-nav__group mobile-nav__group--accordion">
-        <button type="button" class="mobile-nav__trigger" aria-expanded="false"><span class="sw-link">SKYWALL</span><svg class="mobile-nav__chevron" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M3 5l3 3 3-3"/></svg></button>
-        <div class="mobile-nav__submenu">
-          <a href="skywall/individuals.html">For individuals</a>
-          <a href="skywall/parents.html">For parents</a>
-          <a href="skywall/ecosystem.html">Ecosystem</a>
-        </div>
-      </div>
-      <div class="mobile-nav__group">
-        <a href="partner.html">Partner</a>
-        <a href="developers.html">Developers</a>
-        <a href="archive.html">Archive</a>
-        <a href="about.html">About</a>
-        <a href="support.html">Support</a>
-      </div>
-    </nav>
   </header>
 
-  <main>
-    <section class="product-card product-card--devices" id="devices">
-      <div class="geo-bg" aria-hidden="true"><span class="g1"></span><span class="g2"></span><span class="g3"></span><span class="veil"></span></div>
-      <div class="container">
-        <div class="product-card__copy reveal">
-          <h2 class="h-display">SKYWALL Devices</h2>
-          <p class="product-card__lead">Be the first to get a SKYWALL device.</p>
-          <div class="product-card__actions">
-            <a class="btn btn--primary btn--lg" href="store/devices.html#waitlist">Join the waitlist</a>
-          </div>
-        </div>
-        <div class="product-card__visual product-card__visual--phone reveal" data-delay="1">
-          <img src="images/hero-phone-mobile.png?v=14" alt="SKYWALL device — Pixel running SKYWALL OS" width="1341" height="2760" loading="eager" decoding="async" />
-        </div>
-      </div>
-    </section>
+  <main id="top">
 
-    <section class="product-card product-card--os" id="os">
-      <div class="product-card__bg" aria-hidden="true">
-        <img src="images/os-card.png" alt="" width="1024" height="576" loading="lazy" decoding="async" />
+    <!-- ═══════════════════ HERO ═══════════════════ -->
+    <section class="hero">
+      <div class="geo-bg" aria-hidden="true">
+        <span class="g1"></span>
+        <span class="g2"></span>
+        <span class="g3"></span>
+        <span class="veil"></span>
       </div>
       <div class="container">
-        <div class="product-card__copy reveal">
-          <h2 class="h-display">SKYWALL OS</h2>
-          <p class="product-card__lead">The operating system that enforces the limits you set.</p>
-          <div class="product-card__actions">
-            <a class="btn btn--primary btn--lg" href="store/os.html">Be the first to download</a>
-            <a class="btn btn--white btn--lg" href="developers.html">Be a part of development</a>
+        <div class="hero__inner">
+          <span class="hero__eyebrow"><span class="dot"></span> Digital safety, re-architected</span>
+          <h1 class="h-display">
+            Turn digital safety into<br />a defensible competitive edge.
+          </h1>
+          <p class="hero__lead">
+            BittrByte provides the IP and technical expertise behind
+            <strong><span class="sw">SKYWALL™</span></strong> —
+            an OS-level method that lets people keep the promises they
+            make to themselves, enforced by the world around them.
+          </p>
+          <div class="hero__actions">
+            <a class="btn btn--primary btn--lg" href="#partner">Partner with us</a>
+            <a class="btn btn--ghost btn--lg" href="#videos">Live Demos</a>
           </div>
         </div>
       </div>
     </section>
 
-    <section class="videos section" id="demos">
-      <div class="geo-bg subtle" aria-hidden="true"><span class="g1"></span><span class="g2"></span><span class="veil"></span></div>
+    <!-- ═══════════════════ PROBLEM ═══════════════════ -->
+    <section class="section problem" id="problem">
+      <div class="geo-bg subtle" aria-hidden="true">
+        <span class="g1"></span><span class="g2"></span><span class="g3"></span>
+        <span class="veil"></span>
+      </div>
+      <div class="container">
+        <div class="problem__statement reveal">
+          <span class="eyebrow">The Problem</span>
+          <h2>Digital devices cannot tell commitment from impulse.</h2>
+          <p>
+            The same person who sets a limit can remove it moments later.
+            When temptation arrives, the device obeys the impulse just as
+            readily as it obeyed the promise. That is the architecture that
+            needs to change.
+          </p>
+        </div>
+        <div class="stats reveal" data-delay="1">
+          <div class="stat">
+            <div class="stat__num">1 in 4</div>
+            <div class="stat__label">people worldwide show some form of digital addiction</div>
+          </div>
+          <div class="stat">
+            <div class="stat__num">~850M</div>
+            <div class="stat__label">affected by compulsive social-media use</div>
+          </div>
+          <div class="stat">
+            <div class="stat__num">~450M</div>
+            <div class="stat__label">affected by access to online pornography</div>
+          </div>
+          <div class="stat">
+            <div class="stat__num">~350M</div>
+            <div class="stat__label">affected by compulsive gaming</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════ SKYWALL ═══════════════════ -->
+    <section class="section skywall-section" id="skywall">
+      <div class="geo-bg right-lean" aria-hidden="true">
+        <span class="g1"></span><span class="g2"></span>
+        <span class="veil"></span>
+      </div>
+      <div class="container">
+        <div class="skywall-section__inner reveal">
+          <span class="eyebrow">The Solution</span>
+          <h2 class="h-section"><span class="sw">SKYWALL™</span>: restrictions enforced by reality, not willpower.</h2>
+          <p class="patent-note">2 patents filed</p>
+          <p class="lead">
+            Other tools attempt to block access. <span class="sw-grad">SKYWALL</span> controls something deeper:
+            when you're allowed to change the rule you set. You set what to limit. You also set
+            what must happen before that limit can be changed: go to a place, or wait until a
+            moment, both chosen from your own life. Until that condition is met, edits and deletion
+            are blocked. The way out is a real-world action, not a password. That is what makes
+            the limit strong enough to hold, but still releasable on terms chosen in advance.
+          </p>
+          <div class="sw-pillars">
+            <div class="sw-pillar">
+              <span class="sw-pillar__label">OS-level</span>
+              <p>Built into the device, not layered on top as a deletable app.</p>
+            </div>
+            <div class="sw-pillar">
+              <span class="sw-pillar__label">User-authored</span>
+              <p>The user sets both the limit and the release condition.</p>
+            </div>
+            <div class="sw-pillar">
+              <span class="sw-pillar__label">Real-world release</span>
+              <p>The way out is a place or a moment — not a password.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════ VIDEOS — CENTER STAGE ═══════════════════ -->
+    <section class="section videos" id="videos">
       <div class="container">
         <div class="videos__head reveal">
           <span class="eyebrow">Live Demos</span>
-          <h2 class="h-section">Watch <span class="sw">SKYWALL</span> in action.</h2>
-          <p class="lead" style="margin:16px auto 0;">See how SKYWALL provides real value to a device — and to the people using it.</p>
+          <h2 class="h-section">Watch <span class="sw">SKYWALL™</span> in action.</h2>
+          <p class="lead" style="margin-top: 16px;">
+            See how SKYWALL provides real value to a device, and more importantly, to the people using it.
+          </p>
         </div>
-        <div class="video-grid video-grid--single">
-          <div class="video-card reveal">
-            <div class="video-frame" data-youtube="B-HeDNTLSec" data-title="See how SKYWALL works in practice"></div>
+
+        <div class="video-grid">
+
+          <div class="video-card reveal" data-delay="1">
+            <div class="video-frame" data-youtube="wysuvjGwG1A" data-title="Space and Time Enforcement, Demonstrated">
+              <div class="video-placeholder">
+                <div class="play"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+                <div class="hint">Demo launching soon</div>
+                <span class="duration">1:28</span>
+              </div>
+            </div>
             <div class="video-card__meta">
-              <h3>See how SKYWALL works in practice.</h3>
+              <h3>Space and time enforcement, demonstrated.</h3>
+              <p>A user blocks distracting apps at work — and chooses that the rule can only be changed at home, between 7 and 8&nbsp;pm. Impulse cannot fake it.</p>
             </div>
           </div>
+
+          <div class="video-card reveal" data-delay="2">
+            <div class="video-frame" data-youtube="QuWuFJUPaow" data-title="Parental Control">
+              <div class="video-placeholder">
+                <div class="play"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+                <div class="hint">Demo launching soon</div>
+                <span class="duration">1:44</span>
+              </div>
+            </div>
+            <div class="video-card__meta">
+              <h3>Parental control.</h3>
+              <p>One-hour screen limit across a child's phone, tablet and console — location-locked so the rule holds even when the pressure to give in is at its highest.</p>
+            </div>
+          </div>
+
         </div>
       </div>
     </section>
 
-    <section class="section news-section" id="news">
+    <!-- ═══════════════════ FOR DEVICE MAKERS ═══════════════════ -->
+    <section class="section makers" id="makers">
+      <div class="geo-bg subtle veil-even" aria-hidden="true">
+        <span class="g1"></span><span class="g2"></span><span class="g3"></span>
+        <span class="veil"></span>
+      </div>
       <div class="container">
-        <div class="section-head reveal">
-          <span class="eyebrow">News</span>
-          <h2 class="h-section">What's happening.</h2>
+        <div class="section-head reveal" style="max-width:760px; margin-bottom:clamp(40px,6vw,64px);">
+          <span class="eyebrow">For Device Makers</span>
+          <h2 class="h-section">We don't sell devices. We sell the edge.</h2>
         </div>
-        <div class="news-cards">
-          <article class="news-card reveal">
-            <div class="news-card__media">
-              <img src="images/news-pixel-os.png" alt="Google Pixel running SKYWALL OS" loading="lazy" />
-            </div>
-            <div class="news-card__body">
-              <div class="news-card__tag">July 17, 2026</div>
-              <h4>BittrByte Completes First Working Version of <span class="sw">SKYWALL</span> OS on Google Pixel Hardware</h4>
-              <p>BittrByte is pleased to announce that the first working version of <span class="sw">SKYWALL</span> OS is now running on Google Pixel hardware. This marks a major step towards bringing <span class="sw">SKYWALL</span> into your hands.</p>
-            </div>
-          </article>
-          <article class="news-card reveal" data-delay="1">
-            <div class="news-card__media">
-              <img src="images/policy-commons.png" alt="UK Parliament discussing overnight social media curfew" loading="lazy" />
-            </div>
-            <div class="news-card__body">
-              <div class="news-card__tag">July 15, 2026</div>
-              <h4>Default overnight social media curfew for 16- and 17-year-olds</h4>
-              <p>Teenagers can opt out of the government’s proposed default social media curfew — making it little more than a recommendation. People need digital boundaries that can hold. BittrByte’s <span class="sw">SKYWALL</span> system is designed for exactly that.</p>
-            </div>
-          </article>
-          <article class="news-card reveal" data-delay="2">
-            <div class="news-card__media">
-              <img src="images/policy-starmer.png" alt="Prime Minister Keir Starmer" loading="lazy" />
-            </div>
-            <div class="news-card__body">
-              <div class="news-card__tag">June 15, 2026</div>
-              <h4>Under-16 social media accounts to be banned</h4>
-              <p>Parents want better choices, not fewer. Blanket bans remove options — they don’t give families tools that fit real life. <span class="sw">SKYWALL</span> lets parents set enforceable limits on the device itself.</p>
-            </div>
-          </article>
+        <div class="makers__grid">
+          <ul class="value-list reveal">
+            <li>
+              <span class="vk">01</span>
+              <div class="vt">
+                <h3>A safety advantage competitors can't copy</h3>
+                <p><span class="sw-grad">SKYWALL</span> is proprietary OS-level IP, with 2 patents filed. The first platform to make strong limits feel native gains a defensible category advantage.</p>
+              </div>
+            </li>
+            <li>
+              <span class="vk">02</span>
+              <div class="vt">
+                <h3>Strong binding, shippable for the first time</h3>
+                <p>Hard limits have been unshippable — support burden, warranty exposure, churn. <span class="sw-grad">SKYWALL</span> is the first design where the binding is strong and the release is on terms the user authored.</p>
+              </div>
+            </li>
+            <li>
+              <span class="vk">03</span>
+              <div class="vt">
+                <h3>IP, not overhead</h3>
+                <p>You ship it inside your platform. BittrByte provides the IP and technical expertise. No new business line required.</p>
+              </div>
+            </li>
+            <li>
+              <span class="vk">04</span>
+              <div class="vt">
+                <h3>Perfectly timed</h3>
+                <p>AI-driven content analysis and screen monitoring are becoming mandated features on consumer devices. As those capabilities roll out, <span class="sw-grad">SKYWALL</span> becomes the enforcement layer that makes them meaningful, binding the rules users set to real-world conditions they actually control.</p>
+              </div>
+            </li>
+          </ul>
         </div>
       </div>
     </section>
 
-    <section class="support section">
-      <div class="geo-bg subtle" aria-hidden="true"><span class="g1"></span><span class="g2"></span><span class="veil"></span></div>
+    <!-- ═══════════════════ PARTNER FORM ═══════════════════ -->
+    <section class="section partner" id="partner">
       <div class="container">
-        <div class="support__inner reveal">
-          <h2 class="h-section">Follow the journey.</h2>
-          <p>Help us build momentum for enforceable digital limits.</p>
-          <div class="social-row">
-            <a class="follow-btn" href="https://www.instagram.com/bittrbyte/" target="_blank" rel="noopener noreferrer">
-              <svg viewBox="0 0 24 24"><path d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5zm0 2a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V7a3 3 0 0 0-3-3H7zm5 3.5A5.5 5.5 0 1 1 6.5 13 5.5 5.5 0 0 1 12 7.5zm0 2A3.5 3.5 0 1 0 15.5 13 3.5 3.5 0 0 0 12 9.5zm6-3a1 1 0 1 1-1 1 1 1 0 0 1 1-1z"/></svg>
-              Instagram
-            </a>
-            <a class="follow-btn" href="https://x.com/BittrByte" target="_blank" rel="noopener noreferrer">
-              <svg viewBox="0 0 24 24"><path d="M17.3 3H21l-7.6 8.7L22 21h-6.7l-5.3-6.5L4 21H1l8.5-9.7L2 3h6.7l4.8 5.9L17.3 3z"/></svg>
-              X
-            </a>
-            <a class="follow-btn" href="https://www.linkedin.com/company/bittrbyte/" target="_blank" rel="noopener noreferrer">
-              <svg viewBox="0 0 24 24"><path d="M4.98 3.5A2.5 2.5 0 1 1 2.5 6a2.5 2.5 0 0 1 2.48-2.5zM3 8.98h3.96V21H3zM9.5 8.98H13v1.63h.05a3.83 3.83 0 0 1 3.44-1.89c3.68 0 4.36 2.42 4.36 5.57V21h-3.96v-4.93c0-1.18-.02-2.7-1.65-2.7-1.65 0-1.9 1.29-1.9 2.62V21H9.5z"/></svg>
-              LinkedIn
-            </a>
-            <a class="follow-btn" href="https://youtube.com/@bittrbyte" target="_blank" rel="noopener noreferrer">
-              <svg viewBox="0 0 24 24"><path d="M23.5 7.2a3 3 0 0 0-2.1-2.1C19.6 4.5 12 4.5 12 4.5s-7.6 0-9.4.6A3 3 0 0 0 .5 7.2 31 31 0 0 0 0 12a31 31 0 0 0 .5 4.8 3 3 0 0 0 2.1 2.1c1.8.6 9.4.6 9.4.6s7.6 0 9.4-.6a3 3 0 0 0 2.1-2.1A31 31 0 0 0 24 12a31 31 0 0 0-.5-4.8zM9.6 15.2V8.8L15.8 12z"/></svg>
-              YouTube
-            </a>
-            <a class="follow-btn" href="https://www.tiktok.com/@bittrbyte" target="_blank" rel="noopener noreferrer">
-              <svg viewBox="0 0 24 24"><path d="M19.6 3a4.6 4.6 0 0 1-3-1.1 4.6 4.6 0 0 1-1.5-3h-3.4v13.3a2.7 2.7 0 0 1-2.7 2.5 2.7 2.7 0 0 1-2.7-2.7 2.7 2.7 0 0 1 2.7-2.7c.26 0 .52.04.76.1V6.1a6.1 6.1 0 0 0-.76-.05 6.1 6.1 0 0 0-6.1 6.1 6.1 6.1 0 0 0 6.1 6.1 6.1 6.1 0 0 0 6.1-6.1V8.5a7.9 7.9 0 0 0 4.6 1.5V6.6A4.6 4.6 0 0 1 19.6 3z"/></svg>
-              TikTok
-            </a>
+        <div class="partner__wrap">
+          <div class="partner__intro reveal">
+            <span class="eyebrow">Partner With Us</span>
+            <h2 class="h-section">Let's talk.</h2>
+            <p>
+              For device and OS makers, investors and organisations who want to
+              help make self-chosen, enforceable digital limits the norm.
+            </p>
+            <ul class="partner__points">
+              <li>Licensing &amp; technical integration for manufacturers</li>
+              <li>Strategic and board-level partnerships</li>
+              <li>Investment conversations</li>
+              <li>Press, policy and ambassador enquiries</li>
+            </ul>
           </div>
+          <form class="form reveal" data-delay="1" data-ajax id="partnerForm"
+                action="https://formspree.io/f/xyznbewe" method="POST">
+            <div class="form-row">
+              <div class="field">
+                <label for="name">Full name</label>
+                <input id="name" name="name" type="text" placeholder="Jane Doe" required />
+              </div>
+              <div class="field">
+                <label for="company">Company</label>
+                <input id="company" name="company" type="text" placeholder="Acme Devices Inc." />
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="field">
+                <label for="role">Your role</label>
+                <input id="role" name="role" type="text" placeholder="Head of Product" />
+              </div>
+              <div class="field">
+                <label for="email">Work email</label>
+                <input id="email" name="email" type="email" placeholder="jane@acme.com" required />
+              </div>
+            </div>
+            <div class="field">
+              <label for="interest">Area of interest</label>
+              <select id="interest" name="interest" required>
+                <option value="" disabled selected>Select an option…</option>
+                <option>Licensing the SKYWALL IP</option>
+                <option>Technical integration / partnership</option>
+                <option>Investment</option>
+                <option>Press / policy / ambassador</option>
+                <option>Other</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="message">Message</label>
+              <textarea id="message" name="message" placeholder="Tell us how you'd like to work together…" required></textarea>
+            </div>
+            <input type="hidden" name="_subject" value="New BittrByte partnership enquiry" />
+            <input type="hidden" name="_next" value="https://bittrbyte.com/thanks.html" />
+            <button class="btn btn--primary btn--lg btn--block" type="submit">Send enquiry</button>
+            <p class="form__status" id="formStatus" role="status" aria-live="polite"></p>
+            <p class="form__note">We typically respond within a few working days.</p>
+          </form>
         </div>
       </div>
     </section>
+
+    <!-- ═══════════════════ SUPPORT ═══════════════════ -->
+    <section class="section support" id="support">
+      <div class="geo-bg subtle" aria-hidden="true">
+        <span class="g1"></span><span class="g2"></span><span class="g3"></span>
+        <span class="veil"></span>
+      </div>
+      <div class="container">
+        <div class="support__inner">
+
+          <div class="support__copy reveal">
+            <span class="eyebrow">Support the Movement</span>
+            <h2 class="h-section">Help push this forward.</h2>
+            <p>
+              <span class="sw">SKYWALL</span>'s path to adoption depends on visible demand, from
+              device makers, but also from the people who live with the problem every day.
+              Follow along, share the idea, and help us build momentum.
+            </p>
+          </div>
+
+          <div class="support__actions reveal" data-delay="1">
+            <div class="social-row">
+              <a class="follow-btn" href="https://www.instagram.com/bittrbyte/" target="_blank" rel="noopener noreferrer">
+                <svg viewBox="0 0 24 24"><path d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5zm0 2a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V7a3 3 0 0 0-3-3H7zm5 3.5A5.5 5.5 0 1 1 6.5 13 5.5 5.5 0 0 1 12 7.5zm0 2A3.5 3.5 0 1 0 15.5 13 3.5 3.5 0 0 0 12 9.5zm6-3a1 1 0 1 1-1 1 1 1 0 0 1 1-1z"/></svg>
+                Instagram
+              </a>
+              <a class="follow-btn" href="https://x.com/BittrByte" target="_blank" rel="noopener noreferrer">
+                <svg viewBox="0 0 24 24"><path d="M17.3 3H21l-7.6 8.7L22 21h-6.7l-5.3-6.5L4 21H1l8.5-9.7L2 3h6.7l4.8 5.9L17.3 3z"/></svg>
+                X
+              </a>
+              <a class="follow-btn" href="https://www.linkedin.com/company/bittrbyte/" target="_blank" rel="noopener noreferrer">
+                <svg viewBox="0 0 24 24"><path d="M4.98 3.5A2.5 2.5 0 1 1 2.5 6a2.5 2.5 0 0 1 2.48-2.5zM3 8.98h3.96V21H3zM9.5 8.98H13v1.63h.05a3.83 3.83 0 0 1 3.44-1.89c3.68 0 4.36 2.42 4.36 5.57V21h-3.96v-4.93c0-1.18-.02-2.7-1.65-2.7-1.65 0-1.9 1.29-1.9 2.62V21H9.5z"/></svg>
+                LinkedIn
+              </a>
+              <a class="follow-btn" href="https://youtube.com/@bittrbyte" target="_blank" rel="noopener noreferrer">
+                <svg viewBox="0 0 24 24"><path d="M23.5 7.2a3 3 0 0 0-2.1-2.1C19.6 4.5 12 4.5 12 4.5s-7.6 0-9.4.6A3 3 0 0 0 .5 7.2 31 31 0 0 0 0 12a31 31 0 0 0 .5 4.8 3 3 0 0 0 2.1 2.1c1.8.6 9.4.6 9.4.6s7.6 0 9.4-.6a3 3 0 0 0 2.1-2.1A31 31 0 0 0 24 12a31 31 0 0 0-.5-4.8zM9.6 15.2V8.8L15.8 12z"/></svg>
+                YouTube
+              </a>
+              <a class="follow-btn" href="https://www.tiktok.com/@bittrbyte" target="_blank" rel="noopener noreferrer">
+                <svg viewBox="0 0 24 24"><path d="M19.6 3a4.6 4.6 0 0 1-3-1.1 4.6 4.6 0 0 1-1.5-3h-3.4v13.3a2.7 2.7 0 0 1-2.7 2.5 2.7 2.7 0 0 1-2.7-2.7 2.7 2.7 0 0 1 2.7-2.7c.26 0 .52.04.76.1V6.1a6.1 6.1 0 0 0-.76-.05 6.1 6.1 0 0 0-6.1 6.1 6.1 6.1 0 0 0 6.1 6.1 6.1 6.1 0 0 0 6.1-6.1V8.5a7.9 7.9 0 0 0 4.6 1.5V6.6A4.6 4.6 0 0 1 19.6 3z"/></svg>
+                TikTok
+              </a>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════ ABOUT + TEAM ═══════════════════ -->
+    <section class="section about" id="about">
+      <div class="container">
+        <div class="about__intro reveal">
+          <span class="eyebrow">About</span>
+          <h2 class="h-section">BittrByte exists to build practical answers to the harms created by modern technology.</h2>
+          <p>
+            Digital platforms now evolve faster than parents, schools, regulators, and individuals
+            can respond. The result is a growing gap between the speed at which technology creates
+            new behavioural problems and the speed at which society can address them.
+          </p>
+          <p>
+            BittrByte was founded to close that gap.
+          </p>
+          <p>
+            <span class="sw">SKYWALL™</span> is the first expression of that mission: a device-level
+            system designed to help people create stronger digital boundaries before harm, distraction,
+            or impulse takes hold.
+          </p>
+        </div>
+
+        <div class="team-head reveal">
+          <span class="eyebrow">The Team</span>
+          <h3>Combining engineering discipline, system-level diligence and strategic access.</h3>
+        </div>
+
+        <div class="team-grid">
+
+          <figure class="team-card reveal">
+            <div class="team-photo">
+              <img src="Profile Image New copy.jpg" alt="Beni Ayuk" class="founder-photo" />
+            </div>
+            <figcaption>
+              <h4>Beni Ayuk</h4>
+              <p class="team-role">Founder &amp; CEO</p>
+              <p class="team-credential">Former BAE Systems airframe engineer</p>
+            </figcaption>
+          </figure>
+
+          <figure class="team-card reveal" data-delay="2">
+            <div class="team-photo">
+              <img src="Jerome.png" alt="Jerome Jones" />
+            </div>
+            <figcaption>
+              <h4>Jerome Jones</h4>
+              <p class="team-role">Fractional CTO</p>
+              <p class="team-credential">Certified Enterprise Architect</p>
+            </figcaption>
+          </figure>
+
+          <figure class="team-card reveal" data-delay="3">
+            <div class="team-photo">
+              <img src="Thomas Jun.png" alt="Prof. Thomas Jun" />
+            </div>
+            <figcaption>
+              <h4>Prof. Thomas Jun</h4>
+              <p class="team-role">Academic Advisor</p>
+              <p class="team-credential">Professor of Socio-technical System Design</p>
+            </figcaption>
+          </figure>
+
+          <figure class="team-card reveal" data-delay="4">
+            <div class="team-photo">
+              <img src="Tony.png" alt="Dr. Tony Ikwue" />
+            </div>
+            <figcaption>
+              <h4>Dr. Tony Ikwue</h4>
+              <p class="team-role">Strategic Advisor</p>
+              <p class="team-credential">Former Director of Enterprise &amp; Innovation, University of Sunderland</p>
+            </figcaption>
+          </figure>
+
+        </div>
+      </div>
+    </section>
+
   </main>
 
+  <!-- FOOTER -->
   <footer class="footer">
     <div class="container">
       <div class="footer__top">
+        <div class="footer__brand">
+          <img src="logo.png" alt="BittrByte" />
+          <p>The IP and technical expertise turning digital safety into a competitive edge for device makers.</p>
+        </div>
         <div class="footer__cols">
+          <div class="footer__col">
+            <h4>Explore</h4>
+            <a href="#skywall">SKYWALL</a>
+            <a href="#videos">Live Demos</a>
+            <a href="#makers">For device makers</a>
+            <a href="#support">Support us</a>
+            <a href="#about">About</a>
+          </div>
           <div class="footer__col">
             <h4>Contact</h4>
             <a href="mailto:admin@bittrbyte.com">admin@bittrbyte.com</a>
             <a href="tel:+441916030179">0191 603 0179</a>
-            <a href="partner.html">Partner with us</a>
+            <a href="#partner">Request partnership</a>
           </div>
-        <div class="footer__col">
-            <h4>SKYWALL</h4>
-            <a href="skywall/individuals.html">For individuals</a>
-            <a href="skywall/parents.html">For parents</a>
-            <a href="skywall/ecosystem.html">Ecosystem</a>
-          </div>
-          <div class="footer__col">
-            <h4>Store</h4>
-            <a href="store/devices.html">SKYWALL Devices</a>
-            <a href="store/os.html">SKYWALL OS</a>
-          </div>
-          </div>
+        </div>
       </div>
       <div class="footer__bottom">
-        <a class="footer__logo" href="index.html" aria-label="BittrByte home"><img src="images/Black_Logo.svg" alt="BittrByte" /></a>
         <p>&copy; 2026 BittrByte Ltd. All rights reserved.</p>
-</div>
+        <nav class="socials" aria-label="BittrByte social links">
+          <a class="social" href="https://www.instagram.com/bittrbyte/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+            <svg viewBox="0 0 24 24"><path d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5zm0 2a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V7a3 3 0 0 0-3-3H7zm5 3.5A5.5 5.5 0 1 1 6.5 13 5.5 5.5 0 0 1 12 7.5zm0 2A3.5 3.5 0 1 0 15.5 13 3.5 3.5 0 0 0 12 9.5zm6-3a1 1 0 1 1-1 1 1 1 0 0 1 1-1z"/></svg>
+          </a>
+          <a class="social" href="https://x.com/BittrByte" target="_blank" rel="noopener noreferrer" aria-label="X">
+            <svg viewBox="0 0 24 24"><path d="M17.3 3H21l-7.6 8.7L22 21h-6.7l-5.3-6.5L4 21H1l8.5-9.7L2 3h6.7l4.8 5.9L17.3 3z"/></svg>
+          </a>
+          <a class="social" href="https://www.linkedin.com/company/bittrbyte/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+            <svg viewBox="0 0 24 24"><path d="M4.98 3.5A2.5 2.5 0 1 1 2.5 6a2.5 2.5 0 0 1 2.48-2.5zM3 8.98h3.96V21H3zM9.5 8.98H13v1.63h.05a3.83 3.83 0 0 1 3.44-1.89c3.68 0 4.36 2.42 4.36 5.57V21h-3.96v-4.93c0-1.18-.02-2.7-1.65-2.7-1.65 0-1.9 1.29-1.9 2.62V21H9.5z"/></svg>
+          </a>
+          <a class="social" href="https://youtube.com/@bittrbyte" target="_blank" rel="noopener noreferrer" aria-label="YouTube">
+            <svg viewBox="0 0 24 24"><path d="M23.5 7.2a3 3 0 0 0-2.1-2.1C19.6 4.5 12 4.5 12 4.5s-7.6 0-9.4.6A3 3 0 0 0 .5 7.2 31 31 0 0 0 0 12a31 31 0 0 0 .5 4.8 3 3 0 0 0 2.1 2.1c1.8.6 9.4.6 9.4.6s7.6 0 9.4-.6a3 3 0 0 0 2.1-2.1A31 31 0 0 0 24 12a31 31 0 0 0-.5-4.8zM9.6 15.2V8.8L15.8 12z"/></svg>
+          </a>
+          <a class="social" href="https://www.tiktok.com/@bittrbyte" target="_blank" rel="noopener noreferrer" aria-label="TikTok">
+            <svg viewBox="0 0 24 24"><path d="M19.6 3a4.6 4.6 0 0 1-3-1.1 4.6 4.6 0 0 1-1.5-3h-3.4v13.3a2.7 2.7 0 0 1-2.7 2.5 2.7 2.7 0 0 1-2.7-2.7 2.7 2.7 0 0 1 2.7-2.7c.26 0 .52.04.76.1V6.1a6.1 6.1 0 0 0-.76-.05 6.1 6.1 0 0 0-6.1 6.1 6.1 6.1 0 0 0 6.1 6.1 6.1 6.1 0 0 0 6.1-6.1V8.5a7.9 7.9 0 0 0 4.6 1.5V6.6A4.6 4.6 0 0 1 19.6 3z"/></svg>
+          </a>
+        </nav>
+      </div>
     </div>
   </footer>
 
-  <script src="js/site.js?v=product-home-14"></script>
+  <script src="main.js"></script>
 </body>
 </html>
