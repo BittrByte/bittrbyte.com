@@ -411,6 +411,123 @@ h1, h2, h3, h4 {
 .video-card__meta p { font-size: 13.5px; color: var(--muted); }
 
 /* ============================================================
+   MORE ABOUT SKYWALL — desktop carousels
+   ============================================================ */
+.more-about-skywall {
+  position: relative;
+  overflow: hidden;
+  background: var(--bg);
+  border-bottom: 1px solid var(--line-soft);
+}
+.more-about-skywall .container { position: relative; z-index: 1; }
+.more-about-skywall__head {
+  text-align: center;
+  max-width: 660px;
+  margin: 0 auto clamp(28px, 4vw, 40px);
+}
+.more-about-skywall__toggle {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px;
+  margin: 0 auto clamp(36px, 5vw, 52px);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--surface);
+  width: fit-content;
+  max-width: 100%;
+}
+.more-about-skywall__tab {
+  appearance: none;
+  border: 0;
+  background: transparent;
+  color: var(--muted);
+  font-family: var(--font);
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  padding: 10px 20px;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: background 0.2s var(--ease), color 0.2s var(--ease);
+  white-space: nowrap;
+}
+.more-about-skywall__tab:hover { color: var(--text); }
+.more-about-skywall__tab.is-active {
+  background: #fff;
+  color: #000;
+}
+.more-about-skywall .carousel.is-hidden,
+.more-about-skywall .carousel[hidden] { display: none; }
+
+.carousel { width: 100%; outline: none; }
+.carousel__stage { position: relative; }
+.carousel__viewport { overflow: hidden; border-radius: var(--radius); }
+.carousel__track {
+  display: flex;
+  transition: transform 0.45s var(--ease);
+}
+.carousel__slide { flex: 0 0 100%; min-width: 100%; margin: 0; }
+.carousel__frame {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  border-radius: var(--radius);
+  border: 1px solid var(--line-soft);
+  background: #0a0a0c;
+}
+.carousel__frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center center;
+  background: #fff;
+}
+.carousel__controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 16px;
+}
+.carousel__btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 2;
+  width: 44px;
+  height: 44px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.96);
+  color: #111;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  padding: 0;
+}
+.carousel__btn--prev { left: 14px; }
+.carousel__btn--next { right: 14px; }
+.carousel__btn svg { width: 14px; height: 14px; }
+.carousel__btn:hover { background: #fff; }
+.carousel__dots { display: flex; align-items: center; gap: 8px; }
+.carousel__dot {
+  width: 8px;
+  height: 8px;
+  padding: 0;
+  border: 0;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.35);
+  cursor: pointer;
+  transition: width 0.2s var(--ease), background 0.2s var(--ease);
+}
+.carousel__dot.is-active { width: 22px; background: #fff; }
+
+@media (prefers-reduced-motion: reduce) {
+  .carousel__track { transition: none; }
+}
+
+/* ============================================================
    DEVICE MAKERS
    ============================================================ */
 .makers {
@@ -613,6 +730,8 @@ h1, h2, h3, h4 {
   .stat:nth-child(n+3)          { border-top: 1px solid var(--line-soft); }
   .stat { padding: 24px 18px; }
   .team-grid { grid-template-columns: repeat(2, 1fr); }
+  /* More about SKYWALL carousels: desktop only */
+  .more-about-skywall { display: none !important; }
 }
 
 @media (max-width: 640px) {
