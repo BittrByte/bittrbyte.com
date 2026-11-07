@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Partner with BittrByte</title>
+  <meta name="description" content="Interested in licensing SKYWALL or exploring an integration partnership? Write to BittrByte." />
+  <meta name="theme-color" content="#f3f3f5" />
+  <link rel="icon" type="image/png" sizes="48x48" href="images/favicon-48.png" />
+  <link rel="apple-touch-icon" href="images/apple-touch-icon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/site.css?v=36" />
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+  <header class="nav" id="nav">
+    <div class="nav__inner">
+      <a class="nav__brand" href="index.html" aria-label="BittrByte home">
+        <img src="images/Black_Logo.svg" alt="BittrByte" />
+      </a>
+      <ul class="nav__links">
+        <li><a class="nav__skywall" href="technology.html">SKYWALL</a></li>
+        <li><a href="index.html#about">About</a></li>
+        <li><a href="partner.html" aria-current="page">Partner</a></li>
+      </ul>
+      <button class="nav__toggle" id="navToggle" type="button" aria-label="Open menu" aria-expanded="false"><span></span></button>
+    </div>
+    <nav class="nav__panel" aria-label="Mobile">
+      <a class="nav__skywall" href="technology.html">SKYWALL</a>
+      <a href="index.html#about">About</a>
+      <a href="partner.html">Partner</a>
+    </nav>
+  </header>
+
+  <main id="main">
+    <section class="section partner">
+      <div class="container partner__grid">
+        <div>
+          <p class="eyebrow">OS-Level Technology Licensing</p>
+          <h1>Partner with us</h1>
+          <p class="lead">Interested in licensing SKYWALL or exploring an integration partnership?</p>
+          <div class="prose">
+            <p>BittrByte is seeking intellectual-property licensing and technical integration partnerships with device manufacturers and operating-system providers.</p>
+            <p>You can also write directly to <a class="mail" href="mailto:admin@bittrbyte.com">admin@bittrbyte.com</a>.</p>
+          </div>
+        </div>
+
+        <form class="form" id="partnerForm" action="https://formspree.io/f/xyznbewe" method="POST">
+          <h2>Partnership enquiry</h2>
+          <div class="field">
+            <label for="name">Name</label>
+            <input id="name" name="name" type="text" required autocomplete="name" />
+          </div>
+          <div class="field">
+            <label for="organisation">Organisation</label>
+            <input id="organisation" name="organisation" type="text" required autocomplete="organization" />
+          </div>
+          <div class="field">
+            <label for="role">Role <span class="optional">optional</span></label>
+            <input id="role" name="role" type="text" autocomplete="organization-title" />
+          </div>
+          <div class="field">
+            <label for="email">Email</label>
+            <input id="email" name="email" type="email" required autocomplete="email" />
+          </div>
+          <fieldset class="choices">
+            <legend>What are you interested in?</legend>
+            <label class="choice"><input type="radio" name="interest" value="IP licensing" required /> IP licensing</label>
+            <label class="choice"><input type="radio" name="interest" value="Technical integration" /> Technical integration</label>
+            <label class="choice"><input type="radio" name="interest" value="Licensing and integration" /> Licensing and integration</label>
+            <label class="choice"><input type="radio" name="interest" value="Something else" /> Something else</label>
+          </fieldset>
+          <div class="field">
+            <label for="message">Message <span class="optional">optional</span></label>
+            <textarea id="message" name="message" rows="4"></textarea>
+          </div>
+          <input type="hidden" name="_subject" value="SKYWALL partnership enquiry" />
+          <button class="btn btn--block" type="submit">Send enquiry</button>
+          <p class="form__status" id="formStatus" role="status"></p>
+          <p class="form__note">This sends your enquiry to admin@bittrbyte.com. This website does not keep a copy.</p>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer__inner">
+      <a class="footer__brand" href="index.html" aria-label="BittrByte home"><img src="images/Black_Logo.svg" alt="" /></a>
+      <ul class="footer__links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="technology.html">SKYWALL</a></li>
+        <li><a href="mailto:admin@bittrbyte.com">admin@bittrbyte.com</a></li>
+      </ul>
+      <small>© 2026 BittrByte Ltd.</small>
+    </div>
+  </footer>
+  <script src="js/site.js?v=2"></script>
+</body>
+</html>
